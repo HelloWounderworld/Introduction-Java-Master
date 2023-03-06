@@ -49,39 +49,57 @@ Seguir link para instrução
 Bora subir a versão!
 
 ## Aula 09 - Salvando primeira versão de um projeto no Github:
+Revisar!
 
 ## Aula 10 - Salvando um novo commit:
+Revisar!
 
 ## Aula 11 - Demo - clonar e modificar um projeto:
+Revisar!
 
 ## Aula 12 - Git log para verificar histórico de versões:
+Revisar!
 
 ## Aula 13 - Entendendo git status e stage:
+Revisar!
 
 ## Aula 14 - Git diff e recurso source control do VS Code:
+Revisar!
 
 ## Aula 15 - Git checkout:
+Revisar!
 
 ## Aula 16 - Arquivo .gitignore:
+Revisar!
 
 ## Aula 17 - Visão geral da segunda parte:
+Revisar!
 
 ## Aula 18 - Removendo arquivos da área de stage:
+Revisar!
 
 ## Aula 19 - Desfazendo modificações não salvas:
+Revisar!
 
 ## Aula 20 - O que fazer quando abre o editor VIM:
 
 ## Aula 21 - Deletando último commit sem deletar modificações nos arquivos:
+Revisar!
 
 ## Aula 22 - Deletando commits e também modificações nos arquivos:
+Revisar!
 
 ## Aula 23 - Como atualizar o repositório local em relação ao remoto:
+Revisar!
 
 ## Aula 24 - Como resolver push rejeitado por históricos diferentes:
+Revisar!
 
 ## Aula 25 - Resolvendo pull com conflito:
+Revisar!
 
 ## Aula 26 - Como sobrescrever um histórico no Github:
+Revisar!
 
 ## Aula 27 - Como apontar o projeto para outro repositório remoto:
+Revisar!
