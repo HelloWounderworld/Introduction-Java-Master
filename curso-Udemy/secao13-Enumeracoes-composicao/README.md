@@ -537,7 +537,160 @@ Logo, no arquivo Program.java da pasta application vamos realizar o seguinte
     }
 
 ## Aula 08 - Exercício resolvido 2 (demo StringBuilder):
+Seguir link para leitura
+
+    https://www.devmedia.com.br/a-classe-stringbuilder-em-java/25609
+    https://www.geeksforgeeks.org/stringbuilder-class-in-java-with-examples/
+
+Seguir o link da resolução do exercício do professor
+
+    https://github.com/acenelio/composition2-java
+
+No caso, vamos criar um novo projeto exerc_composition2 e dentro da pasta src vamos criar as pastas application e entities, donde colocamos os arquivos Program.java, em application, e Comment.java e Post.java, em entities.
+
+Agora, no arquivo Comment.java vamos fazer o seguinte
+
+    package entities;
+
+    public class Comment {
+        
+        private String text;
+        
+        public Comment() {
+        }
+
+        public Comment(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+        
+    }
+
+No arquivo Post.java vamos realizar o seguinte
+
+    package entities;
+
+    import java.util.ArrayList;
+    import java.util.Date;
+    import java.util.List;
+
+    public class Post {
+
+        private Date moment;
+        private String title;
+        private String content;
+        private Integer likes;
+        
+        private List<Comment> comments = new ArrayList<>();
+        
+        public Post() {
+        }
+
+        public Post(Date moment, String title, String content, Integer likes) {
+            this.moment = moment;
+            this.title = title;
+            this.content = content;
+            this.likes = likes;
+        }
+
+        public Date getMoment() {
+            return moment;
+        }
+
+        public void setMoment(Date moment) {
+            this.moment = moment;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public Integer getLikes() {
+            return likes;
+        }
+
+        public void setLikes(Integer likes) {
+            this.likes = likes;
+        }
+
+        public List<Comment> getComments() {
+            return comments;
+        }
+        
+        public void addComment(Comment comment) {
+            comments.add(comment);
+        }
+        
+        public void removeComment(Comment comment) {
+            comments.remove(comment);
+        }
+        
+    }
+
+Agora, só falta configurarmos a sua aplicação. No caso, no arquivo Program.java vamos fazer o seguinte
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+
+    import entities.Comment;
+    import entities.Post;
+
+    public class Program {
+
+        public static void main(String[] args) throws ParseException {
+            // TODO Auto-generated method stub
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            
+            Comment c1 = new Comment("Have a nice trip!");
+            Comment c2 = new Comment("Wow that's awesome!");
+            Post p1 = new Post(sdf.parse("21/06/2018 13:05:44"), "Traveling to New Zeland", "I'm going to visit this wonderful country!", 12);
+            
+            p1.addComment(c1);
+            p1.addComment(c2);
+            
+            System.out.println(p1);
+            
+            Comment c3 = new Comment("Good Night!");
+            Comment c4 = new Comment("May the Force be with you");
+            Post p2 = new Post(sdf.parse("28/07/2018 23:14:19"), "Good night guys", "See you tomorrow", 5);
+            
+            p2.addComment(c3);
+            p2.addComment(c4);
+            
+            System.out.println(p2);
+        }
+
+    }
 
 ## Aula 09 - Exercício de fixação:
+Fazer na revisão!
 
 ## Aula 10 - Correção em vídeo do exercício de fixação:
+Correção em vídeo do exercício de fixação
+Olá pessoal! A correção deste exercício sobre lista foi feita em uma live no Youtube:
+
+    https://www.youtube.com/watch?v=gj80JEqk5ms
+
+Abraços e até a próxima!
