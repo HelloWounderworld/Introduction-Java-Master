@@ -1,4 +1,5 @@
-# Seção 12: Nivelamento sobre git e github
+# Seção 12: Nivelamento sobre git e github:
+Aproveita essa seção para revisar realizando uma boa leitura nas minhas notas de git do github e responder os testes do outro curso para git e github!
 
 ## Aula 01 - Apresentação do bônus Git e Github e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
@@ -48,6 +49,10 @@ Seguir link para instrução
 
 Bora subir a versão!
 
+Curiosamente eu não precisei trocar o origim que está pelo endereço de email para um ssh... Coisa que tive que realizar na minha máquina linux.
+
+Parece que quando eu clonei, diretamente ele mudou o git remote para o ssh e não para https...
+
 ## Aula 09 - Salvando primeira versão de um projeto no Github:
 Revisar!
 
@@ -82,6 +87,7 @@ Revisar!
 Revisar!
 
 ## Aula 20 - O que fazer quando abre o editor VIM:
+Revisar!
 
 ## Aula 21 - Deletando último commit sem deletar modificações nos arquivos:
 Revisar!
