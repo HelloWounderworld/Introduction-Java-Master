@@ -1,6 +1,10 @@
 # Seção 12: Nivelamento sobre git e github:
 Aproveita essa seção para revisar realizando uma boa leitura nas minhas notas de git do github e responder os testes do outro curso para git e github!
 
+Por algum motivo não foi possível dar o push conectado à rede da Minsait. No caso, para corrigir o erro foi feito o seguinte
+
+    https://gist.github.com/Tamal/1cc77f88ef3e900aeae65f0e5e504794
+
 ## Aula 01 - Apresentação do bônus Git e Github e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
 
