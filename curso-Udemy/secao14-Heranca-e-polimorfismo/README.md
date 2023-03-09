@@ -863,13 +863,669 @@ Importante entender
     y.withdraw(50.0);
 
 ## Aula 08 - Exercício resolvido:
+Seguir o enunciado
+
+    Uma empresa possui funcionários próprios e terceirizados.Para cada funcionário, deseja-se registrar nome, horastrabalhadas e valor por hora. Funcionários terceirizadopossuem ainda uma despesa adicional.
+
+    O pagamento dos funcionários corresponde ao valor da hora multiplicado pelas horas trabalhadas, sendo que os funcionários terceirizados ainda recebem um bônus correspondente a 110% de sua despesa adicional.
+
+    Fazer um programa para ler os dados de N funcionários (N fornecido pelo usuário) e armazená-los em uma lista. Depois de ler todos os dados, mostrar nome e pagamento de cada funcionário na mesma ordem em que foram digitados.
+
+    Construa o programa conforme projeto ao lado. Veja
+
+Example
+
+    Enter the number of employees: 3
+    Employee #1 data:
+    Outsourced (y/n)? n
+    Name: Alex
+    Hours: 50
+    Value per hour: 20.00
+    Employee #2 data:
+    Outsourced (y/n)? y
+    Name: Bob
+    Hours: 100
+    Value per hour: 15.00
+    Additional charge: 200.00
+    Employee #3 data:
+    Outsourced (y/n)? n
+    Name: Maria
+    Hours: 60
+    Value per hour: 20.00
+    PAYMENTS:
+    Alex - $ 1000.00
+    Bob - $ 1720.00
+    Maria - $ 1200.00
+
+Seguir o link do repositório do professor
+
+    https://github.com/acenelio/inheritance4-java
 
 ## Aula 09 - Exercício de fixação:
+Fazer quando estiver revisando o conceito.
+
+    Fazer um programa para ler os dados de N produtos (N fornecido pelo usuário). Ao final, mostrar a etiqueta de preço de cada produto na mesma ordem em que foram digitados.
+
+    Todo produto possui nome e preço. Produtos importados possuem uma taxa de alfândega, e produtos usados possuem data de fabricação. Estes dados específicos devem ser acrescentados na etiqueta de preço conforme exemplo (próxima página). Para produtos importados, a taxa e alfândega deve ser acrescentada ao preço final do produto.
+
+    Favor implementar o programa conforme projeto ao lado.
+
+Exemplo de funcionamento
+
+    Enter the number of products: 3
+    Product #1 data:
+    Common, used or imported (c/u/i)? i
+    Name: Tablet
+    Price: 260.00
+    Customs fee: 20.00
+    Product #2 data:
+    Common, used or imported (c/u/i)? c
+    Name: Notebook
+    Price: 1100.00
+    Product #3 data:
+    Common, used or imported (c/u/i)? u
+    Name: Iphone
+    Price: 400.00
+    Manufacture date (DD/MM/YYYY): 15/03/2017
+    PRICE TAGS:
+    Tablet $ 280.00 (Customs fee: $ 20.00)
+    Notebook $ 1100.00
+    Iphone (used) $ 400.00 (Manufacture date: 15/03/2017)
+
+Seguir o link do repositório do professor. Comparar a sua resolução com a dele
+
+    https://github.com/acenelio/inheritance5-java
 
 ## Aula 10 - Classes abstratas:
+Seguir o link de leitura
+
+    https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html#:~:text=An%20abstract%20class%20is%20a,but%20they%20can%20be%20subclassed.&text=When%20an%20abstract%20class%20is,methods%20in%20its%20parent%20class.
+    https://www.devmedia.com.br/polimorfismo-classes-abstratas-e-interfaces-fundamentos-da-poo-em-java/26387
+    https://www.treinaweb.com.br/blog/classes-abstratas-vs-interfaces#:~:text=%C3%89%20um%20tipo%20de%20classe,apenas%20de%20suas%20%E2%80%9Csubclasses%E2%80%9D.
+
+Classes abstratas:
+
+- São classes que não podem ser instanciadas
+
+- É uma forma de garantir herança total: somente subclasses não 
+abstratas podem ser instanciadas, mas nunca a superclasse abstrata
+
+Vamos seguir com um exemplo.
+
+    Suponha que em um negócio relacionado a banco, apenas contas poupança e contas para empresas são permitidas. Não existe conta comum.
+
+    Para garantir que contas comuns não possam ser instanciadas, basta acrescentarmos a palavra "abstract" na declaração da classe.
+
+    public abstract class Account {
+    (...)
+
+    Notação UML: itálico
+
+Bom, como um experimento, vamos fazer o seguinte. Primeiro, no arquivo Program.java vamos realizar a seguinte alteração
+
+    package application;
+
+    import entities.Account;
+    import entities.BusinessAccount;
+    import entities.SavingsAccount;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            //Account acc = new Account(1001, "Alex", 0.0);
+            //BusinessAccount bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
+            
+            // UPCASTING
+            //Account acc1 = bacc;
+            //Account acc2 = new BusinessAccount(1003, "Bob", 0.0, 200.0);
+            //Account acc3 = new SavingsAccount(1004, "Anna", 0.0, 0.01);
+            
+            //System.out.println(acc1.getBalance());
+            
+            // DOWNCASTING
+            //BusinessAccount acc4 = (BusinessAccount) acc2;
+            //acc4.loan(100.0);
+            
+            //BusinessAccount acc5 = (BusinessAccount) acc3;
+            //if (acc3 instanceof BusinessAccount) {
+            //	BusinessAccount acc5 = (BusinessAccount) acc3;
+            //	acc5.loan(200.0);
+            //	System.out.println("Loan!");
+            //}
+            
+            //if (acc3 instanceof SavingsAccount) {
+            //	SavingsAccount acc5 = (SavingsAccount) acc3;
+            //	acc5.updateBalance();
+            //	System.out.println("Update!");
+            //}
+            
+    //		Account acc1 = new Account(1001, "Alex", 1000.0);
+    //		acc1.withdraw(200.0);
+    //		System.out.println(acc1.getBalance());
+            
+    //		Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+    //		acc2.withdraw(200.0);
+    //		System.out.println(acc2.getBalance());
+    //		
+    //		Account acc3 = new BusinessAccount(1003, "Leonardo", 1000.0, 5000.0);
+    //		acc3.withdraw(200.0);
+    //		System.out.println(acc3.getBalance());
+            
+            Account acc1 = new Account(1001, "Alex", 1000.0);
+            Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+            Account acc3 = new BusinessAccount(1003, "Bob", 1000.0, 500.0);
+
+            
+        }
+
+    }
+
+Em seguida, no arquivo Account.java, vamos colocar a palavra abstract da seguinte forma
+
+    package entities;
+
+    public abstract class Account {
+        
+        private Integer number;
+        private String holder;
+        protected Double balance;
+        
+        public Account() {
+        }
+
+        public Account(Integer number, String holder, Double balance) {
+            this.number = number;
+            this.holder = holder;
+            this.balance = balance;
+        }
+
+        public Integer getNumber() {
+            return number;
+        }
+
+        public void setNumber(Integer number) {
+            this.number = number;
+        }
+
+        public String getHolder() {
+            return holder;
+        }
+
+        public void setHolder(String holder) {
+            this.holder = holder;
+        }
+
+        public Double getBalance() {
+            return balance;
+        }
+
+        // É necessário tirar esse setBalance
+        // pois não iremos mudar as nossas contas manualmente.
+        //public void setBalance(Double balance) {
+        //	this.balance = balance;
+        //}
+        
+        public void withdraw(double amount) {
+            balance -= amount + 5.0;
+        }
+        
+        public void deposit(double amount) {
+            balance += amount;
+        }
+    }
+
+Note que, ao fazermos isso, no arquivo Program.java, ele exibirá um erro à respeito disso. Ou seja, não está sendo possível instanciar a classe Account.
+
+Questionamento:
+
+- Se a classe Account não pode ser instanciada, porque simplesmente não criar somente SavingsAccounte BusinessAccount?
+
+- Resposta:
+    - Reuso
+
+    - Polimorfismo: a superclasse classe genérica nos permite tratar de forma fácil e uniforme todos os tipos de conta, inclusive com polimorfismo se for o caso (como fizemos nos últimos exercícios). Por exemplo, você pode colocar todos tipos de contas em uma mesma coleção.
+
+- Demo: suponha que você queira:
+    - Totalizar o saldo de todas as contas.
+
+    - Depositar 10.00 em todas as contas.
+
+Seguir o link do repositório do professor
+
+    https://github.com/acenelio/inheritance6-java
+
+Bom, ciente do motivo de usarmos o abstract acima, vamos ver como adotamos as boas práticas. No caso, no arquivo Program.java vamos realizar as seguintes modificações
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Locale;
+
+    import entities.Account;
+    import entities.BusinessAccount;
+    import entities.SavingsAccount;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            //Account acc = new Account(1001, "Alex", 0.0);
+            //BusinessAccount bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
+            
+            // UPCASTING
+            //Account acc1 = bacc;
+            //Account acc2 = new BusinessAccount(1003, "Bob", 0.0, 200.0);
+            //Account acc3 = new SavingsAccount(1004, "Anna", 0.0, 0.01);
+            
+            //System.out.println(acc1.getBalance());
+            
+            // DOWNCASTING
+            //BusinessAccount acc4 = (BusinessAccount) acc2;
+            //acc4.loan(100.0);
+            
+            //BusinessAccount acc5 = (BusinessAccount) acc3;
+            //if (acc3 instanceof BusinessAccount) {
+            //	BusinessAccount acc5 = (BusinessAccount) acc3;
+            //	acc5.loan(200.0);
+            //	System.out.println("Loan!");
+            //}
+            
+            //if (acc3 instanceof SavingsAccount) {
+            //	SavingsAccount acc5 = (SavingsAccount) acc3;
+            //	acc5.updateBalance();
+            //	System.out.println("Update!");
+            //}
+            
+    //		Account acc1 = new Account(1001, "Alex", 1000.0);
+    //		acc1.withdraw(200.0);
+    //		System.out.println(acc1.getBalance());
+            
+    //		Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+    //		acc2.withdraw(200.0);
+    //		System.out.println(acc2.getBalance());
+    //		
+    //		Account acc3 = new BusinessAccount(1003, "Leonardo", 1000.0, 5000.0);
+    //		acc3.withdraw(200.0);
+    //		System.out.println(acc3.getBalance());
+            
+    //		Account acc1 = new Account(1001, "Alex", 1000.0);
+    //		Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+    //		Account acc3 = new BusinessAccount(1003, "Bob", 1000.0, 500.0);
+            
+            Locale.setDefault(Locale.US);
+            
+            List<Account> list = new ArrayList<>();
+            
+            list.add(new SavingsAccount(1002, "Maria", 1000.0, 0.01));
+            list.add(new BusinessAccount(1003, "Alex", 1000.0, 500.0));
+            list.add(new SavingsAccount(1004, "Bob", 300.0, 0.01));
+            list.add(new BusinessAccount(1005, "Anna", 500.0, 500.0));
+            
+            double sum = 0.0;
+            for (Account acc : list) {
+                sum += acc.getBalance();
+            }
+            
+            System.out.printf("Total balance: %.2f%n", sum);
+            
+            for (Account acc : list) {
+                acc.deposit(10.0);
+            }
+            
+            for (Account acc : list) {
+                System.out.printf("Updated balance for account %d: %.2f%n", acc.getNumber(), acc.getBalance());
+            }
+            
+        }
+
+    }
+
+Bom, aqui em cima, usamos fortemente o conceito de polimorfismo para conseguirmos controlar as ações que seriam uniformes.
 
 ## Aula 11 - Métodos abstratos:
+Seguir o link de leitura
+
+    https://www.feg.unesp.br/Home/PaginasPessoais/profedsonluizfrancasenne/pc2-cap5.pdf
+    https://www.devmedia.com.br/polimorfismo-classes-abstratas-e-interfaces-fundamentos-da-poo-em-java/26387
+
+Métodos abstratos
+
+- São métodos que não possuem implementação.
+
+- Métodos precisam ser abstratos quando a classe é genérica demais para conter sua implementação.
+
+- Se uma classe possuir pelo menos um método abstrato, então esta classe também é abstrata. (Demonstre matematicamente!)
+
+- Notação UML: itálico
+
+Vamos fazer um exercício disso.
+
+Seguir o enunciado
+
+    Fazer um programa para ler os dados de N figuras (N fornecido pelo usuário), e depois mostrar as áreas destas figuras na mesma ordem em que foram digitadas.
+
+Exemplo do seu funcionamento
+
+    Enter the number of shapes: 2
+    Shape #1 data:
+    Rectangle or Circle (r/c)? r
+    Color (BLACK/BLUE/RED): BLACK
+    Width: 4.0
+    Height: 5.0
+    Shape #2 data:
+    Rectangle or Circle (r/c)? c
+    Color (BLACK/BLUE/RED): RED
+    Radius: 3.0
+    SHAPE AREAS:
+    20.00
+    28.27
+
+Seguir o link do repositório do professor
+
+    https://github.com/acenelio/inheritance7-java
+
+No caso, vamos começar criando um novo projeto para isso, abstract_methods. Daí, dentro da pasta src vamos criar os diretórios application e entities. Dentro do diretório application, criamos um arquivo Program.java e dentro do diretório entities criamos um arquivo Shape.java e enumeramos as criando um arquivo Color.java.
+
+Agora, no arquivo Color.java vamos colocar o seguinte
+
+    package entities.enums;
+
+    public enum Color {
+        BLACK,
+        BLUE,
+        RED;
+    }
+
+Agora, na classe Shape vamos declarar o atributo
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public class Shape {
+        
+        private Color color;
+    }
+
+Vamos criar os getters e setters e criamos o método abstrato chamado area
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public class Shape {
+        
+        private Color color;
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+        
+        public abstract double area();
+    }
+
+Note que, ao colocarmos o abstract no método fica com um erro. Pois, precisamos colocar o abstract dentro da classe tbm, como foi afirmado no teorema "Dada uma classe, se ela tiver, pelo menos, um método abstrado, então essa classe é abstrata"
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public abstract class Shape {
+        
+        private Color color;
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+        
+        public abstract double area();
+    }
+
+Para finalizar, vamos colocar os construtores dentro dessa classe
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public abstract class Shape {
+        
+        private Color color;
+        
+        public Shape() {
+        };
+
+        public Shape(Color color) {
+            this.color = color;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+        
+        public abstract double area();
+    }
+
+Agora, vamos criar uma subclasse para essa classe Shape, o Rectangle. No caso, dentro do diretório entities, vamos criar o arquivo Rectangle.java e dentro dela colocar o seguinte
+
+    package entities;
+
+    public class Rectangle extends Shape {
+
+    }
+
+Note que isso dá um erro, pois na classe Shape ela está como abstrata, então para conseguirmos "herdar" vamos ter que realizar uma sobreposição do método abstrado da classe Shape
+
+    package entities;
+
+    public class Rectangle extends Shape {
+
+        @Override
+        public double area() {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+    }
+
+Vamos prosseguir com as seguintes alterações
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public class Rectangle extends Shape {
+        
+        private Double width;
+        private Double height;
+        
+        public Rectangle() {
+            super();
+        }
+        
+        public Rectangle(Color color, Double width, Double height) {
+            super(color);
+            this.width = width;
+            this.height = height;
+        }
+        
+        public Double getWidth() {
+            return width;
+        }
+
+        public void setWidth(Double width) {
+            this.width = width;
+        }
+
+        public Double getHeight() {
+            return height;
+        }
+
+        public void setHeight(Double height) {
+            this.height = height;
+        }
+
+        @Override
+        public double area() {
+            return width * height;
+        }
+
+    }
+
+Vamos, agora, criar uma outra subclasse Circle. No caso, no diretório entities, vamos criar um arquivo Circle.java e dentro dela vamos fazer o seguinte
+
+    package entities;
+
+    import entities.enums.Color;
+
+    public class Circle extends Shape{
+        
+        private Double radius;
+        
+        public Circle() {
+            super();
+        }
+        
+        public Circle(Color color, Double radius) {
+            super(color);
+            this.radius = radius;
+        }
+
+        public Double getRadius() {
+            return radius;
+        }
+
+        public void setRadius(Double radius) {
+            this.radius = radius;
+        }
+
+        @Override
+        public double area() {
+            // TODO Auto-generated method stub
+            return Math.PI * radius * radius;
+        }
+
+    }
+
+Feito as criações acima, vamos agora realizar as alterações no Program.java. No caso, vamos fazer o seguinte
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Locale;
+    import java.util.Scanner;
+
+    import entities.Circle;
+    import entities.Rectangle;
+    import entities.Shape;
+    import entities.enums.Color;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Locale.setDefault(Locale.US);
+            Scanner sc = new Scanner(System.in);
+            
+            // Para o bom proveito do polimorfismo, sempre que vc declarar alguma lista
+            // nela se coloca a superclasse
+            List<Shape> list = new ArrayList<>();
+            
+            System.out.print("Enter the number os shapes: ");
+            int n = sc.nextInt();
+            
+            for (int i = 1; i <= n; i++) {
+                System.out.println("Shape #" + i + " data:");
+                System.out.print("Rectangle or Circle (r/c)? ");
+                char ch = sc.next().charAt(0);
+                System.out.print("Color (BLACK/BLUE/RED): ");
+                Color color = Color.valueOf(sc.next());
+                if (ch == 'r') {
+                    System.out.print("Width: ");
+                    double width = sc.nextDouble();
+                    System.out.print("Height: ");
+                    double height = sc.nextDouble();
+                    list.add(new Rectangle(color, width, height));
+                } else {
+                    System.out.print("Radius: ");
+                    double radius = sc.nextDouble();
+                    list.add(new Circle(color, radius));
+                }
+            }
+            
+            System.out.println();
+            System.out.println("SHAPE AREAS:");
+            for (Shape shape : list) {
+                System.out.println(String.format("%.2f", shape.area()));
+            }
+        }
+
+    }
+
+Agora, basta rodar o programa para verificar se está tudo funcionando corretamente.
 
 ## Aula 12 - Exercício de fixação:
+Seguir o enunciado
+
+    Fazer um programa para ler os dados de N contribuintes (N fornecido pelo usuário), os quais podem ser pessoa física ou pessoa jurídica, e depois mostrar o valor do imposto pago por cada um, bem como o total de imposto arrecadado. 
+
+    Os dados de pessoa física são: nome, renda anual e gastos com saúde. Os dados de pessoa jurídica são nome, renda anual e número de funcionários. As regras para cálculo de imposto são as 
+    seguintes:
+
+    Pessoa física: pessoas cuja renda foi abaixo de 20000.00 pagam 15% de imposto. Pessoas com renda de 20000.00 em diante pagam 25% de imposto. Se a pessoa teve gastos com saúde, 50% destes gastos são abatidos no imposto. 
+
+    Exemplo: uma pessoa cuja renda foi 50000.00 e teve 2000.00 em gastos com saúde, o imposto fica: (50000 * 25%) - (2000 * 50%) = 11500.00
+
+    Pessoa jurídica: pessoas jurídicas pagam 16% de imposto. Porém, se a empresa possuir mais de 10 funcionários, ela paga 14% de imposto.
+
+    Exemplo: uma  empresa  cuja  renda foi 400000.00 e possui 25 funcionários, o imposto fica:
+        400000 * 14% = 56000.00
+
+Example
+
+    Enter the number of tax payers: 3
+    Tax payer #1 data:
+    Individual or company (i/c)? i
+    Name: Alex
+    Anual income: 50000.00
+    Health expenditures: 2000.00
+    Tax payer #2 data:
+    Individual or company (i/c)? c
+    Name: SoftTech
+    Anual income: 400000.00
+    Number of employees: 25
+    Tax payer #3 data:
+    Individual or company (i/c)? i
+    Name: Bob
+    Anual income: 120000.00
+    Health expenditures: 1000.00
+    TAXES PAID:
+    Alex: $ 11500.00
+    SoftTech: $ 56000.00
+    Bob: $ 29500.00
+    TOTAL TAXES: $ 97000.00
 
 ## Aula 13 - Correção em vídeo do exercício de fixação:
+Olá pessoal!
+
+A correção deste exercício sobre lista foi feita em uma live no Youtube:
+
+    https://www.youtube.com/watch?v=eDsS3JM5iXw
+
+Abraços e até a próxima!
+
+
