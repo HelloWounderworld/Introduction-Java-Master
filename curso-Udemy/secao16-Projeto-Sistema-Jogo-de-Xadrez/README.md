@@ -13,9 +13,76 @@ Recursos para esta aula
 
     10-projeto-sistema-xadrez.pdf
 
+Seguir o projeto feito pelo professor
+
+    https://github.com/acenelio/chess-system-design 
+
 ## Aula 03 - Criando projeto e repositório Git:
+Já foi criado.
+
+Nome do projeto: chess_game_java
 
 ## Aula 04 - Primeira classe - Position:
+Vamos criar uma primeira classe chamado Position.
+
+Para essa classe vamos usar os conceitos como encapsulação, contrutor e toString.
+
+No caso, vamos criar a classe Position dentro do diretório boardgame. Daí, dentro do arquivo Position.java, vamos fazer o seguinte
+
+    package boardgame;
+
+    public class Position {
+
+        private int row;
+        private int column;
+        
+        public Position(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public void setRow(int row) {
+            this.row = row;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+
+        public void setColumn(int column) {
+            this.column = column;
+        }
+        
+        @Override
+        public String toString() {
+            return row + ", " +column;
+        }
+    }
+
+Daí, no arquivo Program.java vamos colocar o seguinte para verificar se até agora está tudo indo bem
+
+    package application;
+
+    import boardgame.Position;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            
+            Position pos = new Position(3, 5);
+            System.out.println(pos);
+        }
+
+    }
+
+No caso, no console deverá ser exibido as posições que foi colocado.
+
+Visto que está sendo exibido corretamente, vamos salvar as alterações feita até agora.
 
 ## Aula 05 - Começando a implementar Board e Piece:
 
