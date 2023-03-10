@@ -124,12 +124,12 @@ Agora, no Board.java vamos fazer o seguinte
         private int rows;
         private int columns;
         // Forma de declarar uma matriz.
-        private Piece[][] piece;
+        private Piece[][] pieces;
         
         public Board(int rows, int columns) {
             this.rows = rows;
             this.columns = columns;
-            piece = new Piece[rows][columns];
+            pieces = new Piece[rows][columns];
         }
 
         public int getRows() {
@@ -169,6 +169,188 @@ Agora, em Program.java vamos colocar o seguinte para ver se toda a implementaç�
 Bom, por hora não vamos poder imprimir o tabuleiro, pois não foi implementado algo do tipo ainda.
 
 ## Aula 06 - Camada Chess e imprimindo o tabuleiro:
+Nessa aula vamos criar os seguintes métodos
+
+- Board.Piece(row, column)
+
+- Board.Piece(position)
+
+E a enumeração
+
+- Chess.Color
+
+As classes
+
+- Chess.ChessPiece [public]
+
+- Chess.ChessMatch [public]
+
+- ChessConsole.UI
+
+Utilizaremos os seguintes conceitos de orientação à objeto
+
+- Enumerations
+
+- Encapsulations
+
+- Inheritance
+
+- Downcasting
+
+- Static members
+
+- Layers pattern
+
+Na estrutura de dado, vamos usar
+
+- Matriz
+
+Bom, começando no arquivo Board.java vamos definir o método seguinte
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+    }
+
+Vamos agora criar uma enumeração chess com o nome Color. E no arquivo Color.java vamos colocar o seguinte
+
+    package chess;
+
+    public enum Color {
+        BLACK,
+        WHITE;
+    }
+
+Dentro do diretório chess vamos criar uma classe ChessPiece. Dentro do arquivo ChessPiece vamos colocar o seguinte
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+
+    public class ChessPiece extends Piece {
+
+        private Color color;
+
+        public ChessPiece(Board board, Color color) {
+            super(board);
+            this.color = color;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+        
+    }
+
+Agora, vamos criar a classe ChessMatch dentro do diretório chess e dentro do arquivo ChessMatch.java, colocamos o seguinte. Basicamente, essa classe será o nosso coração do sistema, pois nela que irá residir toda a regra de xadrez
+
+    package chess;
+
+    import boardgame.Board;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+    }
+
+Agora, no arquivo Program.java, vamos realizar o seguinte para impressão do tabuleiro
+
+    package application;
+
+    import chess.ChessMatch;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            
+            ChessMatch chessMatch = new ChessMatch();
+            UI.printBoard(chessMatch.getPieces());
+        }
+
+    }
+
+Agora, só falta criarmos a classe UI dentro do diretório application
+
+    package application;
+
+    import chess.ChessPiece;
+
+    public class UI {
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece) {
+            if (piece == null) {
+                System.out.print("-");
+            } else {
+                System.out.print(piece);
+            }
+            
+            System.out.print(" ");
+        }
+    }
+
+Agora, só precisa rodar para ver se será printado no console a imagem do tabuleiro.
 
 ## Aula 07 - Colocando peças no tabuleiro:
 
