@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author ltakashi
+ *
+ */
+module excession {
+}
