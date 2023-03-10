@@ -1,8 +1,17 @@
 # Seção 16: Projeto - Sistema Jogo de Xadrez:
 
-## Aula 01 - Visão geral do capítulo Sistema Jogo de Xadrez:
+## Aula 01 - Visão geral do capítulo Sistema Jogo de Xadrez e Aula 02 - Material de apoio do capítulo:
+MATERIAL DE APOIO DO CAPÍTULO
 
-## Aula 02 - Material de apoio do capítulo:
+Seja muito bem-vindo(a) ao capítulo Projeto: Sistema jogo de xadrez!
+
+Aqui você pode baixar o material de apoio usado nas aulas do capítulo, para que você possa aproveitar ao máximo as aulas sem precisar ficar anotando muito.
+
+Grande abraço e bons estudos! Nelio.
+
+Recursos para esta aula
+
+    10-projeto-sistema-xadrez.pdf
 
 ## Aula 03 - Criando projeto e repositório Git:
 
