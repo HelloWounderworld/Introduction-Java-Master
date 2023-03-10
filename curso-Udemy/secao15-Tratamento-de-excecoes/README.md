@@ -533,9 +533,757 @@ No arquivo Program.java vamos colocar o seguinte
 Bom, note que, aqui na solução péssima acima, tratamos as excessões usando loucamente if, else if e else, o que é péssimo, pois fica ruim no ponto de vista da interpretação do código, ruim no sentido de eficiência e péssimo no quesito de contar outras possibilidades do que poderia acontecer e não cobrir nenhuma delas. Além disso, o sistema pode parar caso algum erro aconteça.
 
 ## Aula 09 - Segunda solução - ruim:
+Bom, a péssima solução da aula anterior estava no problema de lógica de validação no programa principal. Algo que deveria estar presente nas classes.
+
+Vamos corrigir esse problema, mas ainda sim o código ao todo estará ruim, pois teremos problemas do método retornando string.
+
+No caso, no arquivo Reservation.java vamos realizar o seguinte, no método updateDates
+
+    package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public String updateDates(Date checkIn, Date checkOut) {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                return "Check-out date must be after check-in date";
+            }
+            if(!checkOut.after(checkIn)) {
+                return "Check-out date must be after check-in date";
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+            return null;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+Agora, no arquivo Program.java vamos realizar o seguinte
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.Scanner;
+
+    import model.entities.Reservation;
+
+    public class Program {
+
+        public static void main(String[] args) throws ParseException {
+            // TODO Auto-generated method stub
+            Scanner sc = new Scanner(System.in);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
+            System.out.print("Room Number: ");
+            int number = sc.nextInt();
+            System.out.print("Check-in date (dd/MM/yyyy): ");
+            Date checkIn = sdf.parse(sc.next());
+            System.out.print("Check-out date (dd/MM/yyyy): ");
+            Date checkOut = sdf.parse(sc.next());
+            
+            // Legal que em date tem essa função que já calcula se está depois ou antes da data
+            if(!checkOut.after(checkIn)) {
+                System.out.println("Error in reservation: Check-out date must be after check-in date");
+            } else {
+                Reservation reservation = new Reservation(number, checkIn, checkOut);
+                System.out.println(reservation.toString());
+                
+                System.out.println();
+                System.out.println("Enter data to update the reservation:");
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                checkOut = sdf.parse(sc.next());
+                
+                // Solução ruim
+                // Mother of God... This is bad...
+                String error = reservation.updateDates(checkIn, checkOut);
+                if (error != null) {
+                    System.out.println("Error in reservation: " + error);
+                } else {
+                    System.out.println("Reservation: " + reservation);
+                }
+            }
+            
+            sc.close();
+        }
+
+    }
+
+Bom, no formato acima, já ficou melhor, pois colocamos as condicionais nos métodos das classes.
+
+Entretanto, ainda sim podemos melhorar a solução, pois seria usando o tratamento de exceções.
+
+Resforçando aqui, vale a pena dar uma lida reforçada entre quando usamos as condicionais e o try/catch para tratamento de erros.
 
 ## Aula 10 - Terceira solução - boa:
+Agora, vamos ver a solução boa, donde, desta vez, é codando de forma que tratamos as exceções.
+
+No caso, a última melhoria que fizemos é enviar as condicionais nas classes, de forma, que o código de aplicação torne-a muito mais simples de ler.
+
+Agora, a mudança que iremos fazer é algo bem mais geral, pois ainda, sim, o formato como foi feito a melhoria ainda está precária e com o risco de o sistema parar caso dê algum erro, visto que ela não cobre todas as exceções possíveis.
+
+Bom, para começar, no arquivo Program.java vamos fazer o seguinte
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.Scanner;
+
+    import model.entities.Reservation;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Scanner sc = new Scanner(System.in);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
+            try {
+                System.out.print("Room Number: ");
+                int number = sc.nextInt();
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                Date checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                Date checkOut = sdf.parse(sc.next());
+                
+                Reservation reservation = new Reservation(number, checkIn, checkOut);
+                System.out.println(reservation.toString());
+                
+                System.out.println();
+                System.out.println("Enter data to update the reservation:");
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                checkOut = sdf.parse(sc.next());
+                
+                reservation.updateDates(checkIn, checkOut);
+                System.out.println("Reservation: " + reservation);
+            }
+            catch (ParseException e) {
+                System.out.println("Invalid date Format");
+            }
+            
+            sc.close();
+        }
+
+    }
+
+Agora, no arquivo Reservation.java vamos fazer o seguinte, usaremos o throw, ou seja, lançaremos apenas a informação do erro, isso aplicado no método updateDate
+
+     package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public void updateDates(Date checkIn, Date checkOut) {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                throw new IllegalArgumentException("Check-out date must be after check-in date");
+            }
+            if(!checkOut.after(checkIn)) {
+                throw new IllegalArgumentException("Check-out date must be after check-in date");
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+Agora, no Program.java, precisamos capturar essa msg de erro lançada tbm. No caso, vamos ter que criar mais um catch da seguinte forma
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.Scanner;
+
+    import model.entities.Reservation;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Scanner sc = new Scanner(System.in);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
+            try {
+                System.out.print("Room Number: ");
+                int number = sc.nextInt();
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                Date checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                Date checkOut = sdf.parse(sc.next());
+                
+                Reservation reservation = new Reservation(number, checkIn, checkOut);
+                System.out.println(reservation.toString());
+                
+                System.out.println();
+                System.out.println("Enter data to update the reservation:");
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                checkOut = sdf.parse(sc.next());
+                
+                reservation.updateDates(checkIn, checkOut);
+                System.out.println("Reservation: " + reservation);
+            }
+            catch (ParseException e) {
+                System.out.println("Invalid date Format");
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Error in reservation: " + e.getMessage());
+            }
+            
+            sc.close();
+        }
+
+    }
+
+Agora, basta testarmos e vamos ver que está tudo funcionando como deveria tornando o código bem mais limpo para leitura e conseguindo dar conta de tratamento de todos os erros.
+
+Bom, para melhorarmos mais ainda a arquitetura do sistema, vamos usar os conceitos de model para melhorar a organização.
+
+Criamos o seguinte diretório dentro do src, uma classe model.exceptions com o arquivo DomainException.java e, dentro dela colocamos o seguinte
+
+    package model.exceptions;
+
+    public class DomainException extends Exception {
+        private static final long serialVersionUID = 1L;
+        
+        public DomainException (String msg) {
+            super(msg);
+        }
+    }
+
+No caso, agora, no arquivo Reservation vamos alterar o erro lançado pelo throw que está escrito IllegalArgumentException para DomainException. Ou seja, estamos criando uma forma de captura de erro personalizado
+
+Obs: Note que, o Exception não temos a classe dela no projeto e mesmo assim criamos uma subclasse para isso.
+
+    package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    import model.exceptions.DomainException;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public void updateDates(Date checkIn, Date checkOut) {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            if(!checkOut.after(checkIn)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+No caso, irá aparecer um erro no throw dizendo que ou vc trata essa exceção ou vc propaga. Para isso, iremos propagar, pois o tratamento dessa exceção deverá ser feito no catch da aplicação
+
+    package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    import model.exceptions.DomainException;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public void updateDates(Date checkIn, Date checkOut) throws DomainException {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            if(!checkOut.after(checkIn)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+Agora, no Program.java basta mudarmos o IllegalArgumentException para DomainException
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.Scanner;
+
+    import model.entities.Reservation;
+    import model.exceptions.DomainException;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Scanner sc = new Scanner(System.in);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
+            try {
+                System.out.print("Room Number: ");
+                int number = sc.nextInt();
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                Date checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                Date checkOut = sdf.parse(sc.next());
+                
+                Reservation reservation = new Reservation(number, checkIn, checkOut);
+                System.out.println(reservation.toString());
+                
+                System.out.println();
+                System.out.println("Enter data to update the reservation:");
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                checkOut = sdf.parse(sc.next());
+                
+                reservation.updateDates(checkIn, checkOut);
+                System.out.println("Reservation: " + reservation);
+            }
+            catch (ParseException e) {
+                System.out.println("Invalid date Format");
+            }
+            catch (DomainException e) {
+                System.out.println("Error in reservation: " + e.getMessage());
+            }
+            
+            sc.close();
+        }
+
+    }
+
+Feito isso, vamos testar o programa para ver se ele está funcionando.
+
+Bom, visto que está tudo funcionando, note que, agora, o nosso código ficou bem, mais bem, organizados.
+
+Bom, para melhorar mais ainda alguns detalhes, no método updateDate, onde consta o tratamento condicional para verificar se a data está antes ou depois, podemos mandar essa condicional, em vez dentro desse método, no construtor. Essa prática é conhecida como "Programação Defensiva" que é uma boa prática para melhorar a segurança do teu sistema
+
+    package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    import model.exceptions.DomainException;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) throws DomainException {
+            if(!checkOut.after(checkIn)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public void updateDates(Date checkIn, Date checkOut) throws DomainException {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+Agora, sim, o sistema ficou bem melhor.
+
+Agora, para acrescentar, vamos mudar, na classe DomainException, o extends Exception para extends RuntimeException
+
+    package model.exceptions;
+
+    public class DomainException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+        
+        public DomainException (String msg) {
+            super(msg);
+        }
+    }
+
+O que isso nos permite fazer?
+
+Apagar o throws DomainExceptions que colocamos para propagar o erro na classe Reservation.java
+
+    package model.entities;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.concurrent.TimeUnit;
+
+    import model.exceptions.DomainException;
+
+    public class Reservation {
+        
+        private Integer roomNumber;
+        private Date checkIn;
+        private Date checkOut;
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+            if(!checkOut.after(checkIn)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            this.roomNumber = roomNumber;
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+
+        public Integer getRoomNumber() {
+            return roomNumber;
+        }
+
+        public void setRoomNumber(Integer roomNumber) {
+            this.roomNumber = roomNumber;
+        }
+
+        public Date getCheckIn() {
+            return checkIn;
+        }
+
+        public Date getCheckOut() {
+            return checkOut;
+        }
+        
+        public long duration() {
+            long diff = checkOut.getTime() - checkIn.getTime();
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        
+        public void updateDates(Date checkIn, Date checkOut) {
+            
+            Date now = new Date();
+            if (checkIn.before(now) || checkOut.before(now)) {
+                throw new DomainException("Check-out date must be after check-in date");
+            }
+            
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+        }
+        
+        @Override
+        public String toString() {
+            return "Room" + roomNumber + ", check-in: " + sdf.format(checkIn) + ", check-out: " + sdf.format(checkOut) + ", " + duration() + " nights";
+        }
+    }
+
+Agora, para completar, no Program.java, existe uma exceção que não conseguimos tratar que é o InputMismatchException. No caso, podemos realizar a seguinte complementação colocando mais um catch e nela colocar RuntimeException. Isso significa que se não aparecer nenhum outro erro acima, mas mesmo assim, estar dando erro, será tratado dentro desse catch que captura o RuntimeException
+
+    package application;
+
+    import java.text.ParseException;
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+    import java.util.Scanner;
+
+    import model.entities.Reservation;
+    import model.exceptions.DomainException;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Scanner sc = new Scanner(System.in);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            
+            try {
+                System.out.print("Room Number: ");
+                int number = sc.nextInt();
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                Date checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                Date checkOut = sdf.parse(sc.next());
+                
+                Reservation reservation = new Reservation(number, checkIn, checkOut);
+                System.out.println(reservation.toString());
+                
+                System.out.println();
+                System.out.println("Enter data to update the reservation:");
+                System.out.print("Check-in date (dd/MM/yyyy): ");
+                checkIn = sdf.parse(sc.next());
+                System.out.print("Check-out date (dd/MM/yyyy): ");
+                checkOut = sdf.parse(sc.next());
+                
+                reservation.updateDates(checkIn, checkOut);
+                System.out.println("Reservation: " + reservation);
+            }
+            catch (ParseException e) {
+                System.out.println("Invalid date Format");
+            }
+            catch (DomainException e) {
+                System.out.println("Error in reservation: " + e.getMessage());
+            }
+            catch (RuntimeException e) {
+                System.out.println("Unexpected error");
+            }
+            
+            sc.close();
+        }
+
+    }
+
 
 ## Aula 11 - Exercício de fixação:
+Seguir o enunciado
+
+    Fazer um programa para ler os dados de uma conta bancária e depois realizar um saque nesta conta bancária, mostrando o novo saldo. Um saque não pode ocorrer ou se não houver saldo na conta, ou se o valor do saque for superior ao limite de saque da conta. Implemente a conta bancária conforme projeto abaixo:
+
+Examples
+
+    Enter account data
+    Number: 8021
+    Holder: Bob Brown
+    Initial balance: 500.00
+    Withdraw limit: 300.00
+    Enter amount for withdraw: 100.00
+    New balance: 400.00
+
+    Enter account data
+    Number: 8021
+    Holder: Bob Brown
+    Initial balance: 500.00
+    Withdraw limit: 300.00
+    Enter amount for withdraw: 400.00
+    Withdraw error: The amount exceeds withdraw limit
+
+Examples
+
+    Enter account data
+    Number: 8021
+    Holder: Bob Brown
+    Initial balance: 500.00
+    Withdraw limit: 300.00
+    Enter amount for withdraw: 800.00
+    Withdraw error: The amount exceeds withdraw limit
+
+    Enter account data
+    Number: 8021
+    Holder: Bob Brown
+    Initial balance: 200.00
+    Withdraw limit: 300.00
+    Enter amount for withdraw: 250.00
+    Withdraw error: Not enough balance
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/exceptions2-java
 
 ## Aula 12 - Correção do exercício de fixação:
+Olá pessoal! A correção deste exercício foi feita em uma live no Youtube:
+
+https://www.youtube.com/watch?v=AiIuJqJ0r8A
+
+Abraços e até a próxima!
