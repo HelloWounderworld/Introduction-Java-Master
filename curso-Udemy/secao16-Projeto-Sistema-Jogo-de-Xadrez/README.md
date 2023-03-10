@@ -85,6 +85,88 @@ No caso, no console deverá ser exibido as posições que foi colocado.
 Visto que está sendo exibido corretamente, vamos salvar as alterações feita até agora.
 
 ## Aula 05 - Começando a implementar Board e Piece:
+Vamos agora criar as classes Piece e Board, ambos dentro do diretório boardgame, que serão as peças e o tabuleiro.
+
+Para esse assunto, será usado os conceitos de associação, encapsulação (access modifiers) e Matrix.
+
+Agora, no arquivo Piece.java, vamos colocar o seguinte
+
+    package boardgame;
+
+    public class Piece {
+
+        protected Position position;
+        private Board board;
+        
+        public Piece(Board board) {
+            this.board = board;
+            // Para indicar a posição inicial de uma peça recém criada
+            // Vc poderia não colocar nada, pois assim a linguagem Java
+            // Automaticamente assimilaria que o position é nulo.
+            position = null;
+        }
+
+        // Vamos deixar ele protected
+        // Somente classes dentro do pacote e subclasses poderão acessar esse get.
+        // Isso restringirá que as peças são de uso dentro, apenas, da camada tabuleiro
+        protected Board getBoard() {
+            return board;
+        }
+        
+    }
+
+Agora, no Board.java vamos fazer o seguinte
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] piece;
+        
+        public Board(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            piece = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+    }
+
+Agora, em Program.java vamos colocar o seguinte para ver se toda a implementação realizada até agora está pronta
+
+    package application;
+
+    import boardgame.Board;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            
+            Board board = new Board(8, 8);
+        }
+
+    }
+
+Bom, por hora não vamos poder imprimir o tabuleiro, pois não foi implementado algo do tipo ainda.
 
 ## Aula 06 - Camada Chess e imprimindo o tabuleiro:
 
