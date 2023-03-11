@@ -500,6 +500,398 @@ Agora, resta criarmos o outro método no arquivo ChessMatch.java
 Feito isso, ao rodarmos a aplicação, vamos ver que na coordenada que colocamos da posição, estará a Torre localizada em "R", analogamente para os dois reis que definimos.
 
 ## Aula 08 - BoardException e programação defensiva:
+Vamos implementar nesse projeto uma classe BoardException e adotar a prática de programação defensiva.
+
+As classes que iremos criar
+
+- BoardException [public]
+
+Métodos que criaremos
+
+- PositionExists na classe Board
+
+- ThereIsAPiece na classe Board
+
+Implementação que faremos
+
+- Programação defensiva nos métodos Board
+
+Conceito de Orientação à objetos que será realizada
+
+- Exceptions
+
+- Constructors
+
+Vamos começando por criar a classe BoardException. No caso, dentro diretório boardgame, vamos criar o arquivo BoardException.java e dentro dela vamos colocar o seguinte
+
+    package boardgame;
+
+    public class BoardException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+        
+        public BoardException(String msg) {
+            super(msg);
+        }
+    }
+
+Agora, na classe Board.java vamos colocar o método positionExists
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+    }
+
+Na mesma classe, agora, vamos implementar o método thereIsAPiece
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            return piece(position) != null;
+        }
+    }
+
+Falta, agora, implementarmos a programação defensiva na classe Board, no caso, no construtor Board vamos colocar a condição de que não existe uma matriz com linha ou coluna nula
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            if (rows < 1 || columns < 1) {
+                throw new BoardException("Error creating board: there must be at least 1 row and 1 column");
+            }
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            return piece(position) != null;
+        }
+    }
+
+Outra implementação que vamos fazer de programação defensiva, será o seguinte, tirar o setRows e setColumns, pois não vamos querer ter uma via manual que permita alterar a quantidade linhas e colunas
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            if (rows < 1 || columns < 1) {
+                throw new BoardException("Error creating board: there must be at least 1 row and 1 column");
+            }
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            return piece(position) != null;
+        }
+    }
+
+Outra implementação que de programação defensiva será em Piece piece que confere a existência da posição ou não
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            if (rows < 1 || columns < 1) {
+                throw new BoardException("Error creating board: there must be at least 1 row and 1 column");
+            }
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            if (!positionExists(row, column)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            return piece(position) != null;
+        }
+    }
+
+Outra implementação que vamos fazer de programação defensiva vai ser no placePiece e thereIsAPice que confere se a peça onde vc irá querer colocar já está ou não ocupado por uma outra peça e confere se essa posição existe ou não, respectivamente
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            if (rows < 1 || columns < 1) {
+                throw new BoardException("Error creating board: there must be at least 1 row and 1 column");
+            }
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            if (!positionExists(row, column)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            if (thereIsAPiece(position)) {
+                throw new BoardException("There is already a piece on position " + position);
+            }
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            return piece(position) != null;
+        }
+    }
+
+Para testarmos isso, bastaria ir na classe ChessMatch e no initialSetup colocar alguma posição que não existe dentro do tabileiro e rodar o programa com isso.
 
 ## Aula 09 - ChessException e ChessPosition:
 
