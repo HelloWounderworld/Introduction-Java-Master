@@ -353,6 +353,151 @@ Agora, só falta criarmos a classe UI dentro do diretório application
 Agora, só precisa rodar para ver se será printado no console a imagem do tabuleiro.
 
 ## Aula 07 - Colocando peças no tabuleiro:
+Bom, nessa aula vamos colocar as peças no tabuleiro.
+
+Nos métodos vamos criar os seguinte
+
+- Board.PlacePice(piece, position)
+
+- ChessMatch.InitialSetup
+
+Nas classes vamos colocar o seguinte
+
+- Rook, King [public]
+
+No conceito de orientação à objetos será usado o seguinte
+
+- Inheritance
+
+- Overriding
+
+- Polymorphism (toString)
+
+Vamos começando primeiro por criar o método PlacePiece na classe Board. Então, no arquivo Board.java, vamos fazer o seguinte
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+
+        public void setColumns(int columns) {
+            this.columns = columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+    }
+
+Agora, vamos criar as classes Rook e King, ambas dentro do diretório chess.pieces. Dentro do arquivo Rook.java vamos colocar o seguinte
+
+    package chess.pieces;
+
+    import boardgame.Board;
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class Rook extends ChessPiece {
+
+        public Rook(Board board, Color color) {
+            super(board, color);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public String toString() {
+            return "R";
+        }
+    }
+
+Agora, no arquivo King.java vamos realizar o seguinte
+
+    package chess.pieces;
+
+    import boardgame.Board;
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class King extends ChessPiece {
+
+        public King(Board board, Color color) {
+            super(board, color);
+            // TODO Auto-generated constructor stub
+        }
+        
+        @Override
+        public String toString() {
+            return "K";
+        }
+    }
+
+Agora, resta criarmos o outro método no arquivo ChessMatch.java
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Position;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            initialSetup();
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        private void initialSetup() {
+            board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1));
+            board.placePiece(new King(board, Color.BLACK), new Position(0, 4));
+            board.placePiece(new King(board, Color.WHITE), new Position(7, 4));
+        }
+    }
+
+Feito isso, ao rodarmos a aplicação, vamos ver que na coordenada que colocamos da posição, estará a Torre localizada em "R", analogamente para os dois reis que definimos.
 
 ## Aula 08 - BoardException e programação defensiva:
 
