@@ -894,6 +894,124 @@ Outra implementação que vamos fazer de programação defensiva vai ser no plac
 Para testarmos isso, bastaria ir na classe ChessMatch e no initialSetup colocar alguma posição que não existe dentro do tabileiro e rodar o programa com isso.
 
 ## Aula 09 - ChessException e ChessPosition:
+O que vamos fazer nessa aula?
+
+Criaremos as seguintes classes
+
+- ChessException [public]
+
+- ChessPosition [public]
+
+Refatorar o método ChessMatch.initialSetup
+
+Conceito de orientação ao objetos que vamos usar
+
+- Exceptions
+
+- Encapsulation
+
+- Constructors (a string must be informed to the exception)
+
+- Overriding
+
+- Static members
+
+- Layers pattern
+
+Vamos começar criando as classes ChessException e ChessPosition, ambas dentro do diretório chess. Daí, dentro da classe ChessException.java vamos colocar o seguinte
+
+    package chess;
+
+    public class ChessException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+        
+        public ChessException(String msg) {
+            super(msg);
+        }
+    }
+
+Agora, na classe ChessPosition.java, vamos colocar o seguinte
+
+    package chess;
+
+    import boardgame.Position;
+
+    public class ChessPosition {
+
+        private char column;
+        private int row;
+        
+        public ChessPosition(char column, int row) {
+            if (column < 'a' || column > 'h' || row < 1 || row > 8) {
+                throw new ChessException("Error instantiating ChessPosition. Valid values are from a1 to h8.");
+            }
+            this.column = column;
+            this.row = row;
+        }
+
+        public char getColumn() {
+            return column;
+        }
+
+        public int getRow() {
+            return row;
+        }
+        
+        protected Position toPosition() {
+            return new Position(8 - row, column - 'a');
+        }
+        
+        protected static ChessPosition fromPosition(Position position) {
+            return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());
+        }
+        
+        @Override
+        public String toString() {
+            // String vazio "" para forçar ao compilador a entender que temos uma concatenação de strings
+            return "" + column + row;
+        }
+    }
+
+Agora, na classe ChessMatch.java no método initialSetup vamos realizar uma refatoração criando um novo método placeNewPiece que será usado dentro desse método initialSetup
+
+    package chess;
+
+    import boardgame.Board;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            initialSetup();
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('b', 6, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 8, new King(board, Color.BLACK));
+            placeNewPiece('e', 1, new King(board, Color.WHITE));
+        }
+    }
+
+Agora, está no formato em que colocamos os comandos de coordenada na linguagem de xadrez.
 
 ## Aula 10 - Pequena melhoria na impressão do tabuleiro:
 
