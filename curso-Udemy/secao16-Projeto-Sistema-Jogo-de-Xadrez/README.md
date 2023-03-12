@@ -1014,8 +1014,466 @@ Agora, na classe ChessMatch.java no método initialSetup vamos realizar uma refa
 Agora, está no formato em que colocamos os comandos de coordenada na linguagem de xadrez.
 
 ## Aula 10 - Pequena melhoria na impressão do tabuleiro:
+Vamos realizar uma pequena melhoria na impressão do tabuleiro.
+
+No caso, vamos colocar cores para as peças.
+
+Color in terminal
+
+- Windows: Git Bash
+
+- Mac: Google "psx terminal color"
+
+Checklist
+
+- Place more pieces on the board
+
+- Distinguish piece colors in UI.PrintPiece method
+
+Bom, na classe UI, vamos colocar o seguinte código
+
+    package application;
+
+    import chess.ChessPiece;
+
+    public class UI {
+        
+        // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+        public static final String ANSI_RESET = "\u001B[0m";
+        public static final String ANSI_BLACK = "\u001B[30m";
+        public static final String ANSI_RED = "\u001B[31m";
+        public static final String ANSI_GREEN = "\u001B[32m";
+        public static final String ANSI_YELLOW = "\u001B[33m";
+        public static final String ANSI_BLUE = "\u001B[34m";
+        public static final String ANSI_PURPLE = "\u001B[35m";
+        public static final String ANSI_CYAN = "\u001B[36m";
+        public static final String ANSI_WHITE = "\u001B[37m";
+
+        public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+        public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+        public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+        public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece) {
+            if (piece == null) {
+                System.out.print("-");
+            } else {
+                System.out.print(piece);
+            }
+            
+            System.out.print(" ");
+        }
+    }
+
+Não se preocupe se vc se perguntou que teria que saber o foi colocado no código acima de cor. Não, não precisa. Eu mesmo só peguei do stackoverflow e cópiei e colei.
+
+Agora, na mesma classe UI, vamos refatorar o método printpPiece para fazer com que as peças sejam distinguidas entre cores pretas e brancas
+
+    package application;
+
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class UI {
+        
+        // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+        public static final String ANSI_RESET = "\u001B[0m";
+        public static final String ANSI_BLACK = "\u001B[30m";
+        public static final String ANSI_RED = "\u001B[31m";
+        public static final String ANSI_GREEN = "\u001B[32m";
+        public static final String ANSI_YELLOW = "\u001B[33m";
+        public static final String ANSI_BLUE = "\u001B[34m";
+        public static final String ANSI_PURPLE = "\u001B[35m";
+        public static final String ANSI_CYAN = "\u001B[36m";
+        public static final String ANSI_WHITE = "\u001B[37m";
+
+        public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+        public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+        public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+        public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece) {
+            if (piece == null) {
+                System.out.print("-");
+            } else {
+                if (piece.getColor() == Color.WHITE) {
+                    System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+                }
+                else {
+                    System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+                }
+            }
+            
+            System.out.print(" ");
+        }
+    }
+
+Agora, vamos colocar mais peças na classe ChessMatch.java, então realizemos da seguinte forma
+
+    package chess;
+
+    import boardgame.Board;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            initialSetup();
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+            placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 8, new King(board, Color.BLACK));
+        }
+    }
+
+Agora, só precisamos rodar o programa para ver se toda a implementação que realizamos até agora está tudo funcionando. Para isso, vamos ter que entrar na pasta bin do nosso projeto e dentro dela clicar com o mouse direito e selecionar "Git Bash Here". Isso irá abrir um terminal e nela bastaria digitar "java application/Program". Assim, será exibido todas as aplicações com cores que foram implementado no nosso projeto.
+
+De agora em diante, vamos prosseguir com o curso por essa via.
 
 ## Aula 11 - Movendo peças:
+Vamos, agora, criar códigos que permite o movimento das peças.
+
+Métodos que vamos criar nessa aula
+
+- RemovePiece na classe Board
+
+- ReadChessPosition na classe UI
+
+- PerformChessPosition na classe ChessMatch
+    - MakeMove na classe ChessMatch
+
+    - ValidadeSourcePosition na classe ChessMatch
+
+Vamos escrever uma lógica básica em Program.cs
+
+Conceitos de orientação à objetos que serão usados
+
+- Exceptions
+
+- Encapsulation
+
+Vamos començando pela classe Board.java, nela iremos colocar o método RemovePiece
+
+    package boardgame;
+
+    public class Board {
+
+        private int rows;
+        private int columns;
+        // Forma de declarar uma matriz.
+        private Piece[][] pieces;
+        
+        public Board(int rows, int columns) {
+            if (rows < 1 || columns < 1) {
+                throw new BoardException("Error creating board: there must be at least 1 row and 1 column");
+            }
+            this.rows = rows;
+            this.columns = columns;
+            pieces = new Piece[rows][columns];
+        }
+
+        public int getRows() {
+            return rows;
+        }
+
+        public int getColumns() {
+            return columns;
+        }
+        
+        public Piece piece(int row, int column) {
+            if (!positionExists(row, column)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[row][column];
+        }
+        
+        public Piece piece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            return pieces[position.getRow()][position.getColumn()];
+        }
+        
+        public void placePiece(Piece piece, Position position) {
+            if (thereIsAPiece(position)) {
+                throw new BoardException("There is already a piece on position " + position);
+            }
+            pieces[position.getRow()][position.getColumn()] = piece;
+            piece.position = position;
+        }
+        
+        public Piece removePiece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            if (piece(position) == null) {
+                return null;
+            }
+            Piece aux = piece(position);
+            aux.position = null;
+            pieces[position.getRow()][position.getColumn()] = null;
+            
+            return aux;
+        }
+        
+        private boolean positionExists(int row, int column) {
+            return row >= 0 && row < rows && column >= 0 && column < columns;
+        }
+        
+        public boolean positionExists(Position position) {
+            return positionExists(position.getRow(), position.getColumn());
+        }
+        
+        public boolean thereIsAPiece(Position position) {
+            if (!positionExists(position)) {
+                throw new BoardException("Position not on the board");
+            }
+            return piece(position) != null;
+        }
+    }
+
+Agora, na classe UI vamos criar o método readChessPosition, então coloquemos o seguinte
+
+    package application;
+
+    import java.util.InputMismatchException;
+    import java.util.Scanner;
+
+    import chess.ChessPiece;
+    import chess.ChessPosition;
+    import chess.Color;
+
+    public class UI {
+        
+        // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+        public static final String ANSI_RESET = "\u001B[0m";
+        public static final String ANSI_BLACK = "\u001B[30m";
+        public static final String ANSI_RED = "\u001B[31m";
+        public static final String ANSI_GREEN = "\u001B[32m";
+        public static final String ANSI_YELLOW = "\u001B[33m";
+        public static final String ANSI_BLUE = "\u001B[34m";
+        public static final String ANSI_PURPLE = "\u001B[35m";
+        public static final String ANSI_CYAN = "\u001B[36m";
+        public static final String ANSI_WHITE = "\u001B[37m";
+
+        public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+        public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+        public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+        public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+        
+        public static ChessPosition readChessPosition(Scanner sc) {
+            try {
+                String s = sc.nextLine();
+                char column = s.charAt(0);
+                int row = Integer.parseInt(s.substring(1));
+                return new ChessPosition(column, row);
+            }
+            catch (RuntimeException e) {
+                throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+            }
+        }
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece) {
+            if (piece == null) {
+                System.out.print("-");
+            } else {
+                if (piece.getColor() == Color.WHITE) {
+                    System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+                }
+                else {
+                    System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+                }
+            }
+            
+            System.out.print(" ");
+        }
+    }
+
+Agora, na classe ChessMatch, vamos criar o método PerformChessMove, validateSourcePosition e makeMove então vamos colocar o seguinte
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+    import boardgame.Position;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            initialSetup();
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+            Position source = sourcePosition.toPosition();
+            Position target = targetPosition.toPosition();
+            validateSourcePosition(source);
+            Piece capturedPiece = makeMove(source, target);
+            return (ChessPiece) capturedPiece;
+        }
+        
+        private Piece makeMove(Position source, Position target) {
+            Piece p = board.removePiece(source);
+            Piece capturedPiece = board.removePiece(target);
+            board.placePiece(p, target);
+            return capturedPiece;
+        }
+        
+        private void validateSourcePosition(Position position) {
+            if (!board.thereIsAPiece(position)) {
+                throw new ChessException("There is no piece on source position");
+            }
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+            placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 8, new King(board, Color.BLACK));
+        }
+    }
+
+Agora, vamos testar se ele está rodando direito. No caso, no arquivo Program.java vamos implementar o seguinte
+
+    package application;
+
+    import java.util.Scanner;
+
+    import chess.ChessMatch;
+    import chess.ChessPiece;
+    import chess.ChessPosition;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            
+            Scanner sc = new Scanner(System.in);
+            ChessMatch chessMatch = new ChessMatch();
+            
+            while (true) {
+                UI.printBoard(chessMatch.getPieces());
+                System.out.println();
+                System.out.print("Source: ");
+                ChessPosition source = UI.readChessPosition(sc);
+                
+                System.out.println();
+                System.out.print("Target: ");
+                ChessPosition target = UI.readChessPosition(sc);
+                
+                ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+            }
+
+        }
+
+    }
+
+Agora, basta rodar no terminal. Como um experimento, no source vc pode colocar o "c2" para indicar a Torre e o destino target colocar "c5". Daí vc verá que a torre foi movida. Em seguida, colcar "c3" para "c4" para verificar se haverá algum erro retornando, pois estamos tentando mover uma peça que nem existe nessa posição. Note que, quando dá algum erro, até a aplicação pelo terminal termina, ou seja, saindo do loop while.
 
 ## Aula 12 - Tratando exceções e limpando a tela:
 
