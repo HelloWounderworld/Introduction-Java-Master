@@ -1646,6 +1646,208 @@ Feito isso, vamos rodar o projeto para verificar se está tudo de acordo.
 Note que, agora, o tratamento desse erro aqui está permitindo com que mesmo que ocorra algum erro de posição ou de movimento de peça inexistente, não saia do laço while.
 
 ## Aula 13 - Movimentos possíveis de uma peça:
+Bom, vamos ver as regras de movimento de cada peça.
+
+No caso, esse conceito foi estudado na faculdade na linguagem python, que são exploração de booleanos em matriz de posições que vc pode ir ou não.
+
+Para isso nos métodos vamos colocar o seguinte
+
+- Na classe Piece
+    - PossibleMoves [abstract]
+
+    - PossibleMove
+
+    - isThereAnyPossibleMove
+
+- Atualização via método ValidadeSourcePosition na classe ChessMatch
+
+Vamos realizar uma implementação básica de PossibleMove para Torre e Rei.
+
+Os conceitos de orientação à objetos que vamos usar serão os seguinte
+
+- Abstract Method / class
+
+- Exceptions
+
+Vamos começando as implementações na classe Piece.java
+
+    package boardgame;
+
+    public abstract class Piece {
+
+        protected Position position;
+        private Board board;
+        
+        public Piece(Board board) {
+            this.board = board;
+            // Para indicar a posição inicial de uma peça recém criada
+            // Vc poderia não colocar nada, pois assim a linguagem Java
+            // Automaticamente assimilaria que o position é nulo.
+            position = null;
+        }
+
+        // Vamos deixar ele protected
+        // Somente classes dentro do pacote e subclasses poderão acessar esse get.
+        // Isso restringirá que as peças são de uso dentro, apenas, da camada tabuleiro
+        protected Board getBoard() {
+            return board;
+        }
+        
+        public abstract boolean[][] possibleMoves();
+        
+        // Hook Methods
+        public boolean possibleMove(Position position) {
+            return possibleMoves()[position.getRow()][position.getColumn()];
+        }
+        
+        public boolean isThereAnyPossibleMove() {
+            boolean[][] mat = possibleMoves();
+            for (int i = 0; i < mat.length; i++) {
+                for (int j = 0; j < mat.length; j ++) {
+                    if (mat[i][j]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+Lembrando que, como a classe Piece.java é uma subclasse da classe ChessPiece e a classe Piece é abastrata, a classe ChessPiece precisa ser abstrata tbm.
+
+Vamos, agora, realizar uma implementação básica da Torre e do Rei. Então no arquivo Piece.java vamos fazer o seguinte:
+
+- Para o Rei
+
+    package chess.pieces;
+
+    import boardgame.Board;
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class King extends ChessPiece {
+
+        public King(Board board, Color color) {
+            super(board, color);
+            // TODO Auto-generated constructor stub
+        }
+        
+        @Override
+        public String toString() {
+            return "K";
+        }
+
+        @Override
+        public boolean[][] possibleMoves() {
+            boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+            return mat;
+        }
+    }
+
+- Para a Torre
+
+    package chess.pieces;
+
+    import boardgame.Board;
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class Rook extends ChessPiece {
+
+        public Rook(Board board, Color color) {
+            super(board, color);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public String toString() {
+            return "R";
+        }
+        
+        @Override
+        public boolean[][] possibleMoves() {
+            boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+            return mat;
+        }
+    }
+
+Agora, vamos ter que realizar a atualização pelo método validateSourcePosition na classe ChessMatch. No caso, vamos ter que colocar o seguinte
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+    import boardgame.Position;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            initialSetup();
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+            Position source = sourcePosition.toPosition();
+            Position target = targetPosition.toPosition();
+            validateSourcePosition(source);
+            Piece capturedPiece = makeMove(source, target);
+            return (ChessPiece) capturedPiece;
+        }
+        
+        private Piece makeMove(Position source, Position target) {
+            Piece p = board.removePiece(source);
+            Piece capturedPiece = board.removePiece(target);
+            board.placePiece(p, target);
+            return capturedPiece;
+        }
+        
+        private void validateSourcePosition(Position position) {
+            if (!board.thereIsAPiece(position)) {
+                throw new ChessException("There is no piece on source position");
+            }
+            if (!board.piece(position).isThereAnyPossibleMove()) {
+                throw new ChessException("There is no possible moves for the chosen piece");
+            }
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+            placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 8, new King(board, Color.BLACK));
+        }
+    }
+
+Agora, vamos rodar o programa para ver se ela está funcionando muito bem.
+
+Por hora, para todas as peças, estamos condicionando de que ele não tem nenhum outro movimento possível. Logo, não será nem um pouco estranho se realizarmos algum movimento, que mesmo válido, aparecer a msg de que não será possível tal movimento, pois ainda será necessário implementar a lógica de como cada peça ela pode se mexer.
 
 ## Aula 14 - Implementando movimentos possíveis da Torre:
 
