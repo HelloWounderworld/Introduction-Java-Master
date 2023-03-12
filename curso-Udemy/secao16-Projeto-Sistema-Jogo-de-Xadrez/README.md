@@ -2443,7 +2443,287 @@ Agora, vamos testar novamente se está tudo funcionando como queremos.
 ## Aula 17 - Trocando de jogador a cada turno:
 Vamos, agora, trocar de jogador a cada turno.
 
+Os métodos que vamos implementar/criar são os seguintes
 
+- Na classe ChessMatch vamos implementar/criar os seguintes métodos
+    - Properties Turn, CurrentPlayer [private set]
+
+    - Method NextTurn [private]
+
+    - Update PerformChessMove
+
+    - Update ValidateSourcePosition
+
+- PrintMatch na classe UI
+
+Conceitos de orientação à objetos que serão usados
+
+- Encapsulation
+
+- Exceptions
+
+Bom, começamos na classe ChessMatch vamos realizar as implementações/criações necessárias
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+    import boardgame.Position;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private int turn;
+        private Color currentPlayer;
+        private Board board;
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            turn = 1;
+            currentPlayer = Color.WHITE;
+            initialSetup();
+        }
+        
+        public int getTurn() {
+            return turn;
+        }
+        
+        public Color getCurrentPlayer() {
+            return currentPlayer;
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+            Position position = sourcePosition.toPosition();
+            validateSourcePosition(position);
+            return board.piece(position).possibleMoves();
+        }
+        
+        public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+            Position source = sourcePosition.toPosition();
+            Position target = targetPosition.toPosition();
+            validateSourcePosition(source);
+            validateTargetPosition(source, target);
+            Piece capturedPiece = makeMove(source, target);
+            nextTurn();
+            return (ChessPiece) capturedPiece;
+        }
+        
+        private Piece makeMove(Position source, Position target) {
+            Piece p = board.removePiece(source);
+            Piece capturedPiece = board.removePiece(target);
+            board.placePiece(p, target);
+            return capturedPiece;
+        }
+        
+        private void validateSourcePosition(Position position) {
+            if (!board.thereIsAPiece(position)) {
+                throw new ChessException("There is no piece on source position");
+            }
+            if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+                throw new ChessException("The chosen piece is not yours");
+            }
+            if (!board.piece(position).isThereAnyPossibleMove()) {
+                throw new ChessException("There is no possible moves for the chosen piece");
+            }
+        }
+        
+        private void validateTargetPosition(Position source, Position target) {
+            if (!board.piece(source).possibleMove(target)) {
+                throw new ChessException("The chosen piece can't move to target position");
+            }
+        }
+        
+        private void nextTurn() {
+            turn++;
+            currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+            placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 8, new King(board, Color.BLACK));
+        }
+    }
+
+Agora, na classe UI, vamos criar o método que exibe qual será o jogador que deve fazer a jogada
+
+    package application;
+
+    import java.util.InputMismatchException;
+    import java.util.Scanner;
+
+    import chess.ChessMatch;
+    import chess.ChessPiece;
+    import chess.ChessPosition;
+    import chess.Color;
+
+    public class UI {
+        
+        // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+        public static final String ANSI_RESET = "\u001B[0m";
+        public static final String ANSI_BLACK = "\u001B[30m";
+        public static final String ANSI_RED = "\u001B[31m";
+        public static final String ANSI_GREEN = "\u001B[32m";
+        public static final String ANSI_YELLOW = "\u001B[33m";
+        public static final String ANSI_BLUE = "\u001B[34m";
+        public static final String ANSI_PURPLE = "\u001B[35m";
+        public static final String ANSI_CYAN = "\u001B[36m";
+        public static final String ANSI_WHITE = "\u001B[37m";
+
+        public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+        public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+        public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+        public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+        
+        // https://stackoverflow.com/questions/2979383/java-clear-the-console 
+        public static void clearScreen() {   
+            System.out.print("\033[H\033[2J");   
+            System.out.flush();   
+        }
+        
+        public static ChessPosition readChessPosition(Scanner sc) {
+            try {
+                String s = sc.nextLine();
+                char column = s.charAt(0);
+                int row = Integer.parseInt(s.substring(1));
+                return new ChessPosition(column, row);
+            }
+            catch (RuntimeException e) {
+                throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+            }
+        }
+        
+        public static void printMatch(ChessMatch chessMatch) {
+            printBoard(chessMatch.getPieces());
+            System.out.println();
+            System.out.println("Turn : " + chessMatch.getTurn());
+            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+        }
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j], false);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j], possibleMoves[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece, boolean background) {
+            if (background) {
+                System.out.print(ANSI_BLUE_BACKGROUND);
+            }
+            if (piece == null) {
+                System.out.print("-" + ANSI_RESET);
+            } else {
+                if (piece.getColor() == Color.WHITE) {
+                    System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+                }
+                else {
+                    System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+                }
+            }
+            
+            System.out.print(" ");
+        }
+    }
+
+Agora, vamos realizar a aplicação disso. No caso, no arquivo Program.java vamos realizar o seguinte
+
+    package application;
+
+    import java.util.InputMismatchException;
+    import java.util.Scanner;
+
+    import chess.ChessException;
+    import chess.ChessMatch;
+    import chess.ChessPiece;
+    import chess.ChessPosition;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            
+            Scanner sc = new Scanner(System.in);
+            ChessMatch chessMatch = new ChessMatch();
+            
+            while (true) {
+                try {
+                    UI.clearScreen();
+                    UI.printMatch(chessMatch);
+                    System.out.println();
+                    System.out.print("Source: ");
+                    ChessPosition source = UI.readChessPosition(sc);
+                    
+                    boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+                    UI.clearScreen();
+                    UI.printBoard(chessMatch.getPieces(), possibleMoves);
+                    
+                    System.out.println();
+                    System.out.print("Target: ");
+                    ChessPosition target = UI.readChessPosition(sc);
+                    
+                    ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+                }
+                catch (ChessException e ) {
+                    System.out.println(e.getMessage());
+                    sc.nextLine();
+                }
+                catch (InputMismatchException e ) {
+                    System.out.println(e.getMessage());
+                    sc.nextLine();
+                }
+            }
+
+        }
+
+    }
+
+Agora, vamos rodar o programa para ver se as alterações que fizemos estão correspondendo o que queremos.
 
 ## Aula 18 - Manipulando peças capturadas:
 
