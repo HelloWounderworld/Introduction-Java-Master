@@ -3175,9 +3175,360 @@ Agora, falta colocarmos algum controle de peças capturadas. No caso, na classe 
 
 Agora, vamos testar se estamos conseguindo capturar direito ou não as peças.
 
-## Aula 19 - Lógica de xeque - PARTE 1:
+## Aula 19 e 20 - Lógica de xeque - PARTE 1 e 2:
+Vamos implementar a lógica de Xeque, que é quando o Rei está sob ameaça. Vale lembrar que vc não pode se colocar em xeque tbm.
 
-## Aula 20 - Lógica de xeque - PARTE 2:
+Métodos que serão implementado/criado/refatorado
+
+- ChessPosition na classe ChessPiece, property [get]
+
+- Na classe ChessMatch:
+    - Method UndoMove
+
+    - Property Check [private set]
+
+    - Method Opponent [private]
+
+    - Method King(color) [private]
+
+    - Method TestCheck
+
+    - Update PerformChessMove
+
+- Update PrintMatch na classe UI.
+
+Vamos começar pela classe ChessPiece, criaremos o getChessPosition
+
+    package chess;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+    import boardgame.Position;
+
+    public abstract class ChessPiece extends Piece {
+
+        private Color color;
+
+        public ChessPiece(Board board, Color color) {
+            super(board);
+            this.color = color;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+        
+        public ChessPosition getChessPosition() {
+            return ChessPosition.fromPosition(position);
+        }
+        
+        protected boolean isThereOpponentPiece(Position position) {
+            ChessPiece p = (ChessPiece) getBoard().piece(position);
+            return p != null && p.getColor() != color;
+        }
+    }
+
+Agora, na classe ChessMatch, vamos realizar as tarefas que foi listada acima
+
+    package chess;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+    import boardgame.Board;
+    import boardgame.Piece;
+    import boardgame.Position;
+    import chess.pieces.King;
+    import chess.pieces.Rook;
+
+    public class ChessMatch {
+
+        private int turn;
+        private Color currentPlayer;
+        private Board board;
+        private boolean check;
+        
+        private List<Piece> piecesOnTheBoard = new ArrayList<>();
+        private List<Piece> capturedPieces = new ArrayList<>();
+        
+        public ChessMatch() {
+            board = new Board(8, 8);
+            turn = 1;
+            currentPlayer = Color.WHITE;
+            // Se vai colocar check como false é opcional, pois o programa
+            // não definido nada de valor para check, ele, por padrão, define como false
+            //check = false;
+            initialSetup();
+        }
+        
+        public int getTurn() {
+            return turn;
+        }
+        
+        public Color getCurrentPlayer() {
+            return currentPlayer;
+        }
+        
+        public boolean getCheck() {
+            return check;
+        }
+        
+        public ChessPiece[][] getPieces() {
+            ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+            for (int i=0; i < board.getRows(); i++) {
+                for (int j=0; j < board.getColumns(); j++) {
+                    mat[i][j] = (ChessPiece) board.piece(i, j);
+                }
+            }
+            return mat;
+        }
+        
+        public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+            Position position = sourcePosition.toPosition();
+            validateSourcePosition(position);
+            return board.piece(position).possibleMoves();
+        }
+        
+        public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+            Position source = sourcePosition.toPosition();
+            Position target = targetPosition.toPosition();
+            validateSourcePosition(source);
+            validateTargetPosition(source, target);
+            Piece capturedPiece = makeMove(source, target);
+            
+            if(testCheck(currentPlayer)) {
+                undoMove(source, target, capturedPiece);
+                throw new ChessException("You can't put yourself in check");
+            }
+            
+            check = (testCheck(opponent(currentPlayer))) ? true : false;
+            
+            nextTurn();
+            return (ChessPiece) capturedPiece;
+        }
+        
+        private Piece makeMove(Position source, Position target) {
+            Piece p = board.removePiece(source);
+            Piece capturedPiece = board.removePiece(target);
+            board.placePiece(p, target);
+            
+            if (capturedPiece != null) {
+                piecesOnTheBoard.remove(capturedPiece);
+                capturedPieces.add(capturedPiece);
+            }
+            
+            return capturedPiece;
+        }
+        
+        private void undoMove(Position source, Position target, Piece capturedPiece) {
+            Piece p = board.removePiece(target);
+            board.placePiece(p, source);
+            
+            if (capturedPiece != null) {
+                board.placePiece(capturedPiece, target);
+                capturedPieces.remove(capturedPiece);
+                piecesOnTheBoard.add(capturedPiece);
+            }
+        }
+        
+        private void validateSourcePosition(Position position) {
+            if (!board.thereIsAPiece(position)) {
+                throw new ChessException("There is no piece on source position");
+            }
+            if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+                throw new ChessException("The chosen piece is not yours");
+            }
+            if (!board.piece(position).isThereAnyPossibleMove()) {
+                throw new ChessException("There is no possible moves for the chosen piece");
+            }
+        }
+        
+        private void validateTargetPosition(Position source, Position target) {
+            if (!board.piece(source).possibleMove(target)) {
+                throw new ChessException("The chosen piece can't move to target position");
+            }
+        }
+        
+        private void nextTurn() {
+            turn++;
+            currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+        }
+        
+        private Color opponent(Color color) {
+            return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
+        }
+        
+        private ChessPiece king(Color color) {
+            List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+            for (Piece p : list) {
+                if (p instanceof King) {
+                    return (ChessPiece)p;
+                }
+            }
+            throw new IllegalStateException("There is no " + color + " king on the board");
+        }
+        
+        private boolean testCheck(Color color) {
+            Position kingPosition = king(color).getChessPosition().toPosition();
+            List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+            for (Piece p : opponentPieces) {
+                boolean[][] mat = p.possibleMoves();
+                if (mat[kingPosition.getRow()][kingPosition.getColumn()]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        private void placeNewPiece(char column, int row, ChessPiece piece) {
+            board.placePiece(piece, new ChessPosition(column, row).toPosition());
+            piecesOnTheBoard.add(piece);
+        }
+        
+        private void initialSetup() {
+            placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+            placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+            placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+            placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+            placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+            placeNewPiece('d', 8, new King(board, Color.BLACK));
+        }
+    }
+
+Agora, falta refatorar o método printMatch da classe UI
+
+    package application;
+
+    import java.util.Arrays;
+    import java.util.InputMismatchException;
+    import java.util.List;
+    import java.util.Scanner;
+    import java.util.stream.Collectors;
+
+    import chess.ChessMatch;
+    import chess.ChessPiece;
+    import chess.ChessPosition;
+    import chess.Color;
+
+    public class UI {
+        
+        // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+        public static final String ANSI_RESET = "\u001B[0m";
+        public static final String ANSI_BLACK = "\u001B[30m";
+        public static final String ANSI_RED = "\u001B[31m";
+        public static final String ANSI_GREEN = "\u001B[32m";
+        public static final String ANSI_YELLOW = "\u001B[33m";
+        public static final String ANSI_BLUE = "\u001B[34m";
+        public static final String ANSI_PURPLE = "\u001B[35m";
+        public static final String ANSI_CYAN = "\u001B[36m";
+        public static final String ANSI_WHITE = "\u001B[37m";
+
+        public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+        public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+        public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+        public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+        public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+        public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+        public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+        
+        // https://stackoverflow.com/questions/2979383/java-clear-the-console 
+        public static void clearScreen() {   
+            System.out.print("\033[H\033[2J");   
+            System.out.flush();   
+        }
+        
+        public static ChessPosition readChessPosition(Scanner sc) {
+            try {
+                String s = sc.nextLine();
+                char column = s.charAt(0);
+                int row = Integer.parseInt(s.substring(1));
+                return new ChessPosition(column, row);
+            }
+            catch (RuntimeException e) {
+                throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+            }
+        }
+        
+        public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
+            printBoard(chessMatch.getPieces());
+            System.out.println();
+            printCapturedPieces(captured);
+            System.out.println();
+            System.out.println("Turn : " + chessMatch.getTurn());
+            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println("CHECK!");
+            }
+        }
+
+        public static void printBoard(ChessPiece[][] pieces) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j], false);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+            for (int i=0; i < pieces.length; i++) {
+                System.out.print((8-i) + " ");
+                for (int j=0; j < pieces.length; j++) {
+                    printPiece(pieces[i][j], possibleMoves[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("  a b c d e f g h");
+        }
+        
+        private static void printPiece(ChessPiece piece, boolean background) {
+            if (background) {
+                System.out.print(ANSI_BLUE_BACKGROUND);
+            }
+            if (piece == null) {
+                System.out.print("-" + ANSI_RESET);
+            } else {
+                if (piece.getColor() == Color.WHITE) {
+                    System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+                }
+                else {
+                    System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+                }
+            }
+            
+            System.out.print(" ");
+        }
+        
+        public static void printCapturedPieces(List<ChessPiece> captured) {
+            List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+            List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+            System.out.println("Captured pieces:");
+            System.out.print("White: ");
+            System.out.print(ANSI_WHITE);
+            System.out.println(Arrays.toString(white.toArray()));
+            System.out.print(ANSI_RESET);
+            System.out.print("Black: ");
+            System.out.print(ANSI_YELLOW);
+            System.out.println(Arrays.toString(black.toArray()));
+            System.out.print(ANSI_RESET);
+        }
+    }
+
+Feito isso, agora, vamos testar se o programa está ou não funcionando corretamente.
+
+Bom, teve um erro que foi necessário refatorar algum método da classe ChessPosition.
 
 ## Aula 21 - Lógica de xequemate:
 
