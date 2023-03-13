@@ -6634,5 +6634,7 @@ Agora, na aplicação só falta colocarmos uma condicional que essa partida teve
 Daí, agora, podemos testar rodando esse programa.
 
 ## Aula 32 - Atualização de compliance:
+Java 10 -> Java 11
 
 ## Aula 33 - Dando um tratamento melhor para promoção:
+Foi realizado alguma melhorias.
