@@ -4527,6 +4527,96 @@ Agora, no ChessMatch, vamos setar os peões
 Agora, vamos rodar o código para verificarmos se está funcionando.
 
 ## Aula 24 - Bispo:
+Vamos, agora, criar a peça bispo.
+
+Classe que vamos criar
+
+- Bishop no diretório chess.piece
+
+Método que vamos implementar/criar/atualizar
+
+- Update InitialSetup na classe ChessMatch
+
+Conceitos de Orientação à Objetos que vamos usar
+
+- Encapsulation
+
+- Inheritance
+
+- Polymorphism
+
+Vamos começando a criar a classe Bishop e coloquemos nele o seguinte
+
+    package chess.pieces;
+
+    import boardgame.Board;
+    import boardgame.Position;
+    import chess.ChessPiece;
+    import chess.Color;
+
+    public class Bishop extends ChessPiece {
+
+        public Bishop(Board board, Color color) {
+            super(board, color);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public String toString() {
+            return "B";
+        }
+        
+        @Override
+        public boolean[][] possibleMoves() {
+            boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+            
+            Position p = new Position(0, 0);
+            
+            // nw
+            p.setValues(position.getRow() - 1, position.getColumn() - 1);
+            while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+                p.setValues(p.getRow() - 1, p.getColumn() - 1);
+            }
+            if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+            }
+            
+            // ne
+            p.setValues(position.getRow() - 1, position.getColumn() + 1);
+            while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+                p.setValues(p.getRow() - 1, p.getColumn() + 1);
+            }
+            if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+            }
+            
+            // se
+            p.setValues(position.getRow() + 1, position.getColumn() + 1);
+            while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+                p.setValues(p.getRow() + 1, p.getColumn() + 1);
+            }
+            if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+            }
+            
+            // sw
+            p.setValues(position.getRow() + 1, position.getColumn() - 1);
+            while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+                p.setValues(p.getRow() + 1, p.getColumn() - 1);
+            }
+            if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+                mat[p.getRow()][p.getColumn()] = true;
+            }
+            
+            return mat;
+        }
+    }
+
+Agora, só falta acrescentar o bispo no initialSetup. Assim, podemos testar o programa.
 
 ## Aula 25 - Cavalo:
 
