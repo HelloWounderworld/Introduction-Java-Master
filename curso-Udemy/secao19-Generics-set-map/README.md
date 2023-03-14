@@ -1,8 +1,18 @@
 # Seção 19: Generic, Set, Map:
 
-## Aula 01 - Visão geral do capítulo Generics, Set, Map:
+## Aula 01 - Visão geral do capítulo Generics, Set, Map e Aula 02 - Material de apoio do capítulo:
+MATERIAL DE APOIO DO CAPÍTULO
 
-## Aula 02 - Material de apoio do capítulo:
+Seja muito bem-vindo(a) ao capítulo Generics, Set, Map!
+
+Aqui você pode baixar o material de apoio usado nas aulas do capítulo, para que você possa aproveitar ao máximo as aulas sem precisar ficar anotando muito.
+
+Grande abraço e bons estudos! Nelio.
+
+Recursos para esta aula
+
+    13-generics-set-map(espaco-para-anotacoes).pdf
+    13-generics-set-map.pdf
 
 ## Aula 03 - Introdução aos Generics:
 

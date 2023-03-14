@@ -517,6 +517,28 @@ Feito a tal implementação, agora, na classe RentalService.java só vamos preci
 Agora, no caso, o que vai acontecer é que na aplicação Program.java, onde está RentalService rentalService = new RentalService(pricePerHour, pricePerDay, new BrazilTaxService()); mudarmos para USATaxService, por exemplo, só será necessário isso, visto que a nova regra de negócio foi implementada para TaxService tbm.
 
 ## Aula 07 - Inversão de controle e injeção de dependência:
+Seguir o link para leitura
+
+    https://www.devmedia.com.br/inversao-de-controle-x-injecao-de-dependencia/18763
+    http://www.linhadecodigo.com.br/artigo/3418/inversao-de-controle-ioc-e-injecao-de-dependencia-di-diferencas.aspx
+    https://gabrieluizramos.com.br/inversao-de-controle
+    https://www.freecodecamp.org/portuguese/news/uma-rapida-introducao-a-injecao-de-dependencias-o-que-e-e-quando-usa-la/#:~:text=Em%20Java%2C%20antes%20de%20poder,chamado%20de%20inje%C3%A7%C3%A3o%20de%20depend%C3%AAncia.
+
+- Inversão de controle
+
+    Padrão de desenvolvimento que consiste em retirar da classe a responsabilidade de instanciar suas dependências.
+
+- Injeção de dependências
+
+    É uma forma de realizar a inversão de controle: um componente externo instancia a dependência, que é então injetada no objeto "pai". Pode ser implementada de várias formas:
+
+    - Construtor
+
+    - Classedeinstanciação(builder/factory)
+
+    - Container/framework
+
+No arquivo Program.java, onde temos RentalService rentalService = new RentalService(pricePerHour, pricePerDay, new BrazilTaxService());, na parte onde temos "new BrazilTaxService()" foi feito uma injeção de dependência. No caso, em vez de "new BrazilTaxService()" coloquemos o "new USATaxService()" isso não irá afetar o RentalService contanto que o USATaxService esteja implementado o TaxService. Ou seja, o TaxService, essa interface ela está cumprindo um papel de camaleão, no sentido de ir se adequando conforme a regra de negócio que é necessário.
 
 ## Aula 08 - Exercício de fixação:
 
@@ -525,6 +547,27 @@ Agora, no caso, o que vai acontecer é que na aplicação Program.java, onde est
 ## Aula 10 - Correção do exercício de fixação PARTE 2:
 
 ## Aula 11 - Herdar vs. cumprir contrato:
+Seguir link para leitura
+
+    https://medium.com/@danielchristofolli/heran%C3%A7a-polimorfismo-e-interfaces-java-4d2728b58924
+
+Seguir o link do repositorio do professor
+
+    https://github.com/acenelio/interfaces2-java
+
+Aspectos em comum entre herança e interfaces
+
+- Relação é-um
+
+- Generalização/especialização
+
+- Polimorfismo
+
+Diferença fundamental
+
+- Herança => reuso
+
+- Interface => contrato a ser cumprido
 
 ## Aula 12 - Herança múltipla e o problema do diamante:
 

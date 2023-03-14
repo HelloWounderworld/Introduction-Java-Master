@@ -1,8 +1,18 @@
-# Seção 25: Interface Gráfica com JavaFX:
+# Seção 25: Interface Gráfica com JavaFX - Seção Opcional.
 
-## Aula 01 - Visão geral do capítulo:
+## Aula 01 - Visão geral do capítulo e Aula 02 - Material de apoio do capítulo:
+MATERIAL DE APOIO DO CAPÍTULO
 
-## Aula 02 - Material de apoio do capítulo:
+Seja muito bem-vindo(a) ao capítulo Interface gráfica com JavaFX!
+
+Aqui você pode baixar o material de apoio usado nas aulas do capítulo, para que você possa aproveitar ao máximo as aulas sem precisar ficar anotando muito.
+
+Grande abraço e bons estudos! Nelio.
+
+Recursos para esta aula
+
+    parte1-introducao-javafx.pdf
+    parte2-projeto-javafx-jdbc.pdf
 
 ## Aula 03 - Visão Geral do JavaFX:
 

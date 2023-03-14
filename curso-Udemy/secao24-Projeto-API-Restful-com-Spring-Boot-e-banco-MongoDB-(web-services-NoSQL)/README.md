@@ -1,8 +1,18 @@
 # Seção 24: Projeto: API Restful com Spring Boot e banco MongoDB (web services + NoSQL):
 
-## Aula 01 - Visão geral do capítulo Projeto MongoDB com Spring Boot:
+## Aula 01 - Visão geral do capítulo Projeto MongoDB com Spring Boot e Aula 02 - Material de apoio do capítulo:
+MATERIAL DE APOIO DO CAPÍTULO
 
-## Aula 02 - Material de apoio do capítulo:
+Seja muito bem-vindo(a) ao capítulo Projeto MongoDB com Spring Boot!
+
+Aqui você pode baixar o material de apoio usado nas aulas do capítulo, para que você possa aproveitar ao máximo as aulas sem precisar ficar anotando muito.
+
+Grande abraço e bons estudos! Nelio.
+
+Recursos para esta aula
+
+    16-mongodb-spring-boot.pdf
+    slides-aula-nosql-mongodb.pdf
 
 ## Aula 03 - Instalação do STS e Postman:
 

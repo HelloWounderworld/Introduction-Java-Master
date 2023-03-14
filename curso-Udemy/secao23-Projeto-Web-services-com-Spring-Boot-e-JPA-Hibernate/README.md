@@ -1,10 +1,17 @@
 # Seção 23: Projeto: Web services com Spring Boot e JPA / Hibernate:
 
-## Aula 01 - Visão geral do capítulo:
+## Aula 01 - Visão geral do capítulo, Aula 02 - AVISO: sobre projeto atualizado e Aula 03 - Material de apoio do capítulo:
+MATERIAL DE APOIO DO CAPÍTULO
 
-## Aula 02 - AVISO: sobre projeto atualizado:
+Seja muito bem-vindo(a) ao capítulo Projeto: Web services com Spring Boot e JPA / Hibernate!
 
-## Aula 03 - Material de apoio do capítulo:
+Aqui você pode baixar o material de apoio usado nas aulas do capítulo, para que você possa aproveitar ao máximo as aulas sem precisar ficar anotando muito.
+
+Grande abraço e bons estudos! Nelio.
+
+Recursos para esta aula
+
+    web-services-Spring-Boot-JPA-Hibernate.pdf
 
 ## Aula 04 - Criação do projeto:
 
