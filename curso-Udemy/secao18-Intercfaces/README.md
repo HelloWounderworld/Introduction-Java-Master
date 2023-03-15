@@ -942,3 +942,48 @@ Agora, basta rodar o programa para verificar se vai funcionar.
 Se quisermos comparar por salário, em vez de nome, bastaria mudar o "name.compareTo(other.getName())" para "salary.compareTo(other.getSalary())". E se quisermos inverter a ordem bastaria colocar um "-" na frente do "name.compareTo(other.getName())".
 
 ## Aula 14 - Default methods:
+Seguir link para leitura
+
+    https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html#:~:text=Default%20methods%20enable%20you%20to%20add%20new%20functionality%20to%20existing,as%20parameters%20to%20existing%20interfaces.
+    https://www.baeldung.com/java-static-default-methods#:~:text=Like%20regular%20interface%20methods%2C%20default,and%20they%20provide%20an%20implementation.
+    https://www.devmedia.com.br/introducao-aos-default-methods-do-java-8/36876
+    https://www.geeksforgeeks.org/default-methods-java/
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/interfaces5-java
+
+Default methods(defender methods)
+
+- A partir do Java 8, interfaces podem conter métodos concretos.
+
+- A intenção básica é prover implementação padrão para métodos, de modo a evitar:
+    -  1) repetição de implementação em toda classe que implemente a interface
+    -  2) a necessidade de se criar classes abstratas para prover reuso da implementação 
+
+- Outras vantagens:
+    -  Manter a retrocompatibilidadecom sistemas existentes
+    -  Permitir que "interfaces funcionais" (que devem conter apenas um método) possam prover outras operações padrão reutilizáveis
+
+Problema exemplo
+
+Fazer um programa para ler uma quantia e a duração em meses de um empréstimo. Informar o valor a ser pago depois de decorrido o prazodo empréstimo, conforme regras de juros do Brasil. A regra de cálculo de juros do Brasil é juro composto padrão de 2% ao mês.
+
+Example
+
+    Quantia: 200.00
+    Meses: 3
+    Pagamento apos 3 meses:
+    212.24
+
+
+Considerações importantes
+
+- Sim: agora as interfaces podem prover reuso
+
+- Sim: agora temos uma forma de herança múltipla
+    - Mas o compilador reclama se houver mais de um método com a mesma assinatura, obrigando a sobrescreve-lo
+
+- Interfaces ainda são bem diferentes de classes abstratas. Interfaces não possuem recursos tais como construtores e atributos.
+
+Reassistir essa aula, pois acabei vendo quando estava meio grogue.
