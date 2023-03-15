@@ -541,10 +541,53 @@ Seguir o link para leitura
 No arquivo Program.java, onde temos RentalService rentalService = new RentalService(pricePerHour, pricePerDay, new BrazilTaxService());, na parte onde temos "new BrazilTaxService()" foi feito uma injeção de dependência. No caso, em vez de "new BrazilTaxService()" coloquemos o "new USATaxService()" isso não irá afetar o RentalService contanto que o USATaxService esteja implementado o TaxService. Ou seja, o TaxService, essa interface ela está cumprindo um papel de camaleão, no sentido de ir se adequando conforme a regra de negócio que é necessário.
 
 ## Aula 08 - Exercício de fixação:
+Seguir o enunciado
 
-## Aula 09 - Correção do exercício de fixação PARTE 1:
+    Uma empresa deseja automatizar o processamento de seus contratos. Oprocessamento de umcontratoconsisteemgerarasparcelasaserempagasparaaquelecontrato,combasenonúmerodemesesdesejado.
 
-## Aula 10 - Correção do exercício de fixação PARTE 2:
+    A empresa utiliza um serviço de pagamento online para realizar o pagamento das parcelas.Osserviçosdepagamentoonlinetipicamentecobramum juromensal,bem comoumataxapor pagamento.Porenquanto, o serviço contratado pela empresa éo do Paypal,que aplicajurossimplesde1%acadaparcela,maisumataxadepagamentode2%.
+
+    Fazerumprogramaparalerosdadosdeumcontrato(númerodocontrato,datadocontrato,e valor total do contrato). Em seguida, o programa deve ler o número de meses paraparcelamentodo contrato, edaí gerar osregistrosdeparcelasa serempagas(data evalor),sendoaprimeiraparcelaaserpagaummêsapósadatadocontrato,asegundaparceladoismesesapósocontratoeassimpordiante.Mostrarosdadosdasparcelasnatela.
+
+Example
+
+    Entre os dados do contrato:
+    Numero: 8028
+    Data (dd/MM/yyyy): 25/06/2018
+    Valor do contrato: 600.00
+    Entre com o numero de parcelas: 3
+    Parcelas:
+    25/07/2018 - 206.04
+    25/08/2018 - 208.08
+    25/09/2018 - 210.12
+
+Cálculos (1% juro simples mensal + 2% taxa de pagamento):
+
+- Parcela #1: 
+
+    200 + 1% * 1 = 202 
+    202 + 2% = 206.04
+
+- Parcela #2: 
+
+    200 + 1% * 2 = 204 
+    204 + 2% = 208.08
+
+- Parcela #3: 
+
+    200 + 1% * 3 = 206 
+    206 + 2% = 210.12
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/interfaces4-java
+
+Bom, realizar esse exercício na revisão e comparar com a resolução do professor!
+    
+## Aula 09 e 10 - Correção do exercício de fixação PARTE 1 e 2:
+Não irei tomar notas dessa aula, pois é melhor eu praticar bem o conceito para resolver esse problema!
+
+Tomar notas da correção sem mesmo ter aprendido bem os conceitos, acaba que o conteúdo se consolide de forma raza na cabeça!
 
 ## Aula 11 - Herdar vs. cumprir contrato:
 Seguir link para leitura
@@ -569,8 +612,333 @@ Diferença fundamental
 
 - Interface => contrato a ser cumprido
 
+Vamos criar um novo projeto, onde vamos mostrar como se realiza a combinação de herança e interface. No caso, o nome do projeto se chamará combination_inheritance_interface e dentro desse projeto vamos arquitetá-las das seguinte forma
+
+- Diretório application
+    - Program.java
+
+- Diretório model.entities
+    - Classe AbstractShape.java
+
+    - Classe Circle.java
+
+    - Classe Rectangle.java
+
+    - Classe Shape.java
+
+- Diretório model.enums
+    - Enumeração Color.java
+
 ## Aula 12 - Herança múltipla e o problema do diamante:
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/interfaces3-java
+
+Seguir os links de leitura
+
+    https://pt.wikipedia.org/wiki/Heran%C3%A7a_m%C3%BAltipla#:~:text=Heran%C3%A7a%20m%C3%BAltipla%2C%20em%20orienta%C3%A7%C3%A3o%20a,uma%20classe%20implemente%20v%C3%A1rias%20interfaces.
+    https://www.javatpoint.com/what-is-diamond-problem-in-java#:~:text=What%20Java%20does%20not%20allow,is%20not%20allowed%20in%20Java.
+    https://pt.stackoverflow.com/questions/233728/heran%C3%A7a-m%C3%BAltipla-e-problema-do-diamante
+    https://www.alura.com.br/apostila-python-orientacao-a-objetos/heranca-multipla-e-interfaces
+
+Bom, vamos criar um novo projeto que retrata exatamente o problema do diamante que é derivado do conceito de múltiplas heranças. No caso, o novo projeto se chamará inheritance_diamond_problem. Dentro desse projeto vamos criar a seguinte arquitetura
+
+- Diretório application
+    - Program.java
+
+- Diretório devices
+    - Classe ComboDevice.java
+
+    - Classe ConcretePrinter.java
+
+    - Classe ConcreteScanner.java
+
+    - Classe Device.java
+
+    - Classe Printer.java
+
+    - Classe Scanner.java
 
 ## Aula 13 - Interface Comparable:
+Seguir o link de leitura
+
+    https://docs.oracle.com/javase/10/docs/api/java/lang/Comparable.html
+    https://www.arquitecturajava.com/java-comparable-interface-y-ordenaciones/
+    https://leandersonandre.medium.com/interface-comparable-como-comparar-objetos-na-linguagem-de-programa%C3%A7%C3%A3o-java-d08deb842cc9
+
+A sintaxe para usarmos esse interface comparable seria o seguinte
+
+    public interface Comparable<T> {
+        int compareTo (T o);
+    }
+
+Problema motivador
+
+Faça um programa para ler um arquivo contendo nomes de pessoas (um nome por linha), armazenando-os em uma lista. Depois, ordenar os dados dessa lista e mostra-los ordenadamente na tela. Nota: o caminho do arquivo pode ser informado "hardcode".
+
+    Maria Brown
+    Alex Green
+    Bob Grey
+    Anna White
+    Alex Black
+    Eduardo Rose
+    Willian Red
+    Marta Blue
+    Alex Brown
+
+Bom, vamos começar a resolver esse problema!!
+
+No caso, vamos criar um novo projeto chamado interface_comparable_test. Por início, vamos criar apenas o diretório application e dentro dela o arquivo Program.java e vamos colocar o seguinte
+
+    package application;
+
+    import java.io.BufferedReader;
+    import java.io.FileReader;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+
+    public class Program {
+        public static void main(String[] args) {
+            
+            List<String> list = new ArrayList<>();
+            String path = "C:\\temp\\in.txt";
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+                
+                String name = br.readLine();
+                while (name != null) {
+                    list.add(name);
+                    name = br.readLine();
+                }
+                Collections.sort(list);
+                for (String s : list) {
+                    System.out.println(s);
+                }
+                
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+No arquivo in.txt vamos colocar a lista de nome do enunciado do problema.
+
+Agora, vamos rodar o programa para verificarmos se está tudo funcionando corretamente.
+
+Bom, até aqui foi usado um exemplo do não uso do interface comparable.
+
+Agora, vamos ver o outro problema seguinte
+
+Outro problema
+
+Faça um programa para ler um arquivo contendo funcionários (nome e salário) no formato.csv, armazenando-os em uma lista. Depois, ordenar a lista por nome e mostrar o resultado na tela.
+
+Nota: o caminho do arquivo pode ser informado "hardcode".
+
+    Maria Brown,4300.00
+    Alex Green,3100.00
+    Bob Grey,3100.00
+    Anna White,3500.00
+    Alex Black,2450.00
+    Eduardo Rose,4390.00
+    Willian Red,2900.00
+    Marta Blue,6100.00
+    Alex Brown,5000.00
+
+Agora, vamos usar o interface comparable para resolvermos esse problema acima, pois, desta vez, não temos  somente o nome, mas temos um outro valor tbm.
+
+No caso, no mesmo projeto, vamos criar, agora, uma classe Employee dentro do diretório entities. Daí, nessa classe coloquemos o seguinte
+
+    package entities;
+
+    public class Employee {
+
+        private String name;
+        private Double salary;
+        
+        public Employee(String name, Double salary) {
+            this.name = name;
+            this.salary = salary;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getSalary() {
+            return salary;
+        }
+
+        public void setSalary(Double salary) {
+            this.salary = salary;
+        }
+        
+    }
+
+Agora, no arquivo Program.java vamos realizar os seguintes ajustes
+
+    package application;
+
+    import java.io.BufferedReader;
+    import java.io.FileReader;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+
+    import entities.Employee;
+
+    public class Program {
+        public static void main(String[] args) {
+            
+            List<Employee> list = new ArrayList<>();
+            String path = "C:\\temp\\in.txt";
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+                
+                String employeeCsv = br.readLine();
+                while (employeeCsv != null) {
+                    String[] fields = employeeCsv.split(",");
+                    list.add(new Employee(fields[0], Double.parseDouble(fields[1])));
+                    employeeCsv = br.readLine();
+                }
+                Collections.sort(list);
+                for (String s : list) {
+                    System.out.println(s);
+                }
+                
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+Note que, a alteração acima está exibindo um erro no método sort que está sendo aplicado. No caso, isso é um indicativo de que vc terá que usar necessariamente o interface comparable para a classe Employee.
+
+Assim, na classe Employee coloquemos o seguinte
+
+    package entities;
+
+    public class Employee implements Comparable<Employee> {
+
+        private String name;
+        private Double salary;
+        
+        public Employee(String name, Double salary) {
+            this.name = name;
+            this.salary = salary;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getSalary() {
+            return salary;
+        }
+
+        public void setSalary(Double salary) {
+            this.salary = salary;
+        }
+
+        @Override
+        public int compareTo(Employee o) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+        
+    }
+
+Note que, nesse processo foi criado um override compareTo que serve para comparar um objeto com outro.
+
+Agora, vamos usar essa ferramenta para a finalidade que precisamos. No caso, no compareTo, vamos definir o que vamos querer comparar entre dois funcionários
+
+    package entities;
+
+    public class Employee implements Comparable<Employee> {
+
+        private String name;
+        private Double salary;
+        
+        public Employee(String name, Double salary) {
+            this.name = name;
+            this.salary = salary;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getSalary() {
+            return salary;
+        }
+
+        public void setSalary(Double salary) {
+            this.salary = salary;
+        }
+
+        @Override
+        public int compareTo(Employee other) {
+            // TODO Auto-generated method stub
+            return name.compareTo(other.getName());
+        }
+        
+    }
+
+Feito isso, note que, no Program.java não está sendo mais exibido o erro do método sort. Assim, só falta realizarmos a seguinte implementação
+
+    package application;
+
+    import java.io.BufferedReader;
+    import java.io.FileReader;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+
+    import entities.Employee;
+
+    public class Program {
+        public static void main(String[] args) {
+            
+            List<Employee> list = new ArrayList<>();
+            String path = "C:\\temp\\in.txt";
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+                
+                String employeeCsv = br.readLine();
+                while (employeeCsv != null) {
+                    String[] fields = employeeCsv.split(",");
+                    list.add(new Employee(fields[0], Double.parseDouble(fields[1])));
+                    employeeCsv = br.readLine();
+                }
+                Collections.sort(list);
+                for (Employee emp : list) {
+                    System.out.println(emp.getName() + ", " +emp.getSalary());
+                }
+                
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+Agora, basta rodar o programa para verificar se vai funcionar.
+
+Se quisermos comparar por salário, em vez de nome, bastaria mudar o "name.compareTo(other.getName())" para "salary.compareTo(other.getSalary())". E se quisermos inverter a ordem bastaria colocar um "-" na frente do "name.compareTo(other.getName())".
 
 ## Aula 14 - Default methods:
