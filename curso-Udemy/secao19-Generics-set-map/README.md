@@ -538,8 +538,207 @@ Dentro do Program.java, desse projeto, coloquemos o seguinte
 Bom, o conceito acima se torna trivial de se entender, pois é teoria de conjuntos básicos.
 
 ## Aula 09 - Como Set testa igualdade:
+Como as coleções Hash testam igualdade?
+
+- Se hashCode e equals estiverem implementados:
+    - Primeiro hashCode. Se der igual, usa equals para confirmar.
+
+    - Lembre-se: String, Integer, Double, etc. já possuem equals e hashCode
+
+- Se hashCode e equals NÃO estiverem implementados:
+    - Compara as referências (ponteiros) dos objetos.
+
+Vamos criar um novo projeto disso com o nome test_set_equals_hash e dentro dela vamos criar dois diretórios, application e entities. Assim, em application vc coloca o Program.java e em entities vc cria a classe Product.java.
+
+Daí, na classe Product.java, vamos colocar o seguinte
+
+    package entities;
+
+    public class Product {
+        
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+    }
+
+E em Program.java, vamos colocar o seguinte
+
+    package application;
+
+    import java.util.HashSet;
+    import java.util.Set;
+
+    import entities.Product;
+
+    public class Program {
+        public static void main(String[] args) {
+            
+            Set<Product> set = new HashSet<>();
+            
+            set.add(new Product("TV", 900.0));
+            set.add(new Product("Notebook", 1200.0));
+            set.add(new Product("Tablet", 400.0));
+            
+            Product prod = new Product("Notebook", 1200.0);
+            
+            System.out.println(set.contains(prod));
+        }
+    }
+
+Bom, no teste acima, ele retornará false, pois o que acontece é que, por conta da classe Product.java não ter nenhum comparativo Hash nela, a conferência da relação de pertinência está sendo feita por referência/setas, em vez do valor em si. Ou seja, como as referências dos dois objetos, mesmo que o valor "Notebook" e "1200.0" sejam iguais, são diferentes, então isso foi interpretado como falso.
+
+Bom, para que isso seja evitado, precisaríamos implementar o hashcode dentro da classe Product.java da seguinte forma
+
+    package entities;
+
+    import java.util.Objects;
+
+    public class Product {
+        
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, price);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Product other = (Product) obj;
+            return Objects.equals(name, other.name) && Objects.equals(price, other.price);
+        }
+        
+    }
+
+Bom, feito isso e rodando o código, será retornado true!
 
 ## Aula 10 - Como TreeSet compara os elementos:
+Recordando as implementações
+
+- Principais implementações: 
+    - HashSet - mais rápido (operações O(1) em tabela hash) e não ordenado
+
+    - TreeSet - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
+
+    - LinkedHashSet - velocidade intermediária e elementos na ordem em que são adicionados
+
+Vamos criar um novo projeto com o nome de test_treeset_hashcode, daí vamos criar dois diretórios, application e entities, donde colocamos Program.java e criamos a classe Product.java, respectivamente.
+
+Note que, se mantermos o código da classe Product como está no outro projeto acima e fizermos o seguinte no arquivo Program.java
+
+    package application;
+
+    import java.util.Set;
+    import java.util.TreeSet;
+    import entities.Product;
+
+    public class Program {
+        public static void main(String[] args) {
+            
+            Set<Product> set = new TreeSet<>();
+            
+            set.add(new Product("TV", 900.0));
+            set.add(new Product("Notebook", 1200.0));
+            set.add(new Product("Tablet", 400.0));
+            
+            for (Product p : set) {
+                System.out.println(p);
+            }
+        }
+    }
+
+Vamos ver que ao rodarmos isso será retornado um problema no console, pedindo para implementar o comparable na classe Product.
+
+Logo, no arquivo Product.java, vamos precisar realizar oseguinte
+
+    package entities;
+
+    public class Product implements Comparable<Product> {
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+        
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        // (... get / set / hashCode / equals)
+        @Override
+        public String toString() {
+            return "Product [name=" + name + ", price=" + price + "]";
+        }
+
+        @Override
+        public int compareTo(Product other) {
+            return name.toUpperCase().compareTo(other.getName().toUpperCase());
+        }
+    }
+
+Ou seja, impelementamos o Comparable<Product> e isso nos possibilita realizarmos a ordenação.
 
 ## Aula 11 - Exercício resolvido (Set):
 
