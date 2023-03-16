@@ -379,6 +379,163 @@ Para deixarmos mais claro o ponto de cima, vamos realizar o seguinte em Program.
 A comparação, System.out.println(s1 == s2);, retornará "true", pois aqui, no caso, essa comparação é algo especial, pois colocamos diretamente o valor. Daria falso se tivessemos forçado da seguinte forma String s1 = new String("Teste"); para s2 tbm. Aí sim, a comparação usando o operador "==", se tornará por referência.
 
 ## Aula 08 - Set:
+Seguir o link para leitura
+
+    https://www.geeksforgeeks.org/set-in-java/
+    https://docs.oracle.com/javase/10/docs/api/java/util/Set.html
+
+Bom, o set é literalmente a definição de conjunto que é visto em matemática.
+
+Set<T>
+
+- Representa um conjunto de elementos (similar ao da Álgebra)
+    - Não admite repetições
+
+    - Elementos não possuem posição
+
+    - Acesso, inserção e remoção de elementos são rápidos
+
+    - Oferece operações eficientes de conjunto: interseção, união, diferença.
+
+    - Principais implementações: 
+        - HashSet - mais rápido (operações O(1) em tabela hash) e não ordenado
+
+        - TreeSet - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
+
+        - LinkedHashSet - velocidade intermediária e elementos na ordem em que são adicionados
+
+Alguns métodos importantes
+- add(obj), remove(obj), contains(obj)
+    - Baseado em equals e hashCode
+
+    - Se equals e hashCode não existir, é usada comparação de ponteiros
+
+- clear()
+
+- size()
+
+- removeIf(predicate)
+
+- addAll(other) - união: adiciona no conjunto os elementos do outro conjunto, sem repetição
+
+- retainAll(other) - interseção: remove do conjunto os elementos não contitos em other
+
+- removeAll(other) - diferença: remove do conjunto os elementos contidos em other
+
+Vamos criar um projeto novo, test_set_method. Dentro dela colocamos o diretório application com o arquivo Program.java.
+
+No arquivo, Program.java coloquemos o seguinte
+
+    package application;
+
+    import java.util.HashSet;
+    import java.util.Set;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+            Set<String> set = new HashSet<>();
+            
+            set.add("TV");
+            set.add("Notebook");
+            set.add("Tablet");
+            
+            System.out.println(set.contains("Notebook"));
+            
+            for (String p : set) {
+                System.out.println(p);
+            }
+        }
+    }
+
+Bom, o código acima nos mostra que podemos verificar se algum elemento pertence ou não ao conjunto e, tbm, mostra que podemos iterar o conjunto como uma lista. No caso, a única desvantagem do HashSet, seria que ele não irá te garantir a ordem. Bom, isso é óbvio, visto que na definição de conjuntos, vc só tem os elementos nele e a relação de ordem é algo independente. No caso, tem teoria dos conjuntos, Thomas Jech, isso fica claro, que tudo na matemática que tenha alguma relação pode ser descrito como função, mas para podermos escrever uma função precisa-se de conjunto, visto que uma função é uma relação.
+
+Entretanto, se quisermos colocar uma ordem dentro desse conjunto, em vez de usarmos o HashSet, podemos usar o TreeSet, pois assim, podemos estabelecer uma ordem dentro desse conjunto
+
+    package application;
+
+    import java.util.Set;
+    import java.util.TreeSet;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+    //		Set<String> set = new HashSet<>();
+            Set<String> set = new TreeSet<>();
+            
+            set.add("TV");
+            set.add("Notebook");
+            set.add("Tablet");
+            
+            System.out.println(set.contains("Notebook"));
+            
+            for (String p : set) {
+                System.out.println(p);
+            }
+        }
+    }
+
+Se quisermos manter tbm a ordem em que os elementos foram inseridos, da mesma lógica de definirmos uma sequência em ordem de indexação, podemos usar o LinkedHashSet
+
+    package application;
+
+    import java.util.LinkedHashSet;
+    import java.util.Set;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+    //		Set<String> set = new HashSet<>();
+    //		Set<String> set = new TreeSet<>();
+            Set<String> set = new LinkedHashSet<>();
+            
+            set.add("TV");
+            set.add("Notebook");
+            set.add("Tablet");
+            
+            System.out.println(set.contains("Notebook"));
+            
+            for (String p : set) {
+                System.out.println(p);
+            }
+        }
+    }
+
+Agora, vamos mostrar outras funcionalidades boas do set. Para isso, vamos criar um novo projeto test_set_method_demo2. Criamos dentro dela os diretórios application com o arquivo Program.java.
+
+Dentro do Program.java, desse projeto, coloquemos o seguinte
+
+    package application;
+
+    import java.util.Arrays;
+    import java.util.Set;
+    import java.util.TreeSet;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+            Set<Integer> a = new TreeSet<>(Arrays.asList(0, 2, 4, 5, 6, 8, 10));
+            Set<Integer> b = new TreeSet<>(Arrays.asList(5, 6, 7, 8, 9, 10));
+    //union
+            Set<Integer> c = new TreeSet<>(a);
+            c.addAll(b);
+            System.out.println(c);
+    //intersection
+            Set<Integer> d = new TreeSet<>(a);
+            d.retainAll(b);
+            System.out.println(d);
+    //difference
+            Set<Integer> e = new TreeSet<>(a);
+            e.removeAll(b);
+            System.out.println(e);
+        }
+    }
+
+Bom, o conceito acima se torna trivial de se entender, pois é teoria de conjuntos básicos.
 
 ## Aula 09 - Como Set testa igualdade:
 
