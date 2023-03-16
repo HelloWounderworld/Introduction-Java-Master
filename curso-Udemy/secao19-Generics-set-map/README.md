@@ -741,9 +741,285 @@ Logo, no arquivo Product.java, vamos precisar realizar oseguinte
 Ou seja, impelementamos o Comparable<Product> e isso nos possibilita realizarmos a ordenação.
 
 ## Aula 11 - Exercício resolvido (Set):
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/set1-java
+
+Agora, vc precisa tentar uma vez para depois comparar com a solução do professor!
+
+Problema exemplo
+
+    Um site de internet registra um log de acessos dos usuários. Um registro de log consiste no nome de usuário (apenas uma palavra) e o instante em que o usuário acessou o site no padrão ISO 8601, separados por espaço, conforme exemplo. Fazer um programa que leia o log de acessos a partir de um arquivo, e daí informe quantos usuários distintos acessaram o site.
+
+Example
+
+- inputfile
+
+    amanda 2018-08-26T20:45:08Z
+    alex86 2018-08-26T21:49:37Z
+    bobbrown 2018-08-27T03:19:13Z
+    amanda 2018-08-27T08:11:00Z
+    jeniffer3 2018-08-27T09:19:24Z
+    alex86 2018-08-27T22:39:52Z
+    amanda 2018-08-28T07:42:19Z
+
+- execution
+
+    Enter file full path: c:\temp\in.txt
+    Total users: 4
 
 ## Aula 12 - Exercício de fixação (Set):
+Seguir o enunciado
+
+    Em um portal de cursos online, cada usuário possui um código único, representado por um número inteiro.
+    
+    Cada instrutor do portal pode ter vários cursos, sendo que um mesmo aluno pode se matricular em quantos cursos quiser. Assim, o número total de alunos de um instrutor não é simplesmente a soma dos alunos de todos os cursos que ele possui, pois pode haver alunos repetidos em mais de um curso.
+    
+    O instrutor Alex possui três cursos A, B e C, e deseja saber seu número total de alunos.
+    
+    Seu programa deve ler os alunos dos cursos A, B e C do instrutor Alex, depois mostrar a quantidade total e alunos dele, conforme exemplo.
+
+Example
+
+    How many students for course A? 3
+    21
+    35
+    22
+    How many students for course B? 2
+    21
+    50
+    How many students for course C? 3
+    42
+    35
+    13
+    Total students: 6
+
+Tenta resolver isso e compara com a resolução do professor
+
+    https://github.com/acenelio/set2-java
 
 ## Aula 13 - Map:
+Seguir o link de leitura
+
+    https://docs.oracle.com/javase/10/docs/api/java/util/Map.htm
+
+Map<K,V>
+
+- É uma coleção de pares chave / valor
+    - Não admite repetições do objeto chave
+
+    - Os elementos são indexados pelo objeto chave (não possuem posição)
+
+    - Acesso, inserção e remoção de elementos são rápidos
+
+- Uso comum: cookies, local storage, qualquer modelo chave-valor
+
+- Principais implementações: 
+    - HashMap - mais rápido (operações O(1) em tabela hash) e não ordenado
+
+    - TreeMap - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
+
+    - LinkedHashMap - velocidade intermediária e elementos na ordem em que são adicionados
+
+Alguns métodos importantes
+- put(key, value), remove(key), containsKey(key), get(key)
+    - Baseado em equals e hashCode
+
+    - Se equals e hashCode não existir, é usada comparação de ponteiros
+
+- clear()
+
+- size()
+
+- keySet() - retorna um Set<K>
+
+- values() - retornaa um Collection<V>
+
+Vamos criar um projeto com o nome test_map1_demo e dentro dela criamos apenas o diretório application com o arquivo Program.java.
+
+Dentro do arquivo Program.java, vamos colocar o seguinte
+
+    package application;
+
+    import java.util.Map;
+    import java.util.TreeMap;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+            // <String, String> indica a chave vai ser um String e o valor um String tbm associado à chave.
+            Map<String, String> cookies = new TreeMap<>();
+            
+            cookies.put("username", "maria");
+            cookies.put("email", "maria@gmail.com");
+            cookies.put("phone", "99771122");
+            
+            System.out.println(cookies);
+            
+            cookies.remove("email");
+            System.out.println(cookies);
+            
+            cookies.put("phone", "99771133");
+            System.out.println(cookies);
+            
+            System.out.println("Contains 'phone' key: " + cookies.containsKey("phone"));
+            System.out.println("Phone number: " + cookies.get("phone"));
+            System.out.println("Email: " + cookies.get("email"));
+            System.out.println("Size: " + cookies.size());
+            
+            System.out.println("ALL COOKIES:");
+            for (String key : cookies.keySet()) {
+                System.out.println(key + ": " + cookies.get(key));
+            }
+        }
+    }
+
+Bom, o exemplo acima retrata a aplicação do map colocando a chave como uma string e o valor associado à ela uma string tbm.
+
+O próximo exemplo, mostra o valor da chave sendo um objeto de uma classe Product e o valor associado um double. Para isso, vamos criar um novo projeto test_map2_demo e detro desse projeto criamos dois diretórios application e entities colocando Program.java e Product.java, respectivamente.
+
+No arquivo Program.java colocamos o seguinte
+
+    package application;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    import entities.Product;
+
+    public class Program {
+        
+        public static void main(String[] args) {
+            
+            Map<Product, Double> stock = new HashMap<>();
+            
+            Product p1 = new Product("Tv", 900.0);
+            Product p2 = new Product("Notebook", 1200.0);
+            Product p3 = new Product("Tablet", 400.0);
+            
+            stock.put(p1, 10000.0);
+            stock.put(p2, 20000.0);
+            stock.put(p3, 15000.0);
+            
+            Product ps = new Product("Tv", 900.0);
+            System.out.println("Contains 'ps' key: " + stock.containsKey(ps));
+        }
+    }
+
+E no arquivo Product.java, coloquemos o seguinte
+
+    package entities;
+
+    public class Product {
+        
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+        
+    }
+
+Aqui está sem o equals e hascode. Ao rodarmos o programa dessa forma, vamos ver que irá retornar um false, pois, novamente, está sendo feito uma comparação por referência/seta, ou seja, dois objetos, por mais que tenha os mesmos valores são vistos como duas referências diferentes dentro da memória. Para isso, será necessário implementar o equals e hash na classe do Product.
+
+    package entities;
+
+    import java.util.Objects;
+
+    public class Product {
+        
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, price);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Product other = (Product) obj;
+            return Objects.equals(name, other.name) && Objects.equals(price, other.price);
+        }
+        
+    }
+
+Agora, rodando o programa, será retornado um true.
 
 ## Aula 14 - Exercício de fixação (Map):
+Seguir o enunciado
+
+    Na contagem de votos de uma eleição, são gerados vários registros de votação contendo o nome do candidato e a quantidade de votos (formato .csv) que ele obteve em uma urna de votação. Você deve fazer um programa para ler os registros de votação a partir de um arquivo, e daí gerar um relatório consolidado com os totais de cada candidato.
+
+Example:
+
+- inputfile
+
+    Alex Blue,15
+    Maria Green,22
+    Bob Brown,21
+    Alex Blue,30
+    Bob Brown,15
+    Maria Green,27
+    Maria Green,22
+    Bob Brown,25
+    Alex Blue,31
+
+- execute
+
+    Enter file full path: c:\temp\in.txt
+    Alex Blue: 76
+    Maria Green: 71
+    Bob Brown: 61
+
+Solução do professor
+
+    https://github.com/acenelio/map1-java
+
+Realiza primeiro o exercício para depois comparar com a resolução do professor.
