@@ -220,6 +220,163 @@ No final das contas, como ficará o código
     }
 
 ## Aula 07 - HashCode e Equals:
+Seguir link para leitura
+
+    https://www.digitalocean.com/community/tutorials/java-equals-hashcode
+    https://blog.algaworks.com/entendendo-o-equals-e-hashcode/
+    https://stackoverflow.com/questions/2265503/why-do-i-need-to-override-the-equals-and-hashcode-methods-in-java#:~:text=Both%20methods%2C%20equals()%20and,such%20object%20as%20a%20key.
+
+hashCode e equals
+- São operações da classe Object utilizadas para comparar se um objeto é igual a outro
+
+- equals: lento, resposta 100%
+
+- hashCode: rápido, porém resposta positiva não é 100%
+
+- Tipos comuns (String, Date, Integer, Double, etc.) já possuem implementação para essas operações. Classes personalizadas precisam sobrepô-las.
+
+Vamos criar um projeto, primeiro, para usar o método equals. No caso, vamos criar um projeto com o nome test_equals_method e dentro dela criamos apenas o diretório application com o arquivo Program.java.
+
+Equals:
+
+Método que compara se o objeto é igual a outro, retornando true ou false. No caso, no arquivo Program.java vamos colocar o seguinte
+
+    String a = "Maria";
+    String b = "Alex";
+
+    System.out.println(a.equals(b));
+ 
+Para o método hashcode vamos criar um projeto test_hashcode_method e dentro dela criar o diretório application com o arquivo Program.java.
+
+HashCode:
+
+Método que retorna um número inteiro representando um código gerado a partir das informações do objeto. No caso, no arquivo Program.java vamos colocar o seguinte código
+
+    String a = "Maria";
+    String b = "Alex";
+
+    System.out.println(a.hashCode());
+    System.out.println(b.hashCode());
+
+Bom, lembre-se que para cada valor diferente que iremos atribuir acima irá gerar um número inteiro maluco diferente. Entretanto, o hashcode tem os seus defeitos tbm. Ou seja, existem casos em que vc tem dois objetos diferentes, mas que irá gerar o mesmo número inteiro, devido à limitação de 32bits, mesmo que a probabilidade disso acontecer seja muito, mas muito, menor, devido À 4 bilhões de possibilidades.
+
+Regra de ouro do HashCode
+
+- Se o hashCode de dois objetos for diferente, então os dois objetos são diferentes.
+
+- Se o código de dois objetos for igual, muito provavelmente os objetos são iguais (pode haver colisão).
+
+Bom, uma boa prática usando hashcode seria combinado com o método equals. Ou seja, vc vai realizando as comparações com o hascode e se, por ventura, os dois valores do hashcode derem iguais, usamos o método equals para, de fato, confirmarmos que é igual. Isso porque o método hashcode ele é um método muito mais rápido do que equals. Em outras palavras, se fizermos a lógica acima usando apenas o equals, o código ficará muito lento.
+
+Por último, vamos criar um HashCode e Equals personalizados. Para isso, vamos criar um outro projeto chamado hashcode_equals_customized. Dentro desse projeto, vamos colocar o diretório application com o arquivo Program.java e vamos criar um diretório entities com a classe Client.java.
+
+Dentro da classe Client.java vamos colocar o seguinte
+
+    package entities;
+
+    import java.util.Objects;
+
+    public class Client {
+        
+        private String name;
+        private String email;
+        
+        public Client(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Client other = (Client) obj;
+            return Objects.equals(name, other.name);
+        }
+        
+    }
+
+Agora, vamos tentar aplicar esse teste na aplicação. Então no Program.java colocamos o seguinte
+
+    package application;
+
+    import entities.Client;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Client c1 = new Client("Maria", "maria@gmail.com");
+            Client c2 = new Client("Alex", "alex@gmail.com");
+            
+            System.out.println(c1.hashCode());
+            System.out.println(c2.hashCode());
+            System.out.println(c1.equals(c2));
+        }
+
+    }
+
+O mesmo vale para o email ou (nome e email). Bastaríamos aproveitar dos recursos do eclipse para gerarmos o hashCode() e equals() para uma ou para ambas.
+
+Obs: Se colocarmos o System.out.println(c1 == c2); retornará um false, mesmo que os valores sejam as mesmas, pois essa comparação não está sendo feito o valor que foi atribuído, mas, sim, da memória que foi atribuída visto que temos dois objetos diferentes que alocará, na memória, dois valores diferentes. Ou seja, está comparando a memória e não o valor.
+
+Bom, o que chegamos a seguinte conclusão
+
+- Se vc quiser comparar os valores vc deverá usar o equals
+
+- Se vc quiser comparar as referências do objeto, então vc usa o "==".
+
+Para deixarmos mais claro o ponto de cima, vamos realizar o seguinte em Program.java
+
+    package application;
+
+    import entities.Client;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Client c1 = new Client("Maria", "maria@gmail.com");
+            Client c2 = new Client("Alex", "alex@gmail.com");
+            
+            String s1 = "Teste";
+            String s2 = "Teste";
+            
+            System.out.println(c1.hashCode());
+            System.out.println(c2.hashCode());
+            System.out.println(c1.equals(c2));
+            System.out.println(c1 == c2);
+            System.out.println(s1 == s2);
+        }
+
+    }
+
+A comparação, System.out.println(s1 == s2);, retornará "true", pois aqui, no caso, essa comparação é algo especial, pois colocamos diretamente o valor. Daria falso se tivessemos forçado da seguinte forma String s1 = new String("Teste"); para s2 tbm. Aí sim, a comparação usando o operador "==", se tornará por referência.
 
 ## Aula 08 - Set:
 
