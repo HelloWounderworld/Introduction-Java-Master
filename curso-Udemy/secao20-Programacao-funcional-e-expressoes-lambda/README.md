@@ -459,8 +459,475 @@ Algumas outras interfaces funcionais comuns
     - Nota: ao contrário das outras interfaces funcionais, no caso do Consumer, é esperado ele possa gerar efeitos colaterais
 
 ## Aula 06 - Predicate:
+A sintaxe para o uso da interface PRedicate é o seguinte
+
+    public interface Predicate<T> {
+        boolean test (T t);
+    }
+
+Problema exemplo
+
+    Fazer um programa que, a partir de uma lista de produtos, remova da lista somente aqueles cujo preço mínimo seja 100.
+
+    List<Product> list = new ArrayList<>();
+    list.add(new Product("Tv", 900.00));
+    list.add(new Product("Mouse", 50.00));
+    list.add(new Product("Tablet", 350.50));
+    list.add(new Product("HD Case", 80.90));
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/lambda2-java
+
+Bom, vamos criar um novo projeto que visa o uso do predicate com o nome test_predicate, donde dentro desse projeto terá application e entities com arquivos Program.java e Product.java, respectivamente.
+
+No arquivo Program.java, vamos colocar o seguinte
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import entities.Product;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            List<Product> list = new ArrayList<>();
+            
+            list.add(new Product("Tv", 900.00));
+            list.add(new Product("Mouse", 50.00));
+            list.add(new Product("Tablet", 350.50));
+            list.add(new Product("HD Case", 80.90));
+        }
+
+    }
+
+Agora, no arquivo Product.java, vamos colocar o seguinte
+
+    package entities;
+
+    public class Product {
+
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+        
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        // (... get / set / hashCode / equals)
+        @Override
+        public String toString() {
+            return "Product [name=" + name + ", price=" + price + "]";
+        }
+    }
+
+Bom, basicamente, o formato acima é o formato padrão que queremos começar a realizar as devidas implementações em cima disso.
+
+No caso, no arquivo Program.java, vamos realizar o seguinte
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Locale;
+
+    import entities.Product;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Locale.setDefault(Locale.US);
+            List<Product> list = new ArrayList<>();
+            
+            list.add(new Product("Tv", 900.00));
+            list.add(new Product("Mouse", 50.00));
+            list.add(new Product("Tablet", 350.50));
+            list.add(new Product("HD Case", 80.90));
+            
+            list.removeIf(p -> p.getPrice() >= 100.0);
+            
+            for (Product p : list) {
+                System.out.println(p);
+            }
+        }
+
+    }
+
+Bom, o formato acima, pelo menos, é o formato que aprendemos anteriormente.
+
+Para o uso do predicate seria da seguinte forma. Vamos ter que criar uma nova classe ProductPredicate dentro do diretório util e dentro dessa classe coloquemos o seguinte
+
+    package util;
+
+    import java.util.function.Predicate;
+
+    import entities.Product;
+
+    public class ProductPredicate implements Predicate<Product> {
+
+        // Método test, conforme foi mostrado na sintaxe
+        @Override
+        public boolean test(Product p) {
+            // TODO Auto-generated method stub
+            return p.getPrice() >= 100.0;
+        }
+
+    }
+
+Dentro do arquivo Program.java, vamos colocar o seguinte
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Locale;
+
+    import entities.Product;
+    import util.ProductPredicate;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Locale.setDefault(Locale.US);
+            List<Product> list = new ArrayList<>();
+            
+            list.add(new Product("Tv", 900.00));
+            list.add(new Product("Mouse", 50.00));
+            list.add(new Product("Tablet", 350.50));
+            list.add(new Product("HD Case", 80.90));
+            
+    //		list.removeIf(p -> p.getPrice() >= 100.0);
+            list.removeIf(new ProductPredicate());
+            
+            for (Product p : list) {
+                System.out.println(p);
+            }
+        }
+
+    }
+
+Bom, ao rodarmos o código acima, vamos ver que tudo estará funcionando conforme queremos que funcione.
+
+Versões:
+
+- Implementação da interface
+    - Foi feito acima
+
+- Reference method com método estático
+    - No caso, na classe Product vamos ter que realizar o seguinte
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return "Product [name=" + name + ", price=" + price + "]";
+            }
+        }
+
+    Feito o código acima, vamos colocar o seguinte em Program.java, para usarmos esse método
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+        import util.ProductPredicate;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		list.removeIf(p -> p.getPrice() >= 100.0);
+        //		list.removeIf(new ProductPredicate());
+                
+                // Reference method com método estático
+                list.removeIf(Product::staticProductPredicate);
+                
+                for (Product p : list) {
+                    System.out.println(p);
+                }
+            }
+
+        }
+
+    Testando o código, veremos que ela retornará o que era preciso.
+
+- Reference method com método não estático
+    - No caso, na classe Product vamos realizar o seguinte
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            // Reference method com método estático
+            // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+            
+            // Reference method com método não estático
+            // Como não é estático, então não precisa passar o produto como argumento.
+            // Ele trabalha com o próprio Objeto onde ele se encontra
+            public boolean nonStaticProductPredicate() {
+                return price >= 100.0;
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return name + ", " + price;
+            }
+        }
+
+    Agora, no arquivo Program.java, vamos realizar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+        import util.ProductPredicate;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		list.removeIf(p -> p.getPrice() >= 100.0);
+        //		list.removeIf(new ProductPredicate());
+                
+                // Reference method com método estático
+        //		list.removeIf(Product::staticProductPredicate);
+                
+                // Reference method com método não estático
+                list.removeIf(Product::nonStaticProductPredicate);
+                
+                for (Product p : list) {
+                    System.out.println(p);
+                }
+            }
+
+        }
+
+    Assim, tudo estará funcionando da mesma forma como queríamos que funcionasse.
+
+- Expressão lambda declarada
+    - Bom, agora, vai ficar mais interessante. No caso, vamos deixar o código bem mais enxuto. No caso, em Program.java, vamos criar uma variável da seguinte forma
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Predicate;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		list.removeIf(p -> p.getPrice() >= 100.0);
+        //		list.removeIf(new ProductPredicate());
+                
+                // Reference method com método estático
+        //		list.removeIf(Product::staticProductPredicate);
+                
+                // Reference method com método não estático
+        //		list.removeIf(Product::nonStaticProductPredicate);
+                
+                // Expressão lambda declarada
+                Predicate<Product> pred = p -> p.getPrice() >= 100.0;
+                list.removeIf(pred);
+                
+                for (Product p : list) {
+                    System.out.println(p);
+                }
+            }
+
+        }
+
+    Ao rodarmos o código, vemos que foi devolvido a mesma forma que queremos.
+
+- Expressão lambda inline
+    - Bom, é a forma em que vc passa diretamente o arrow function sem realizar nenhuma declaração. No caso, em Program.java vamos realizar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Predicate;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		list.removeIf(p -> p.getPrice() >= 100.0);
+        //		list.removeIf(new ProductPredicate());
+                
+                // Reference method com método estático
+        //		list.removeIf(Product::staticProductPredicate);
+                
+                // Reference method com método não estático
+        //		list.removeIf(Product::nonStaticProductPredicate);
+                
+                // Expressão lambda declarada
+                // Forma parametrizada
+        //		double min = 100.0;
+        //		Predicate<Product> pred = p -> p.getPrice() >= min;
+        //		list.removeIf(pred);
+                
+                // Expressão lambda inline
+                double min = 100.0;
+                list.removeIf(p -> p.getPrice() >= min);
+                
+                for (Product p : list) {
+                    System.out.println(p);
+                }
+            }
+
+        }
 
 ## Aula 07 - Consumer:
+Bom, a abordagem desse conceito será feito analogamente com a aula antecessor.
+
+A sintaxe do consumer, basicamente, é o seguinte
+
+    public interface Consumer<T> {
+        void accept (T t);
+    }
+
+Vamos criar um novo projeto com o nome test_consumer e dentro dela colocamos dois diretórios, application, entities e util, donde criamos os arquivos Program.java, Product.java e ProductPredicate.java, respectivamente.
+
+Versões:
+
+- Implementação da interface
+    - Bom, para a realização da implementação da interface, vamos fazer o seguinte.
+
+    No arquivo
+
+- Reference method com método estático
+
+- Reference method com método não estático
+
+- Expressão lambda declarada
+
+- Expressão lambda inline
 
 ## Aula 08 - Function:
 
