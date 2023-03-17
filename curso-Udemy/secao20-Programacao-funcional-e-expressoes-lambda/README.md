@@ -912,26 +912,910 @@ A sintaxe do consumer, basicamente, é o seguinte
         void accept (T t);
     }
 
-Vamos criar um novo projeto com o nome test_consumer e dentro dela colocamos dois diretórios, application, entities e util, donde criamos os arquivos Program.java, Product.java e ProductPredicate.java, respectivamente.
+Vamos criar um novo projeto com o nome test_consumer e dentro dela colocamos dois diretórios, application, entities e util, donde criamos os arquivos Program.java, Product.java e PriceUpdate.java, respectivamente.
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/lambda3-java
+
+Na classe Product, vamos colocar o seguinte
+
+    package entities;
+
+    public class Product {
+
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+        
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+        
+        // Reference method com método estático
+        // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+        public static boolean staticProductPredicate(Product p) {
+            return p.getPrice() >= 100.0;
+        }
+        
+        // Reference method com método não estático
+        // Como não é estático, então não precisa passar o produto como argumento.
+        // Ele trabalha com o próprio Objeto onde ele se encontra
+        public boolean nonStaticProductPredicate() {
+            return price >= 100.0;
+        }
+
+        // (... get / set / hashCode / equals)
+        @Override
+        public String toString() {
+            return name + ", " + String.format("%.2f", price);
+        }
+    }
 
 Versões:
 
 - Implementação da interface
     - Bom, para a realização da implementação da interface, vamos fazer o seguinte.
 
-    No arquivo
+    No arquivo Program.java colocamos o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+                list.forEach();
+            }
+
+        }
+
+    Note que, ao usarmos o forEach, foi mostrado que precisamos implementar a interface consumer para o uso do forEach.
+
+    Em seguida, no arquivo PriceUpdate.java, colocamos o seguinte, que será onde vamos adotar o consumer
+
+        package util;
+
+        import java.util.function.Consumer;
+
+        import entities.Product;
+
+        public class PriceUpdate implements Consumer<Product> {
+
+            @Override
+            public void accept(Product t) {
+                // TODO Auto-generated method stub
+                
+            }
+
+        }
+
+    Nela, vamos realizar a seguinte configuração
+
+        package util;
+
+        import java.util.function.Consumer;
+
+        import entities.Product;
+
+        public class PriceUpdate implements Consumer<Product> {
+
+            @Override
+            public void accept(Product p) {
+                // TODO Auto-generated method stub
+                p.setPrice(p.getPrice() * 1.1);
+            }
+
+        }
+
+    Agora, no arquivo Program.java, vamos usar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+        import util.PriceUpdate;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+                list.forEach(new PriceUpdate());
+                
+                list.forEach(System.out::println);
+            }
+
+        }
+
+    Vemos que, agora, está sendo feito a atualização dos produtos.
 
 - Reference method com método estático
+    - Na classe Product, vamos colocar o seguinte
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            // Reference method com método estático
+            // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+            
+            // Reference method com método não estático
+            // Como não é estático, então não precisa passar o produto como argumento.
+            // Ele trabalha com o próprio Objeto onde ele se encontra
+            public boolean nonStaticProductPredicate() {
+                return price >= 100.0;
+            }
+            
+            // Reference method com método estático
+            public static void staticPriceUpdate(Product p) {
+                p.setPrice(p.getPrice() * 1.1);
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return name + ", " + String.format("%.2f", price);
+            }
+        }
+
+    Em seguida, em Program.java, vamos colocar o seguinte, para chamarmos esse método estático que definimos acima
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+        import util.PriceUpdate;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+        //		list.forEach(new PriceUpdate());
+                
+                // Reference method com método estático
+                list.forEach(Product::staticPriceUpdate);
+                
+                list.forEach(System.out::println);
+            }
+
+        }
+
+    Note que, conseguimos atualizar da devida forma.
 
 - Reference method com método não estático
+    - Para esse método não estático, basta realizar o seguinte na classe Product
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            // Reference method com método estático
+            // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+            
+            // Reference method com método não estático
+            // Como não é estático, então não precisa passar o produto como argumento.
+            // Ele trabalha com o próprio Objeto onde ele se encontra
+            public boolean nonStaticProductPredicate() {
+                return price >= 100.0;
+            }
+            
+            // Reference method com método estático
+            public static void staticPriceUpdate(Product p) {
+                p.setPrice(p.getPrice() * 1.1);
+            }
+            
+            // Reference method com método estático
+            public void nonStaticPriceUpdate() {
+        //		setPrice(getPrice() * 1.1);
+                price = price * 1.1;
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return name + ", " + String.format("%.2f", price);
+            }
+        }
+
+    Agora, no Progam.java, vamos colocar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+
+        import entities.Product;
+        import util.PriceUpdate;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+        //		list.forEach(new PriceUpdate());
+                
+                // Reference method com método estático
+        //		list.forEach(Product::staticPriceUpdate);
+                
+                // Reference method com método não estático
+                list.forEach(Product::nonStaticPriceUpdate);
+                
+                list.forEach(System.out::println);
+            }
+
+        }
 
 - Expressão lambda declarada
+    - Analogamente, como foi visto antes em predicates, conseguimos usar o arrow function para tornar o código bem mais enxuto. No caso, em Program.java, vamos realizar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Consumer;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+        //		list.forEach(new PriceUpdate());
+                
+                // Reference method com método estático
+        //		list.forEach(Product::staticPriceUpdate);
+                
+                // Reference method com método não estático
+        //		list.forEach(Product::nonStaticPriceUpdate);
+                
+                double factor = 1.1;
+                Consumer<Product> cons = p -> {
+                    p.setPrice(p.getPrice() * factor);
+                };
+                list.forEach(cons);
+                
+                list.forEach(System.out::println);
+            }
+
+        }
+
+    Podemos ver aqui que funcionou perfeitamente.
 
 - Expressão lambda inline
+    - Vamos deixar bem mais enxuto
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Consumer;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                // Dentro desse forEach que vamos colocar um consumer
+        //		list.forEach(new PriceUpdate());
+                
+                // Reference method com método estático
+        //		list.forEach(Product::staticPriceUpdate);
+                
+                // Reference method com método não estático
+        //		list.forEach(Product::nonStaticPriceUpdate);
+                
+                // Expressão lambda declarada
+                double factor = 1.1;
+        //		Consumer<Product> cons = p -> {
+        //			p.setPrice(p.getPrice() * factor);
+        //		};
+        //		Consumer<Product> cons = p -> p.setPrice(p.getPrice() * factor);
+        //		list.forEach(cons);
+                
+                // Expressão lambda inline
+                list.forEach(p -> p.setPrice(p.getPrice() * factor));
+                
+                list.forEach(System.out::println);
+            }
+
+        }
 
 ## Aula 08 - Function:
+A sintaxe da function é o seguinte
+
+    public interface Function<T, R> {
+        R apply (T t);
+    }
+
+Seguir o link da resolução do professor
+
+    https://github.com/acenelio/lambda4-java
+
+Vamos criar um novo projeto disso denotado como test_function, donde vamos ter os seguintes diretórios application, entities e util, donde coloquemos os arquivos Program.java, Product.java e UpperCaseName.java.
+
+Em Program.java vamos colocar o seguinte
+
+    package application;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Locale;
+
+    import entities.Product;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            Locale.setDefault(Locale.US);
+            List<Product> list = new ArrayList<>();
+            
+            list.add(new Product("Tv", 900.00));
+            list.add(new Product("Mouse", 50.00));
+            list.add(new Product("Tablet", 350.50));
+            list.add(new Product("HD Case", 80.90));
+        }
+
+    }
+
+Em Product.java, vamos colocar o seguinte
+
+    package entities;
+
+    public class Product {
+
+        private String name;
+        private Double price;
+
+        public Product(String name, Double price) {
+            this.name = name;
+            this.price = price;
+        }
+        
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+        
+        // Reference method com método estático
+        // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+        public static boolean staticProductPredicate(Product p) {
+            return p.getPrice() >= 100.0;
+        }
+        
+        // Reference method com método não estático
+        // Como não é estático, então não precisa passar o produto como argumento.
+        // Ele trabalha com o próprio Objeto onde ele se encontra
+        public boolean nonStaticProductPredicate() {
+            return price >= 100.0;
+        }
+        
+        // Reference method com método estático
+        public static void staticPriceUpdate(Product p) {
+            p.setPrice(p.getPrice() * 1.1);
+        }
+        
+        // Reference method com método não estático
+        public void nonStaticPriceUpdate() {
+    //		setPrice(getPrice() * 1.1);
+            price = price * 1.1;
+        }
+
+        // (... get / set / hashCode / equals)
+        @Override
+        public String toString() {
+            return name + ", " + String.format("%.2f", price);
+        }
+    }
+
+Versões:
+
+- Implementação da interface
+    - Vamos implementar de forma normal a function. No caso, na classe UpperCaseName, vamos colocar o seguinte
+
+        package util;
+
+        import java.util.function.Function;
+
+        import entities.Product;
+
+        public class UpperCaseName implements Function<Product, String> {
+
+            @Override
+            public String apply(Product p) {
+                // TODO Auto-generated method stub
+                return p.getName().toUpperCase();
+            }
+
+        }
+
+    Agora, no arquivo Program.java vamos colocar o seguinte para conseguirmos aplicar esse método configurado
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.stream.Collectors;
+
+        import entities.Product;
+        import util.UpperCaseName;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+                List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
+                
+                names.forEach(System.out::println);
+            }
+
+        }
+
+    Vamos ver se está tudo funcionando.
+
+- Reference method com método estático
+    - Na classe Product.java vamos realizar a seguinte implementação
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            // Reference method com método estático
+            // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+            
+            // Reference method com método não estático
+            // Como não é estático, então não precisa passar o produto como argumento.
+            // Ele trabalha com o próprio Objeto onde ele se encontra
+            public boolean nonStaticProductPredicate() {
+                return price >= 100.0;
+            }
+            
+            // Reference method com método estático
+            public static void staticPriceUpdate(Product p) {
+                p.setPrice(p.getPrice() * 1.1);
+            }
+            
+            // Reference method com método não estático
+            public void nonStaticPriceUpdate() {
+        //		setPrice(getPrice() * 1.1);
+                price = price * 1.1;
+            }
+            
+            // Reference method com método estático
+            public static String staticUpperCaseName(Product p) {
+                return p.getName().toUpperCase();
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return name + ", " + String.format("%.2f", price);
+            }
+        }
+
+    Agora, no Program.java, vamos realizar o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.stream.Collectors;
+
+        import entities.Product;
+        import util.UpperCaseName;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
+                
+                // Reference method com método estático
+                List<String> names = list.stream().map(Product::staticUpperCaseName).collect(Collectors.toList());
+                
+                names.forEach(System.out::println);
+            }
+
+        }
+
+- Reference method com método não estático
+    - Analogamente, vamos realizar o seguinte, no arquivo Product.java
+
+        package entities;
+
+        public class Product {
+
+            private String name;
+            private Double price;
+
+            public Product(String name, Double price) {
+                this.name = name;
+                this.price = price;
+            }
+            
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Double getPrice() {
+                return price;
+            }
+
+            public void setPrice(Double price) {
+                this.price = price;
+            }
+            
+            // Reference method com método estático
+            // Lembre-se, método estático trabalha com o produto que vc passa como argumento
+            public static boolean staticProductPredicate(Product p) {
+                return p.getPrice() >= 100.0;
+            }
+            
+            // Reference method com método não estático
+            // Como não é estático, então não precisa passar o produto como argumento.
+            // Ele trabalha com o próprio Objeto onde ele se encontra
+            public boolean nonStaticProductPredicate() {
+                return price >= 100.0;
+            }
+            
+            // Reference method com método estático
+            public static void staticPriceUpdate(Product p) {
+                p.setPrice(p.getPrice() * 1.1);
+            }
+            
+            // Reference method com método não estático
+            public void nonStaticPriceUpdate() {
+        //		setPrice(getPrice() * 1.1);
+                price = price * 1.1;
+            }
+            
+            // Reference method com método estático
+            public static String staticUpperCaseName(Product p) {
+                return p.getName().toUpperCase();
+            }
+            
+            // Reference method com método não estático
+            public String nonStaticUpperCaseName() {
+                return name.toUpperCase();
+            }
+
+            // (... get / set / hashCode / equals)
+            @Override
+            public String toString() {
+                return name + ", " + String.format("%.2f", price);
+            }
+        }
+
+    Agora, no arquivo Program.java, coloquemos o seguinte
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.stream.Collectors;
+
+        import entities.Product;
+        import util.UpperCaseName;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
+                
+                // Reference method com método estático
+        //		List<String> names = list.stream().map(Product::staticUpperCaseName).collect(Collectors.toList());
+                
+                // Reference method com método não estático
+                        List<String> names = list.stream().map(Product::nonStaticUpperCaseName).collect(Collectors.toList());
+                
+                names.forEach(System.out::println);
+            }
+
+        }
+
+- Expressão lambda declarada
+    - Agora, a forma enxuta vamos fazer o seguinte no Program.java
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Function;
+        import java.util.stream.Collectors;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
+                
+                // Reference method com método estático
+        //		List<String> names = list.stream().map(Product::staticUpperCaseName).collect(Collectors.toList());
+                
+                // Reference method com método não estático
+        //		List<String> names = list.stream().map(Product::nonStaticUpperCaseName).collect(Collectors.toList());
+                
+                // Expressão lambda declarada
+                Function<Product, String> func = p -> p.getName().toUpperCase();
+                List<String> names = list.stream().map(func).collect(Collectors.toList());
+                
+                names.forEach(System.out::println);
+            }
+
+        }
+
+- Expressão lambda inline
+    - O Formato mais enxuto possível
+
+        package application;
+
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.function.Function;
+        import java.util.stream.Collectors;
+
+        import entities.Product;
+
+        public class Program {
+
+            public static void main(String[] args) {
+                // TODO Auto-generated method stub
+                Locale.setDefault(Locale.US);
+                List<Product> list = new ArrayList<>();
+                
+                list.add(new Product("Tv", 900.00));
+                list.add(new Product("Mouse", 50.00));
+                list.add(new Product("Tablet", 350.50));
+                list.add(new Product("HD Case", 80.90));
+                
+        //		List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
+                
+                // Reference method com método estático
+        //		List<String> names = list.stream().map(Product::staticUpperCaseName).collect(Collectors.toList());
+                
+                // Reference method com método não estático
+        //		List<String> names = list.stream().map(Product::nonStaticUpperCaseName).collect(Collectors.toList());
+                
+                // Expressão lambda declarada
+        //		Function<Product, String> func = p -> p.getName().toUpperCase();
+        //		List<String> names = list.stream().map(func).collect(Collectors.toList());
+                
+                // Expressão lambda inline
+                List<String> names = list.stream().map(p -> p.getName().toUpperCase()).collect(Collectors.toList());
+                
+                names.forEach(System.out::println);
+            }
+
+        }
 
 ## Aula 09 - Criando funções que recebem funções como parâmetro:
+
 
 ## Aula 10 - Stream:
 
