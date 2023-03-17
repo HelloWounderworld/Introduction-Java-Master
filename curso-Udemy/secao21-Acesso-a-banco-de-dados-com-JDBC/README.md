@@ -1,4 +1,4 @@
-# Seção 21: Acesso a Banco de Dados com JDBC:
+# Seção 21: Acesso a Banco de Dados com JDBC - Opcional, pois terei um curso de PL/SQL - Mas mesmo depois que pegar o certificado assista essa aula!!
 
 ## Aula 01 - Visão geral do capítulo e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
