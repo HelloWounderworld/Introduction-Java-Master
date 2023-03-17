@@ -1959,7 +1959,107 @@ No caso, em Program.java coloquemos o seguinte
 Revisar esse conceito!!! Muito importante!!!
 
 ## Aula 11 - Pipeline (demo):
+Seguir link para leitura
+
+    https://medium.com/@deepakbapat/the-pipeline-design-pattern-in-java-831d9ce2fe21
+    https://java-design-patterns.com/patterns/pipeline/#explanation
+    https://stackify.com/streams-guide-java-8/#:~:text=A%20stream%20pipeline%20consists%20of,operations%2C%20and%20a%20terminal%20operation.
+
+Vamos criar um novo projeto para testarmos o pipeline. Denotamos o projeto com o seguinte nome test_pipeline com application e Program.java.
+
+Em Program.java, vamos colocar o seguinte
+
+    package application;
+
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.stream.Collectors;
+    import java.util.stream.Stream;
+
+    public class Program {
+
+        public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            List<Integer> list = Arrays.asList(3, 4, 5, 10, 7);
+            
+            Stream<Integer> st1 = list.stream().map(x -> x * 10);
+            System.out.println(Arrays.toString(st1.toArray()));
+            
+            int sum = list.stream().reduce(0, (x, y) -> x + y);
+            System.out.println("Sum = " + sum);
+            
+            List<Integer> newList = list.stream()
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * 10)
+                .collect(Collectors.toList());
+            
+            System.out.println(Arrays.toString(newList.toArray()));
+        }
+
+    }
 
 ## Aula 12 - Exercício resolvido (stream):
+Exercício resolvido - filter, sorted, map, reduce
+
+Seguir o enunciado
+
+    Fazer um programa para ler um conjunto de produtos a partir de um arquivo em formato .csv (suponha que exista pelo menos um produto).
+
+    Em seguida mostrar o preço médio dos produtos. Depois, mostrar os nomes, em ordem decrescente, dos produtos que possuem preço inferior ao preço médio.
+
+- InputFile
+
+    Tv,900.00
+    Mouse,50.00
+    Tablet,350.50
+    HD Case,80.90
+    Computer,850.00
+    Monitor,290.00
+
+- Execution
+
+    Enter full file path: c:\temp\in.txt
+    Average price: 420.23
+    Tablet
+    Mouse
+    Monitor
+    HD Case
+
+Seguir o link da resolução
+
+    https://github.com/acenelio/lambda6-java
 
 ## Aula 13 - Exercício de fixação:
+Seguir o enunciado
+
+    Fazer um programa para ler os dados (nome, email e salário)de funcionários a partir de um arquivo em formato .csv.
+
+    Em seguida mostrar, em ordem alfabética, o email dos funcionários cujo salário seja superior a um dado valor fornecido pelo usuário.
+
+    Mostrar também a soma dos salários dos funcionários cujo nome começa com a letra 'M'.
+
+Example
+
+- inputFile
+
+    Maria,maria@gmail.com,3200.00
+    Alex,alex@gmail.com,1900.00
+    Marco,marco@gmail.com,1700.00
+    Bob,bob@gmail.com,3500.00
+    Anna,anna@gmail.com,2800.00
+
+- Execute
+
+    Enter full file path: c:\temp\in.txt
+    Enter salary: 2000.00
+    Email of people whose salary is more than 2000.00:
+    anna@gmail.com
+    bob@gmail.com
+    maria@gmail.com
+    Sum of salary of people whose name starts with 'M': 4900.00
+
+Seguir o link de resolução do professor
+
+    https://github.com/acenelio/lambda7-java
+
+Tente resolver primeiro para depois comparar com a resolução do professor.
