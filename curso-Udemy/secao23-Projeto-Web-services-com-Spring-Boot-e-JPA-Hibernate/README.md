@@ -1,4 +1,4 @@
-# Seção 23: Projeto: Web services com Spring Boot e JPA / Hibernate:
+# Seção 23: Projeto: Web services com Spring Boot e JPA / Hibernate - Só vai até a parte onde ele explica o Spring Boot
 
 ## Aula 01 - Visão geral do capítulo, Aula 02 - AVISO: sobre projeto atualizado e Aula 03 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
@@ -14,6 +14,24 @@ Recursos para esta aula
     web-services-Spring-Boot-JPA-Hibernate.pdf
 
 ## Aula 04 - Criação do projeto:
+Vamos jogar no google Spring Initializr
+
+    https://start.spring.io/
+
+Bom, vc precisará preencher da seguinte forma como está em
+
+    Screenshot_5.png
+    Screenshot_6.png
+
+Daí clicamos em Generate.
+
+Disso irá ser baixado um arquivo zipado. Vamos criar uma pasta chamado projetos em Disco local (C:) e daí vamos descompactar esse arquivo zipado dentro dessa pasta. No caso, agora, vamos conseguir ver a estrutura de arquivo Spring Boot desse projeto.
+
+Agora, vamos abrir o sts vinculado no eclipse sobre essa pasta projetos.
+
+Feito isso, vamos ter que importar o projeto para o workspace
+
+    Import -> Maven -> Existing Maven Projects -> Selecionar a Pasta "course" -> Finish
 
 ## Aula 05 - Entidade User e seu resource:
 
