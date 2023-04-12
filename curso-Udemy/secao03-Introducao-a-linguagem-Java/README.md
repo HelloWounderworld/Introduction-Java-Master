@@ -27,6 +27,17 @@ Seguir o link para leitura
 
     https://www.naukri.com/learning/articles/difference-between-jdk-jre-and-jvm/
 
+### Definição de JVM
+É uma máquina virtual responsável em converter o bytecode para um código de uma máquina específica.
+
+Obs: O JVM é necessário em ambos JDK e JRE.
+
+### Definição de JRE
+É um software que tem como definição JVM mais as bibliotecas de classes.
+
+### Definição de JDK
+É um software com o ambiente completop para construir aplicações e aparatos para usar a linguagem de programação Java. Em outras palavras, o JDK é um software que possui a definição do JRE mais as ferramentas de desenvolvimentos.
+
 ## Aula 06 - Estrutura de uma aplicação Java:
 O Java é uma linguagem orientada à objetos.
 
