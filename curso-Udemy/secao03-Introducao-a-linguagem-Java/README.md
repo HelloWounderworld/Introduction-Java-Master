@@ -27,6 +27,10 @@ Seguir o link para leitura
 
     https://www.naukri.com/learning/articles/difference-between-jdk-jre-and-jvm/
 
+Basicamente, podemos entender JVM, JRE e JDK da seguinte forma
+
+    JVM $\subseteq$ JRE $\subseteq$ JDK
+
 ### Definição de JVM
 É uma máquina virtual responsável em converter o bytecode para um código de uma máquina específica.
 
