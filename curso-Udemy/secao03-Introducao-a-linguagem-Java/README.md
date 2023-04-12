@@ -29,7 +29,7 @@ Seguir o link para leitura
 
 Basicamente, podemos entender JVM, JRE e JDK da seguinte forma
 
-    JVM &sub JRE &sub JDK
+    JVM &sub; JRE &sub; JDK
 
 ### Definição de JVM
 É uma máquina virtual responsável em converter o bytecode para um código de uma máquina específica.
