@@ -10,13 +10,15 @@ Bom, quero deixar claro ao leitor que as minhas notas aqui não será feito como
 ### Definição de JVM (Java Virtual Machine):
 Antes de te dar a definição formal, irei te explicar à grosso modo o que é um JVM. Basicamente, o JVM ele é uma espécie de interprete de uma linguagem de baixo nível, chamado bytecode, para a máquina física, Hardware. Ou seja, ela é o que permite a comunicação entre a parte física de um computador (processador, memória ram, hd, etc...) com a parte virtual do computador (softwares em geral). No caso, a comunicação é de dupla via, ou seja, enquanto que podemos processar algum comando por meio físico para o meio virtual, o meio virtual pode processar algum comando e o físico responderá de alguma forma esse comando.
 
-Então, tendo uma noção por cima, vamos, agora, partir para a definição formal:
+Então, tendo uma noção por cima, vamos, agora, partir para a definição formal.
 
-   O JVM interpreta o código binário Java compilado (chamado bytecode) para um processador de um computador (ou plataforma de Hardware) para possibilitar na execução das instruções de um programa Java.
+#### Definição:
+O JVM interpreta o código binário Java compilado (chamado bytecode) para um processador de um computador (ou plataforma de Hardware) para possibilitar na execução das instruções de um programa Java.
 
-Uma definição formal mais geral seria:
+Uma definição formal mais geral seria.
 
-   Um JVM é uma máquina virtual que garante um computador rodar programas Java, bem como outros programas escritos em outras linguagens que são também compilados para um Java bytecode.
+#### Definição:
+Um JVM é uma máquina virtual que garante um computador rodar programas Java, bem como outros programas escritos em outras linguagens que são também compilados para um Java bytecode.
 
 Obs: Existem outras tecnicalidades que estamos usando aqui que não definimos, como bytecode, máquina virtual, etc... Como o foco, no momento, seria entender os conceitos fundamentais que o livro quer nos explicar, entrar em detalhes de bytecodes, VM, ou outras tecnicalidades, não será tão conveniente e pretendo realizar isso somente depois que eu terminar de ler o livro e quiser deixar o contéudo bem mais completo ainda.
 
