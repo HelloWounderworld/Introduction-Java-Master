@@ -29,9 +29,10 @@ As bibliotecas de classes Java é um conjunto de bibliotecas dinamicamente carre
 
 Vale ressaltar que o JRE ele depende em grande parte do JVM para o seu funcionamento.
 
-Bom, vamos, agora, para a definição formal do JRE:
+Bom, vamos, agora, para a definição formal do JRE.
 
-    JRE é JVM + JCL.
+#### Definição:
+JRE é JVM + JCL.
 
 Seria a definição mais direta e suscinta que podemos ter de JRE.
 
@@ -40,9 +41,10 @@ A grosso modo, o JDK, como o nome já sugere, é um conjuntos de ferramentas que
 
 Ou seja, são ferramentas que ajudam a compilar a linguagem Java que você vai aprender nesse livro. Em outras palavras, JDK ele fornece meios para que programas em Java sejam executados e rodados pelo JRE e JVM.
 
-A definição formal de JDK pode ser feita como seguinte:
+A definição formal de JDK pode ser feita como seguinte.
 
-    JDK é JRE + compilador
+#### Definição:
+JDK é JRE + compilador
 
 Basicamente, é uma implementação de especificações de plataformas Java, na qual inclui compiladores e biblioteca de classes padrões.
 
