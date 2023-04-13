@@ -12,11 +12,11 @@ Antes de te dar a definição formal, irei te explicar à grosso modo o que é u
 
 Então, tendo uma noção por cima, vamos, agora, partir para a definição formal:
 
-    O JVM interpreta o código binário Java compilado (chamado bytecode) para um processador de um computador (ou plataforma de Hardware) para possibilitar na execução das instruções de um programa Java.
+   O JVM interpreta o código binário Java compilado (chamado bytecode) para um processador de um computador (ou plataforma de Hardware) para possibilitar na execução das instruções de um programa Java.
 
 Uma definição formal mais geral seria:
 
-    Um JVM é uma máquina virtual que garante um computador rodar programas Java, bem como outros programas escritos em outras linguagens que são também compilados para um Java bytecode.
+   Um JVM é uma máquina virtual que garante um computador rodar programas Java, bem como outros programas escritos em outras linguagens que são também compilados para um Java bytecode.
 
 Obs: Existem outras tecnicalidades que estamos usando aqui que não definimos, como bytecode, máquina virtual, etc... Como o foco, no momento, seria entender os conceitos fundamentais que o livro quer nos explicar, entrar em detalhes de bytecodes, VM, ou outras tecnicalidades, não será tão conveniente e pretendo realizar isso somente depois que eu terminar de ler o livro e quiser deixar o contéudo bem mais completo ainda.
 
