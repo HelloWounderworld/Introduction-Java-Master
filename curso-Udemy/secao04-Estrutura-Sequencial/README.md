@@ -114,7 +114,7 @@ Agora, o print serve para mostrar as variáveis que foram declaradas tbm da mesm
 
 Para arredondamento das casas, vamos usar o printf, que seria o format que estudei em Python.
 
-Podemos usar po Locale.setDefault(Locale.US); para podermos mudar de vígula para ponto na representação das casas decimais que foi exibido depois desse comando. Mas, note que, ao vc colocar esse comando na linha de código, ela irá exibir um erro, pois ela é uma classe que necessita de um módulo para importar.
+Podemos usar o Locale.setDefault(Locale.US); para podermos mudar de vígula para ponto na representação das casas decimais que foi exibido depois desse comando. Mas, note que, ao vc colocar esse comando na linha de código, ela irá exibir um erro, pois ela é uma classe que necessita de um módulo para importar.
 
 Tanto no Eclipse quanto no VSCode, ao vc passar o mouse por cima desse erro haverá uma opção de correção rápida que automaticamente importará esse módulo
 
@@ -215,14 +215,14 @@ Da mesma forma, usamos o casting da seguinte forma
     b = (int) a;
     System.out.println(b);
 
-## Aula 08 - Entrada de dados em Java - Parte 1 e Aula 09 - Entrada de dados em Java - Parte 2:
+## Aula 08 e 09 - Entrada de dados em Java - Parte 1 e 2:
 Vamos ver sobre entrada de dados, que é quando vc digita algo pelo teclado, usualmente.
 
 Vamos usar o scanner para realizar a entrada de algum dado
 
     Scanner sc = new Scanner(System.in);
 
-Bom, a forma de uso é o mesmo. Se tratando de uma classe, então será necessário a importação de um módulo importante para isso. No projeto, curso_programacao, no Main, vamos vamos importar
+Bom, a forma de uso é o mesmo. Se tratando de uma classe, então será necessário a importação de um módulo importante para isso. No projeto, curso_programacao, no Main, vamos importar
 
     Scanner sc = new Scanner(System.in);
 
