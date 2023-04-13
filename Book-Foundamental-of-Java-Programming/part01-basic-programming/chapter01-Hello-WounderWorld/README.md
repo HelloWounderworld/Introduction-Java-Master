@@ -53,3 +53,18 @@ Bom, na expectativa de reforçar mais o entendimento, podemos dividir o JDK em d
 - Primeira: Gera o componente essencial de Java chamado java.lang
 
 - Segunda: É uma coleção de código recurso que pode ser selecionado e adicionado ao programa Java que está sendo escrito.
+
+### Adicional
+Claro que, visto os conceitos acima o que resta é saber onde vamos executar e como vamos manipular os códigos-fontes de Java. Para isso temos os editores de texto e as interfaces de linha de comando.
+
+Os recursos mais atuais que conheço, os IDEs, e que tem compatibilidade em trabalhar com o Java são: Eclipse e VSCode.
+
+Irei utilizar os dois!
+
+## Changing Folders in a Command Line Interface
+Essa sessão irei pular pois para quem estudou Linux Shell será desnecessário.
+
+## Source Codes, Bytecodes and Compilation
+
+# The First Program, "Hello WounderWorld"
+
