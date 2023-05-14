@@ -31,7 +31,7 @@ O que certamente não aconteceu.
 A partir da JSR 292, foi possível continuar usando a melhor e maior plataformada história e escolher qual linguagem utilizar.
 
 ## Aula 03 - Por que usar Groovy?:
-Bom, o professor ele deu os seus motivos justos. Porém, no meu caso, eu preciso mais porque o sistema que estou mexendo da empresa Minsait, está inteiramente programado em Groovy.
+Bom, o professor deu os seus motivos justos. Porém, no meu caso, eu preciso mais porque o sistema que estou mexendo da empresa Minsait, está inteiramente programado em Groovy.
 
 Criado em 2003, o Groovy, é uma linguagem de programação desenvolvida para a plataforma Java como alternativa à "velha" linguagem de programação tradicional.
 
@@ -66,4 +66,34 @@ Veremos cada um deles durante o curso.
 
 - Integrar Java e Groovy no mesmo projeto: No mesmo projeto, pode-se criar e usar classes Java ou classes em Groovy. As classes feitas em Java, podem usar objetos de classe feitas em Groovy e vice versa. Compilador "groovyc" compila ambas, não tendo diferença no bytecode java ou groovy. Comece hoje usar groovy em projetos antigos ou aplique groovy em camadas específicas. Use o melhor de cada um, no lugar correto.
 
+- Tipagem DinÂmica por Padrão, mas com Tipagem Estática como Opção: Em groovy é possível fazer o melhor dos dois mundos:
+    - Programação fortemente tipada, como a linguagem Java é.
+
+    - Programação dinâmica (fracamente tipada) como as linguagens modernas são hoje.
+
+    - Independente de sua opinião sobre, no groovy tem a opção de utilizar as duas opções quando quiser e ou até misturar.
+
+- Usar Groovy com qualquer framework Java: Classes groovy podem ser utilizada com qualquer outro tipo de framework Java, sendo especificação ou proprietário. Swing, IReport, JSF, JPA, Spring, JUnit, VRaptor, Hibernate, etc...
+
+Alguns deles com nenhum tipo de configuração especial.
+
+Alguns outros com algumas configurações próprias para groovy e ou com otimizações específicas.
+
+- Usar Groovy para criar Apps Android: Desde 2014, a partir da versão 2.4x do groovy é possível desenvolver native apps android usando a linguagem groovy.
+
+- Usar ecossistema Groovy: A linguagem cresceu tanto, a comunidade também, que hoje temos um ecossistema completo de produtos em volta do groovy.
+
+Veja:
+
+    https://groovy-lang.org/ecosystem.html
+
 ## Aula 04 e 05 - Montagem do ambiente de desenvolvimento 1 e 2:
+Vamos montar o ambiente de desenvolvimento para podermos começar a codar em Groovy.
+
+Ferramentas Utilizadas:
+
+- JDK8x.
+
+- Eclipse: https://www.eclipse.org/downloads/
+
+- Eclipse Groovy Plugin: https://github.com/groovy/groovy-eclipse
