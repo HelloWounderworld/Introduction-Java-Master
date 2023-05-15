@@ -257,7 +257,75 @@ A criação da classe Cliente acima, feita em Groovy, se fizermos em Java ficari
         }
     }
    
-## Aula 06:
+## Aula 06 - Recursos Groovy - POGO:
+Não é necessário criar vários construtores sobrecarregados com os parâmetros diversos que preenchem os atributos de um objeto.
+
+Em groovy existe um recurso chamado "Constructor Names Arguments" que gera dinamicamente todas as combinações de construtores em forma de "mapa" que atribui valores padrões para cada atributo da classe.
+
+Exercício 3: Siga o Instrutor
+
+Vamos nos aproveitar da classe que foi criado pelo Groovy, Cliente.groovy.
+
+No caso, o código ficaria o seguinte
+
+    @Test
+	void exercicio3() {
+        Cliente c = new Cliente()
+		println c.getNome() + " - " + c.getData()
+		
+		c = new Cliente(nome: "Leonardo")
+        println c.getNome() + " - " + c.getData()
+
+        c = new Cliente(data: new Date())
+        println c.getNome() + " - " + c.getData()
+
+        c = new Cliente(nome: "Leonardo", data: new Date())
+        println c.getNome() + " - " + c.getData()
+	}
+
+No caso, para Java, como ficaria a construção? Seria o seguinte
+
+    package classes;
+
+    import java.util.Date;
+
+    public class ClienteJava {
+        private String nome;
+        private Date data;
+
+        public ClienteJava(String p1) {
+            nome = p1;
+        }
+
+        public ClienteJava(Date p1) {
+            data = p2;
+        }
+
+        public ClienteJava(String p1, Date p2) {
+            nome = p1;
+            data = p2;
+        }
+
+        public Integer somar(Integer v1, Integer v2) {
+            return v1 + v2;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Date getData() {
+            return data;
+        }
+
+        public void setData(Date data) {
+            this.data = data;
+        }
+    }
 
 ## Aula 07:
 
