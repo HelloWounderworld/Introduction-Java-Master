@@ -327,15 +327,163 @@ No caso, para Java, como ficaria a construção? Seria o seguinte
         }
     }
 
-## Aula 07:
+## Aula 07 - Recursos Groovy:
+Em groovy existe um recurso chamado "Subscript Operator" que dinamicamente usa operador objeto["nomeDoAtributo"] para acessar e manipular os atributos de um objeto.
 
-## Aula 08:
+Ela acessa o get e set da classe.
 
-## Aula 09:
+Muito utilizado para gerar estruturas dinâmicas para atribuição de valores em soluções como por exemplo: Swing, Web Apps, etc...
 
-## Aula 10:
+Exercício 4: Siga o Intrutor
 
-## Aula 11:
+No arquivo Exercicio.groovy, vamos fazer o seguinte
+
+    @Test
+	void exercicio4() {
+		Cliente c = new Cliente(nome: "Leonardo", data: new Date())
+		println c.getNome()
+		println c.getData()
+		
+		c["nome"] = "Chris Rock"
+		// Subscribed Operator
+		println c["nome"]
+		println c["data"]
+//		c["idade"] = 26
+//		println "Atributo inexistente " + c["idade"]
+	}
+
+## Aula 08 - Recursos Groovy:
+Em groovy existe um recurso chamado "Direct Field Access Operator" que usa operador Objeto.atributo para acessar e manipular os atributos de um objeto.
+
+Dinamicamente, é invocado o get e set da classe.
+
+Utilizado para otimizar chamadas de get's e set's. Por isso, não é necessário digitar setBlaBlaBla(Bla) e getBlaBlaBla().
+
+Exercício 5:
+Vamos criar uma classe Produto em java.
+
+    package classes;
+
+    public class Produto {
+        
+        private String nome;
+        private double valor;
+        
+        public Produto(String nome, double valor) {
+            super();
+            this.nome = nome;
+            this.valor = valor;
+        }
+
+        public String getNome() {
+            System.out.println("getNome");
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            System.out.println("setNome");
+            this.nome = nome;
+        }
+
+        public double getValor() {
+            System.out.println("getValor");
+            return valor;
+        }
+
+        public void setValor(double valor) {
+            System.out.println("setValor");
+            this.valor = valor;
+        }
+        
+    }
+
+Agora, em Exercicios.groovy, vamos colocar o exercício 5 da seguinte forma
+
+    @Test
+	void exercicio5() {
+		Produto p = new Produto("CD", 12.00);
+		// Se fosse em java teria que digitar getNome()
+		// Mas, graças a, Direct Field Access Operator, não é necessário
+		println p.nome
+		println p.nome = "Everbody Hates Chris!"
+		println p.valor
+		println p.valor = 15.00
+	}
+
+No caso, como ficaria a classe Produto em groovy? Ficaria da seguinte forma
+
+    package classes
+
+    class ProdutoGroovy {
+        String nome
+        double valor
+    }
+
+## Aula 09 - Recursos Groovy:
+Em groovy existe o operador "as" utilizado para criar "alias" reduzidos para nomes de classes e recursos estáticos.
+
+Ele é utilizado para várias *** outras coisas...
+
+Use para reduzir qualquer digitação de código repetida.
+
+Exercício 6:
+
+No arquivo Exercícios.groovy temos o seguinte
+
+    // Importando a classe Cliente e denotando-a como Cl
+    // Assim, podemos instanciar essa classe cliente por via desse nome Cl.
+    import classes.Cliente as Cl
+    import static javax.swing.JFrame.EXIT_ON_CLOSE as ex
+
+    @Test
+	void exercicio6() {
+		Cl c = new Cl(nome: "Leonardo", data: new Date())
+		println c.nome + " - " + c.data
+		println c.getNome() + " - " + c.getData()
+		println c["nome"] + " - " + c["data"]
+		println "$c['nome'] - $c['data']"
+		println ex
+	}
+
+## Aula 10 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Optional Parameters" utilizado para que os parâmetros de um método assuma valores padrões em caso de não ser devidamente informados na sua chamada.
+
+Groovy vai gerar dinamicamente todas as sobrecargas necessários para cumprir os parâmetros opcionais. Por isso, não é necessário digitar.
+
+Exercício 7:
+Vamos criar uma classe Venda em groovy e coloquemos o seguinte nela
+
+    package classes
+
+    class Venda {
+        // Note que, já podemos estabelecer um valor padrão, caso não seja fornecido nada
+        // nos argumentos abaixo. A lógica é o mesmo que foi estudado no JavaScript.
+        double vender (double valor, int taxa = 10) {
+            double rs = valor * taxa / 100
+            rs
+        }
+    }
+
+Agora, no arquivo Exercicios.groovy, vamos colocar o seguinte
+
+    @Test
+	void exercicio7() {
+		Venda v = new Venda()
+		// Aqui, ficaria nítido que o groovy já oferece as duas sobrecargas
+		// algo que na classe Venda só foi definido um parâmetro por padrão nela
+		// No java, vc teria que criar os métodos considerando a quantidade de possibilidades
+		// de combinações dos parâmetros que vc queira considerar.
+		println v.vender(100)
+		println v.vender(100, 15)
+	}
+
+## Aula 11 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Array Optional Paerameters" utilizado para que os parâmetros de um método como array possa ser passado de forma simples, utilizando vírgulas.
+
+Groovy vai gerar dinamicamente a criação do array e a passagem correta do método. Por isso, não é necessário digitar.
+
+Exercício 8:
+
 
 ## Aula 12:
 
