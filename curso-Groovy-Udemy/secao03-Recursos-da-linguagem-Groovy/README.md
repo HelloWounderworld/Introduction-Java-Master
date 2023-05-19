@@ -483,18 +483,363 @@ Em groovy existe um recurso chamado de "Array Optional Paerameters" utilizado pa
 Groovy vai gerar dinamicamente a criação do array e a passagem correta do método. Por isso, não é necessário digitar.
 
 Exercício 8:
+Vamos, inicialmente, criar uma classe groovy chamada somar e nela colocamos o seguinte
 
+    package classes
 
-## Aula 12:
+    class Somar {
+        double somar(double[] valores) {
+            double rs = 0
+            for (double v: valores) {
+                rs += v
+            }
+            rs
+        }
+    }
 
-## Aula 13:
+No arquivo Exercicios.groovy, vamos colocar o seguinte
 
-## Aula 14:
+    @Test
+	void exercicio8() {
+		Somar soma = new Somar()
+		
+		// O que estou fazendo aqui embaixo, ao chamar o método somar
+		// No java, não seria possível, pois teria que primeiro
+		// definir um array indicando que está indo um número flutuante nela.
+		println soma.somar(10)
+		println soma.somar(10, 10)
+		println soma.somar(10, 10, 10)
+	}
 
-## Aula 15:
+## Aula 12 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Safe Navegator Operator" utilizando para evitar o famoso NullPointException quando referências as objetos não estão devidamente apontadas.
 
-## Aula 16:
+    objeto?.executar()... objeto?.setNome("bla")...
 
-## Aula 17:
+Groovy, dinamicamente vai fazer uma verificação de "if" como null e não executar a operação. Por isso, não é necessário digitar.
 
-## Aula 18:
+Exercício 9:
+No arquivo Exercicios.groovy vamos colocar o seguinte
+
+    @Test
+	void exercicio9() {
+		Cliente c = null
+		
+		// Esse "?" (Safe operator) usado e que é tipicamente do groovy
+		// Em java vc teria que contornar usando um if
+		c?.getNome()
+		
+		// A forma como seria contornado usando o Java.
+//		if (c != null) {
+//			c.getNome()
+//		}
+		
+		c?.nome = "Leonardo"
+		println c?.getNome()
+		
+		// No caso, o println acima retornou null
+		// Isso significa que sempre será necessário instanciar a classe
+		// para poder contornar a situação
+		Cliente c2 = new Cliente()
+		c2?.nome = "Leonardo"
+		println c2.getNome()
+		println c2.nome
+	}
+
+Usamos a classe Cliente groovy que já foi definido não sofreu nenhuma modificação.
+
+## Aula 13 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Spread Operator" utilizando para executar comportamentos em bloco sobre coleções.
+
+- colecao*.executar()
+
+- colecao*.setNome("bla")
+
+Groovy vai dinamicamente iterar na coleção e executar a determinada operação em bloco. Spread usa o operador "safe ?" por padrão. Por isso, não é necessário digitar.
+
+Exercício 10:
+No arquivo Exercicios.groovy vamos colocar o seguinte
+
+    @Test
+	void exercicio10() {
+		List<String> colecao = new ArrayList()
+		colecao.add("leonardo")
+		colecao.add(null)
+		colecao.add("fernando")
+		colecao.add("anny")
+		colecao.add("rita")
+		println colecao
+		
+		// Se eu quiser deixar todos os nomes começando com letra maiuscula
+		// usando Java, teria que fazer algo do seguinte tipo
+		// Ou seja, estou vendo se não é nulo, o que daria para ser sanado pelo
+		// safe operator. E, além disso, teria que usar o toUpperCase() iterando
+		// para todos.
+//		for (String item: colecao) {
+//			if (item != null) {
+//				item = item.toUpperCase()
+//			}
+//		}
+		// No caso, usando o Spread "*", podemos sanar esses dois casos
+		colecao = colecao*.toUpperCase()
+		println colecao
+		
+		// Onde estiver com letra "A" substituir em "@" em todos os nomes que aparece
+		colecao = colecao*.replace("A", "@")
+		println colecao
+	}
+
+## Aula 14 - Recursos Groovy:
+Em groovy as "checked exceptions" são opcionais. Ou seja, o desenvolvedor não é obrigado a digitar try/catch para executar as operações checadas.
+
+Em caso de acontecer a exceção, ela será lançada para o método chamador até estourar a pilha de execução da JVM. Por isso, não é necessário digitar.
+
+Cada um fica livre em tratar ou não. Equipes ágeis com cobertura de testes automatizados não precisam usar try/catch reduzindo e muito o código da solução final.
+
+Exercício 11:
+No arquivo de Exercicios.groovy vamos colocar o seguinte
+
+    @Test
+	void exercicio11() {
+		// Se estivessemos em Java, teríamos que realizar o seguinte usando o try/catch
+//		try {
+//			URL url = new URL("http://www.google.com.br")
+//		} catch (Exception e) {
+//			e.printStackTrace()
+//		}
+		// Mas em groovy, podemos resolver isso em uma única linha
+		// apenas instanciando a classe.
+		
+		URL url = new URL("http://www.google.com.br")
+		println url
+	}
+
+## Aula 15 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Boolean Avaliuation" utilizado para avaliar qualquer tipo de expressão como resultado boolean.
+
+De forma que não existe necessidade de digitar qualquer coisa extra para avaliar a expressão para boolean.
+
+Segue a listagem das regras:
+
+    Type            Condition for Truth
+    Boolean         True
+    Collection      Not empty
+    Character       Value not 0
+    CharSequence    Length greater than 0
+    Enumeration     Has more elements
+    Iterator        Has next
+    Number          Double value not 0
+    Map             Not empty
+    Matcher         At least one match
+    Object[]        Length greater than 0
+    Any other type  Reference not null
+
+Exercício 12:
+No arquivo Exercicios.groovy, vamos fazer o seguinte
+
+    @Test
+	void exercicio12() {
+		String nome = null
+		
+		// No java, colocando na condicional if, a forma como está nela
+		// não será avaliado. Mas no groovy, será! Que nem em JS e Python que eu ví.
+		if (nome) {
+			println true
+		} else {
+			println false
+		}
+		
+		nome = "Leo"
+		if (nome) {
+			println true
+		} else {
+			println false
+		}
+		
+		int valor = 0
+		if (valor) {
+			println true
+		} else {
+			println false
+		}
+		
+		valor = 1
+		if (valor) {
+			println true
+		} else {
+			println false
+		}
+	}
+
+## Aula 16 - Recursos Groovy:
+Em groovy existe um recurso chamado de "Operator Overloading" utilizado para criar expressões de operadores com qualquer tipo de objeto.
+
+Utilizado para criar uma melhor expressividade e otimização na utilização de objetos com os operadores.
+
+Segue a listagem das opções:
+
+    Operator            Method
+    +                   a.plus(b)
+    -                   a.minus(b)
+    *                   a.multiply(b)
+    /                   a.div(b)
+    %                   a.mod(b)
+    **                  a.power(b)
+    |                   a.or(b)
+    &                   a.and(b)
+    ^                   a.xor(b)
+    a[b]                a.getAt(b)
+    a[b] = c            a.putAt(b, c)
+    <<                  a.leftShift(b)
+    >>                  a.rightShift(b)
+    ++                  a.next()
+    --                  a.previous()
+    +a                  a.positive()
+    -a                  a.negative()
+    -a                  a.bitwiseNegative
+
+Métodos padrões do "Operator Overloading":
+
+- Devem ser públicos
+
+- Devem ser nomeados exatamente como indicado na tabela
+
+- Devem retornar o mesmo objeto do tipo operado a esquerda.
+
+- O parâmetro depende do tipo do objeto a direita do operador, de forma que é possível operar com objetos diferentes.
+
+Exercício 13:
+
+Vamos começar criando uma classe groovy chamado Nota e nela colocamos o seguinte
+
+    package classes
+
+    class Nota {
+        Integer itens
+        Double valor
+        
+        Nota plus(Nota nota) {
+            println "plus"
+            Nota novo = new Nota()
+            println this.valor + " - " + this.itens
+            println nota.valor + " - " + nota.itens
+            novo.itens = + this.itens + nota.itens
+            novo.valor = + this.valor + nota.valor
+            println "Quem é o novo.itens: " + novo.itens
+            println "Quem é o novo.valor: " + novo.valor
+            novo
+        }
+        
+        Nota next() {
+            println "next"
+            this.itens += 1
+            this.valor += 2
+            this
+        }
+    }
+
+Agora, em Exercicios.groovy, colocamos o seguinte
+
+    @Test
+	void exercicio13() {
+		Nota n1 = new Nota(itens: 2, valor: 20)
+		Nota n2 = new Nota(itens: 3, valor: 15)
+		// Isso aqui em baixo, não compila em Java.
+		// É algo típico do groovy
+		Nota n3 = n1 + n2
+		// Em Java seria n3 = n1.plus(n2)
+		println n1.valor + " - " + n1.itens
+		println n2.valor + " - " + n2.itens
+		println n3.valor + " - " + n3.itens
+		// Podemos fazer esse ++ abaixo, mediante à definição do next na classe Nota
+		n1++
+		// Em Java seria n1 = n1.next()
+		println n1.valor + " - " + n1.itens
+	}
+
+## Aula 17 - Recursos Groovy:
+Várias classes da JDK foram implementadas para automaticamente funcionar com a maioria dos operadores.
+
+Exercício 13.2:
+No arquivo Exercicios.groovy, vamos colocar o seguinte
+
+    @Test
+	void exercicio13ponto2() {
+		// No java, vc teria que fazer o seguinte
+		// BigDecimal vl = new BigDecimal(10)
+		BigDecimal vl = 10
+		println vl
+		
+		// Isso em Java não iria compilar
+		// Em java teria que fazer o seguinte
+		// BigDecimal x = vl.add(new BigDecimal(1))
+		vl = vl + 1
+		println vl
+		vl++
+		println vl
+		vl -= 5
+		println vl
+		
+		Date data = new Date()
+		println data
+		data++ // acrescenta mais 1 dia
+		println data
+		data--
+		println data
+	}
+
+## Aula 18 - Recursos Groovy:
+Trait é uma nova construção estrutural em groovy que mistura regras de interface + classes concretas abstratas.
+
+Trait é uma interface que pode ter métodos abstratos e é também uma classe abstrata que pode conter estado e métodos concretos.
+
+ As outras classes usam o comando implements para implementar uma trait herdando todos os seus comportamentos.
+
+ As traits podem herdar outras traits e outras interfaces usando comando extends.
+
+ Todas as regras básicas de herança, sobreposição e polimorfismo da linguagem Java padrão se aplica da mesma forma.
+
+ As traits vieram para facilitar a criação de estruturas OO que eram implementados usando um padrão verboso, burocrático e trabalhoso chamado de "Java Skeletal Implementations" [Java Effective by Joshua Blosh].
+
+ Usando trait em groovy é possível fazer herançã múltiplas no qual uma classe pode implementar várias traits diferentes herdando métodos concretos de varios lados.
+
+Na linguagem Java até a versão 7, não existia recursos para herança múltiplas.
+
+Em resumo, podemos entender que a trait é uma interface e uma classe abstrata, podemos misturas as duas coisas.
+
+Exercício 13.3:
+Vamos começando a criar uma classe groovy Animal e nela colocamos o seguinte
+
+    package classes
+
+    trait Animal {
+        String nome
+        abstract void pular()
+        void falar() {
+            println "Animal" + nome + " falando.."
+        }
+    }
+
+Vamos criar uma outra classe groovy chamado Lutador e nela colocamos o seguinte
+
+    package classes
+
+    trait Lutador {
+        String arma
+        abstract void correr()
+        void lutar() {
+            println "Lutador " + arma + " lutando..."
+        }
+    }
+
+Agora, vamos criar uma outra classe groovy Pessoa e nela colocamos o seguinte
+
+Herança múltipla com trait gera novas regras de OOP inexistentes por programadores Java como por exemplo "Conflito de Herença Múltiplas".
+
+Para todas as informações, acesse o manual oficial do groovy:
+
+    https://groovy-lang.org/objectorientation.html
+
+Na linguagem Java padrão, o nível de visibilidade conhecido como package é indicado com a ausência de qualquer modificador de acesso. No groovy isso não funciona em virtude dos recursos de POGO.
+
+Sendo assim, no código groovy não existe mais esse nível de visibilidade.
