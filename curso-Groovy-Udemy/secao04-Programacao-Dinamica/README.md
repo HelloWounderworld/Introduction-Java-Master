@@ -353,6 +353,12 @@ Exercício 21:
 		}
 	}
 
+OBS: Não existe validação de tipagem na compilação que garanta que um objeto tenha aquele determinado comportamento!!!
+
+Não confie mais no "code completion", uma vez que não existe nenhuma garantia da existência de metodos ou atributos.
+
+Em caso de um objeto não conseguir executar será gerado um erro de execução.
+
 ## Aula 11 - Aula Final:
 
 ## Aula 12 - Aula Bônus:
