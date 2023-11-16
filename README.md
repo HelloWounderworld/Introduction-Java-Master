@@ -7,6 +7,8 @@ Irei usar as seguintes referências:
 
 - Fundamental of Java Programming - Mitsunori Ogihara, Springer.
 
+- Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel.
+
 ## Objetivo:
 O objetivo desse estudo está de eu conseguir me integrar nas tecnologias que a Minsait an Indra Compay utiliza e, além disso, aumentar as minhas skills sobre conhecimentos nas linguagens de programações, junto com as duas outras linguagens, JavaScript e Python, que eu já estudo por um tempo.
 
