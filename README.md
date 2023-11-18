@@ -9,6 +9,8 @@ Irei usar as seguintes referências:
 
 - Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel.
 
+- Lógica de programação e estruturas de dados com aplicações em Java - Sandra Puga, Gerson Rissetti.
+
 ## Objetivo:
 O objetivo desse estudo está de eu conseguir me integrar nas tecnologias que a Minsait an Indra Compay utiliza e, além disso, aumentar as minhas skills sobre conhecimentos nas linguagens de programações, junto com as duas outras linguagens, JavaScript e Python, que eu já estudo por um tempo.
 
