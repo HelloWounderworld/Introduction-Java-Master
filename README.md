@@ -13,6 +13,11 @@ Irei usar as seguintes referências:
 
 A maneira como irei utilizar os livros acima, como esses livros não se baseam em algum projeto, mas, sim, puramente no conceito, então irei pegar os tópicos que aprendi no curso da Udemy e nela, quando realizar a revisão de Java, ir para cada tópico dos livros que abordam o assunto que estou revisando e melhorar a qualidade do entendimento dela, realizando testes por código. Claro, estarei mencionando os livros na hora que estiver realizando a tal revisão.
 
+### Obs:
+Lembrando que esse repositório, somente, está voltado para a revisão conceitual da linguagem de programação Java. Logo, frameworks relacionados, como Spring Boot, o seu estudo teório, será realizado em outro repositório.
+
+Assim, como projetos usando a linguagem Java ou os seus respectivos frameworks, irei criar repositórios independentes, porém irei mencionar na forma de lista com um breve resumo nos repositórios de estudos teóricos/conceitos.
+
 ## Objetivo:
 O objetivo desse estudo está de eu conseguir me integrar nas tecnologias que a Minsait an Indra Compay utiliza e, além disso, aumentar as minhas skills sobre conhecimentos nas linguagens de programações, junto com as duas outras linguagens, JavaScript e Python, que eu já estudo por um tempo.
 
@@ -20,3 +25,7 @@ A intenção, seria que, mesmo depois do término desse curso, que eu use os est
 
 ## O que fazer nas revisões?
 Como a rotina de estudos estabelecida pelo Minsait é bem puxado, claro que não será possível conseguir praticar tudo! Eu irei deixar os exercícios para revisão! Ou seja, irei estudar bem os conceitos para quando for revisar, realizar os exercícios que não foram feitos.
+
+# Projetos que consegui criar:
+
+## Nome do Projeto e as tecnologias usadas nela suas versões e o que precisa para rodar na máquina da pessoa:
