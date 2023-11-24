@@ -1,1 +1,0 @@
-# Condition and Its Evaluation

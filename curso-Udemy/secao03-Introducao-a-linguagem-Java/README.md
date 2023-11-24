@@ -83,6 +83,13 @@ A pasta temp e ws-eclipse, se não tiver, vc pode cirar. Em seguida, vc clica no
 
 Feito isso, o ambiente de IDE para Eclipse estará configurado.
 
+### Instalando Eclipse no Linux Ubuntu 22.04LTS:
+Eclipse não estava abrindo no 19.04. Formatei o notebook e instalei o 20.04 LTS e após instalar o Eclipse,o mesmo problema: não abria.
+
+Solução: No meu caso era só o pacote java JDK que não estava instalado. Após o instalar,o Eclipse abriu normalmente.
+
+Comando para instalar o JDK pelo Terminal: sudo apt install openjdk-8-jdk
+
 ## Aula 09 - Primeiro programa em Java no Eclipse:
 Vamos codar o nosso primeiro código em Java!
 

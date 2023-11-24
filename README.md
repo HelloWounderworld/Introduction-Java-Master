@@ -11,6 +11,8 @@ Irei usar as seguintes referências:
 
 - Lógica de programação e estruturas de dados com aplicações em Java - Sandra Puga, Gerson Rissetti.
 
+A maneira como irei utilizar os livros acima, como esses livros não se baseam em algum projeto, mas, sim, puramente no conceito, então irei pegar os tópicos que aprendi no curso da Udemy e nela, quando realizar a revisão de Java, ir para cada tópico dos livros que abordam o assunto que estou revisando e melhorar a qualidade do entendimento dela, realizando testes por código.
+
 ## Objetivo:
 O objetivo desse estudo está de eu conseguir me integrar nas tecnologias que a Minsait an Indra Compay utiliza e, além disso, aumentar as minhas skills sobre conhecimentos nas linguagens de programações, junto com as duas outras linguagens, JavaScript e Python, que eu já estudo por um tempo.
 

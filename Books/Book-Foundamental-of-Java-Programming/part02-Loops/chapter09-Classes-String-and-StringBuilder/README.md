@@ -1,1 +1,0 @@
-# Methods for Obtaining Information from String Data
