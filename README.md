@@ -3,7 +3,9 @@ Esse repositório é um curso introdutório meu da linguagem de programação de
 
 Irei usar as seguintes referências:
 
-- Java COMPLETO 2023 Programação Orientada a Objetos +Projetos
+- Java COMPLETO 2023 Programação Orientada a Objetos +Projetos.
+
+- Java 2020 COMPLETO: Do Zero ao Profissional + Projetos! - https://github.com/cod3rcursos/curso-java
 
 - Fundamental of Java Programming - Mitsunori Ogihara, Springer.
 
@@ -25,6 +27,13 @@ A intenção, seria que, mesmo depois do término desse curso, que eu use os est
 
 ## O que fazer nas revisões?
 Como a rotina de estudos estabelecida pelo Minsait é bem puxado, claro que não será possível conseguir praticar tudo! Eu irei deixar os exercícios para revisão! Ou seja, irei estudar bem os conceitos para quando for revisar, realizar os exercícios que não foram feitos.
+
+## Terminais Windows, Linux e MacOS:
+Seguir link:
+
+    https://blog.cod3r.com.br/terminal-no-windows/
+
+    https://blog.cod3r.com.br/terminal-no-macos-e-linux/
 
 # Projetos que consegui criar:
 

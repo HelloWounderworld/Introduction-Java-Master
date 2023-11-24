@@ -83,12 +83,41 @@ A pasta temp e ws-eclipse, se não tiver, vc pode cirar. Em seguida, vc clica no
 
 Feito isso, o ambiente de IDE para Eclipse estará configurado.
 
+### Obs:
+Na versão antiga do Eclipse, ela não selecionava por padrão a opção de criar o arquivo “module-info.java”, atualmente o Eclipse está deixando essa opção marcada por padrão, e a presença desse arquivo irá gerar problemas no decorrer do curso, então vocês podem simplesmente excluir esse arquivo que tudo irá correr bem.
+
+Vocês também podem desabilitar essa opção quando forem criar outro projeto, conforme a imagem modulo_info-java.png.
+
+Basta desmarcar a opção “Create module-info.java file”
+
 ### Instalando Eclipse no Linux Ubuntu 22.04LTS:
 Eclipse não estava abrindo no 19.04. Formatei o notebook e instalei o 20.04 LTS e após instalar o Eclipse,o mesmo problema: não abria.
 
 Solução: No meu caso era só o pacote java JDK que não estava instalado. Após o instalar,o Eclipse abriu normalmente.
 
 Comando para instalar o JDK pelo Terminal: sudo apt install openjdk-8-jdk
+
+### Usuários Windows:
+Fala, galera! Tranquilo?
+
+Antes de mais nada, recomendamos que vocês utilizem sempre a versão mais atualizada possível do Windows, ou seja, o Windows 10. Pois diversas tecnologias não dão mais suporte aos Windows 7, 8 ou 8.1, então caso vocês utilizem alguma dessas versões, vocês vão acabar tendo problemas em algum ponto do curso. A recomendação é utilizar o Windows 10.
+
+Venho também dar uma outra dica super rápida porém super importante para todos que irão dar início às atividades do curso no ambiente Windows. O que acontece é que existem duas configurações padrão que vêm ativadas e acabam dificultando ou gerando erros na hora de programar em qualquer ambiente. Vou explicar rapidinho sobre elas e sobre como lidar com isso.
+
+Na programação é super normal utilizar os caminhos absolutos de localizações na sua máquina em diversos momentos. Às vezes você mesmo utiliza, mas em geral as linguagens utilizam ali por debaixo do panos para que possam ser executadas. Esses caminhos são literalmente "c/users/seuNome/pasta" e tudo mais.
+
+O primeiro problema é relacionado a Área de Trabalho, pois em alguns casos ela entra nesse caminho absoluto com seu nome em português, ou seja, com espaços e acentos. E isso acaba gerando erro em diversos ambientes. A forma de se lidar com isso é bem simples, basta criar seu projeto em outra pasta que não seja a Área de Trabalho.
+
+O segundo problema é relacionado ao OneDrive. Nas versões mais recentes do Windows o OneDrive é ativado por padrão e ele acaba deixando todas as pastas e arquivos criados no seu computador como arquivos em nuvem, ao invés de arquivos locais. Isso também acaba gerando erros em alguns ambientes. Para resolver isso é simples, basta desativar o OneDrive para a pasta do seu projeto ou desativar geral mesmo. Você escolhe.
+
+Relacionado a versão do Java que deve ser feito o download, é ideal que seja a versão 12, a qual é a usada pelo professor no decorrer do curso. Porém o curso também pode ser feito com outras versões, de preferência não mais velhas que a versão 12. Desconsiderando a mais nova que é a versão 18, onde infelizmente recebemos alguns relatos de problemas ao fazer o curso com ela, mas tudo indica que é instabilidade dela com a própria IDE usada no curso. O site também teve atualizações e não está como na vídeo aula, então iremos disponibilizar um novo link onde possui as versões do Java.
+
+Link:
+
+    https://www.oracle.com/java/technologies/downloads/archive/
+
+### Usuários Linux e MacOS:
+
 
 ## Aula 09 - Primeiro programa em Java no Eclipse:
 Vamos codar o nosso primeiro código em Java!
