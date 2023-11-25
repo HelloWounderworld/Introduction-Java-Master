@@ -36,5 +36,6 @@ Seguir link:
     https://blog.cod3r.com.br/terminal-no-macos-e-linux/
 
 # Projetos que consegui criar:
+Seguir as listas com o link para acessar os projetos que eu criei:
 
-## Nome do Projeto e as tecnologias usadas nela suas versões e o que precisa para rodar na máquina da pessoa:
+- Project-Chess-Game-Using-Java (https://github.com/HelloWounderworld/Project-Chess-Game-Using-Java.git)
