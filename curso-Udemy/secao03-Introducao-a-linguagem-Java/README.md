@@ -49,7 +49,11 @@ Obs: O JVM é necessário em ambos JDK e JRE.
 ## Aula 06 - Estrutura de uma aplicação Java - Organização da linguagem de programação Java:
 O Java é uma linguagem orientada à objetos.
 
-Bom, a ideia de orientação à objetos é o mesmo que eu já estudei em Python e JavaScript. Vale dar uma revisada no meu repositório sobre a tal linguagem ou ler pelo livro, Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel.
+Bom, a ideia de orientação à objetos é o mesmo que eu já estudei em Python e JavaScript. Vale dar uma revisada no meu repositório sobre a tal linguagem ou ler pelo livro, Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel - Capítulo 1.
+
+Como um exercício, tenta criar um projeto "faculdade", sem precisar colocar código, mas, apenas, focado na criação dos pacotes e classes que representam a arquitetura do que compõe o que seria a faculdade. Ou seja, esse exercício ele é um exercício que requer uma boa imaginação sua para estruturar a arquitetura de uma faculdade dentro da sua cabeça e disso ir criando as classes necessárias para isso.
+
+O professor, Leonardo Moura Leitao, fez um exemplo de uma "clinica". Realizar o mesmo para a "faculdade".
 
 ## Aula 07 - Instalando o Java JDK:
 INSTALANDO O JAVA JDK
@@ -63,6 +67,7 @@ Windows:
 Linux:
 
     https://www.youtube.com/watch?v=Sv0EwYPLw8w&list=PLNuUvBZGBA8mcAF-YX7RJhA26TBLdG5yk&index=3
+    https://www.oracle.com/java/technologies/downloads/#java21
 
 Mac:
 
