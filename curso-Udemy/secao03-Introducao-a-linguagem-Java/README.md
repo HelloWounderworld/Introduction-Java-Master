@@ -11,11 +11,15 @@ Bom, temos o link em que vc consegue acessar as versões do Java atuais
 
     http://www.oracle.com/technetwork/java/javase
 
+    https://www.oracle.com/java/technologies/downloads/#java21
+
 Ou jogar no google "Java SE donwload", SE - Standard Edition.
 
 No caso, vc precisaria baixar os Javas das versões que tenha a sigla LTS (Long Term Support).
 
 No caso, para o curso a versão do Java que vamos utilizar será Java SE 11.0.4 (LTS).
+
+Para quem usa o Linux, baixar a versão Debian, linux-x64_bin.deb.
 
 ## Aula 04 - Histórico e edições de Java:
 Vamos entender um pouco sobre o histórico e edições de Java.
@@ -42,10 +46,10 @@ Obs: O JVM é necessário em ambos JDK e JRE.
 ### Definição de JDK
 É um software com o ambiente completop para construir aplicações e aparatos para usar a linguagem de programação Java. Em outras palavras, o JDK é um software que possui a definição do JRE mais as ferramentas de desenvolvimentos.
 
-## Aula 06 - Estrutura de uma aplicação Java:
+## Aula 06 - Estrutura de uma aplicação Java - Organização da linguagem de programação Java:
 O Java é uma linguagem orientada à objetos.
 
-Bom, a ideia de orientação à objetos é o mesmo que eu já estudei em Python e JavaScript. Vale dar uma revisada no meu repositório sobre a tal linguagem.
+Bom, a ideia de orientação à objetos é o mesmo que eu já estudei em Python e JavaScript. Vale dar uma revisada no meu repositório sobre a tal linguagem ou ler pelo livro, Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel.
 
 ## Aula 07 - Instalando o Java JDK:
 INSTALANDO O JAVA JDK
@@ -83,19 +87,62 @@ A pasta temp e ws-eclipse, se não tiver, vc pode cirar. Em seguida, vc clica no
 
 Feito isso, o ambiente de IDE para Eclipse estará configurado.
 
-### Obs:
-Na versão antiga do Eclipse, ela não selecionava por padrão a opção de criar o arquivo “module-info.java”, atualmente o Eclipse está deixando essa opção marcada por padrão, e a presença desse arquivo irá gerar problemas no decorrer do curso, então vocês podem simplesmente excluir esse arquivo que tudo irá correr bem.
-
-Vocês também podem desabilitar essa opção quando forem criar outro projeto, conforme a imagem modulo_info-java.png.
-
-Basta desmarcar a opção “Create module-info.java file”
-
 ### Instalando Eclipse no Linux Ubuntu 22.04LTS:
+Basta entrar no software e procurar pelo eclipse e instalar. Contato que esteja escrito como a última versão está ótimo!
+
 Eclipse não estava abrindo no 19.04. Formatei o notebook e instalei o 20.04 LTS e após instalar o Eclipse,o mesmo problema: não abria.
 
 Solução: No meu caso era só o pacote java JDK que não estava instalado. Após o instalar,o Eclipse abriu normalmente.
 
 Comando para instalar o JDK pelo Terminal: sudo apt install openjdk-8-jdk
+
+### Criando um novo projeto na minha máquina Linux Ubuntu 22.04:
+Bom, vamos entender melhor sobre o workspace que o eclipse cria automaticamente e dela vamos criar o nosso primeiro novo projeto. Esse projeto será focado em algum estudo conceitual, então, não será necessário criar um novo repositório no github para conseguirmos prosseguir com os estudos.
+
+O recomendável é que sempre utilizemos as últimas versões de Java e Eclipse para prosseguirmos com o estudo para que não tenha problema de compatibilidade no meio do processo, pois o conceito, por mais que as versões das tecnologias usadas sejam diferentes, são as mesmas para serem aplicadas.
+
+Bom, a priori quando abrimos o eclipse, no meu caso, ela aponta em "/home/leonardo/eclipse-workspace" que é o apontamento padrão configurado, no momento em que instalamos o eclipse. Porém, isso não significa que não podemos personalizar o apontamento da mesma. Vamos criar uma nova pasta no lugar que o estudante preferir e colocarmos o nome dessa pasta como "curso-java" para começarmos o nosso curso aí dentro.
+
+O menu "welcome" vc pode fechar.
+
+No meu caso, a path ficou o seguinte "/home/leonardo/Documentos/curso-java", e apontado nessa pasta, vamos clicar em "Launch" para que dentro dessa pasta seja criado a pasta ".metadata" (pasa fantasma) para começarmos o nosso estudo.
+
+No caso, dentro desse "workspace" que colocamos como o nome "curso-java", e que o eclipse configurou como padrão "eclipse-workspace", ela serve para vc criar projetos dentro dela de modo que isso fique guardado na memória do ".metadata" donde essa pasta nos ajuda a manter a configuração que colocamos dentro do ecliopse sobre os projetos que são salvos dentro dessa pasta "workspace". Basta dar "ls -la" dentro da pasta "curso-java" para vermos que essa pasta ".metadata" existe.
+
+Se vc quiser ficar alternando entre outros "workspaces" pelo eclipse, basta encontrar o botão "switch workspace".
+
+Vamo agora configurar a perspectiva no eclipse. No caso, vamos realizar o seguinte passo, com o eclipse aberto
+
+    Window -> Perspective -> Open perspective -> Java (default)
+
+Isso é importante, pois o estudante que estiver definindo a mesma perspectiva que a minha ela poderá acompanhar o curso sem muitos problemas.
+
+Cada perspectiva, ela nos oferece a finalidade do que queremos desenvolver banco de dados, git, Java, JavaScript, etc...
+
+Por hora vamos fechar todas as janelas menos o "Package Explore". Então, janelas como "Task List", "Outline", "Problems", "Javadoc" e "Declaration", vamos fechar todas elas.
+
+Qualquer coisa se for necessário abrir novamente, bastaria fazer passo
+
+    Window -> Show view
+
+nela selecionamos a janela que gostaríamos que seja exibida.
+
+Finalmente, vamos criar o nosso primeiro projeto "java".
+
+Em "Package Explore" cliamos em "Create a Java Project". Isso irá abrir uma modal e nela vamos configurar o seguinte
+
+    Project name: exercicios
+
+Em seguida, clicamos no botão "Finish". Se aparecer algum modal perguntando se vc quer criar algum módulo vc clica em "não" ou "Don't create".
+
+Bom, agora, estamos prontos para entrarmos no processo de código.
+
+### Obs:
+Na versão antiga do Eclipse, ela não selecionava por padrão a opção de criar o arquivo “module-info.java”, atualmente o Eclipse está deixando essa opção marcada por padrão, e a presença desse arquivo irá gerar problemas no decorrer do curso, então vocês podem simplesmente excluir esse arquivo que tudo irá correr bem.
+
+Vocês também podem desabilitar essa opção quando forem criar outro projeto, conforme a imagem modulo_info-java.png.
+
+Basta desmarcar a opção “Create module-info.java file” ou, simplesmente, quando criar um novo projeto, deleta essa pasta.
 
 ### Usuários Windows:
 Fala, galera! Tranquilo?
@@ -115,9 +162,6 @@ Relacionado a versão do Java que deve ser feito o download, é ideal que seja a
 Link:
 
     https://www.oracle.com/java/technologies/downloads/archive/
-
-### Usuários Linux e MacOS:
-
 
 ## Aula 09 - Primeiro programa em Java no Eclipse:
 Vamos codar o nosso primeiro código em Java!
@@ -177,3 +221,5 @@ Para o primeiro teste de rodar um código java, vamos colocar dentro da função
     }
 
 Daí, no Eclipse vc pode rodar ela clicando sobre a pasta Main.java com o botão direito do mouse e escolher a opção "run as" e clicar em "Application as Java". No VSCode, instalado a extensão Code Runner, bastaria clicar no botão play que aparece nas abas dos arquivos em aberto.
+
+Dentro do projeto "exercicio", vamos, agora, criar uma pasta/pacote "fundamentos", com os mesmos passos acima, e vamos criar uma classe com o nome "PrimeiroPrograma". Disso, segue a pasta projeto exercícios que temos nesse curso.
