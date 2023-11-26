@@ -57,6 +57,24 @@ Para cada declaração do tipo de variável será criado um espaço no armazenam
 
 E cada variável ela possui um endereço seu único.
 
+Caso quisermos que a variável declarada, o seu valor, não seja mudado ao longo da compilação, bastaria acrescentar a sintaxe "final" no início da declaração de uma variável
+
+    final double pi = 3.14159;
+
+Se compilarmos
+
+    final double pi = 3.14159;
+		
+	pi = 1;
+
+Isso, irá nos exibir um erro, como podemos ver na classe AreaCircunferencia.java do projeto exercicios.
+
+Bom, uma outra forma de conseguirmos evitar de um certo valor, que queremos que ela seja constante, seja evitada de ser alterada, seria usando uma constante (Será abordado em mais detalhes na Seção 08 da aula 10 e 11). Ou seja, bastaria declarar em letra maíscula
+
+    final double PI = 3.14159;
+
+Como podemos ver na classe AreaCircunferencia.java do projeto exercicio.
+
 Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, são conhecidos como valores imutáveis? São elas
 
 - Tipos númericos inteiros:
@@ -85,6 +103,20 @@ Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, s
 Os valores e valor padrão vc pode consultar na tabela que se encontra no pdf dessa seção.
 
 As boas práticas para declarar uma variável, basta consultar no pdf.
+
+### Desafio:
+No projeto exercicio, vamos criar uma classe "Temperatura.java" e nela, vamos criar um método de conversão de Celsius para Fahrenheit.
+
+    package fundamentos;
+
+    public class Temperatura {
+
+        public static void main(String[] args) {
+                //(ºF - 32) / 9 = ºC / 5
+        }
+    }
+
+Existem diversas formas de resolvermos esse desafio. Porém, exigimos que deixem claro quem são as constantes e quem são as variáveis com os seus respectivos tipos de valores para resolvermos esse problema!
 
 ## Aula 05 - As três operações básicas de programação:
 No caso, as três operações básicas de um computador, essencialmente, são
