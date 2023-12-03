@@ -34,7 +34,7 @@ Assim como em Python e JavaScript, a leitura é de esquerda para direita, caso t
 
 A precedência que vai acima de tudo, será o entre parênmteses, ().
 
-## Aula 04 - Variáveis e tipos básicos em Java:
+## Aula 04 - Variáveis e tipos Básico/Primitivos em Java:
 Bom, basicamente a ideia de variáveis e tipos básicos de Java, está no fato de como um programa de computador ele executa as suas contas
 
 • Um programa de computador em execução lida com dados
@@ -75,18 +75,23 @@ Bom, uma outra forma de conseguirmos evitar de um certo valor, que queremos que 
 
 Como podemos ver na classe AreaCircunferencia.java do projeto exercicio.
 
-Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, são conhecidos como valores imutáveis? São elas
+Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, são conhecidos como valores imutáveis?
 
-- Tipos númericos inteiros:
+Temos 8 tipos.
 
-    byte
-    short
-    int long
+São elas:
+
+- Tipos númericos inteiros: (bytes = capacidade de armazenamento)
+
+    byte // range do bytes é de -128 até 127 - 1 bytes
+    short // já do short é +- 32.767 - 2 bytes
+    int // temos 4 bytes
+    long // 8 bytes
 
 - Tipos numéricos com ponto flutuante:
 
-    float
-    double
+    float // 4 bytes
+    double // 8 bytes
 
 - Um caractere Unicode:
 
@@ -94,7 +99,7 @@ Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, s
 
 - Booleanos:
 
-    boolean
+    boolean // Por padrão é definido como false
 
 - String:
 
@@ -103,6 +108,21 @@ Daí, quais são os tipos de valores primitivos, donde em Python e JavaScript, s
 Os valores e valor padrão vc pode consultar na tabela que se encontra no pdf dessa seção.
 
 As boas práticas para declarar uma variável, basta consultar no pdf.
+
+Se colocarmos o seguinte
+
+    double a = 3;
+    double b = 3.2;
+
+No caso, a variável "a" será defido, por padrão, mesmo que usado o double, como int, então será consumido 4 bytes. Já, a variável "b" será consumido 8 bytes, por ser, de fato, um double.
+
+### Obs:
+
+    1 byte <=> 8 bits
+
+Lembrando que, em tipos primitivos, sempre que vc converte algum valor da mesma natureza, numérica, por exemplo, para outra, se será ou não possível, vai ser visto via o tamanho de bytes. Como podemos ver no último exemplo da variável "a" e "b", onde usando o double, foi possível colocar o int, porque o double, ela pode armazenar até 8 bytes, "int < double".
+
+A lógica é o tipo menor sempre pode ser atribuído ao tipo maior.
 
 ### Desafio:
 No projeto exercicio, vamos criar uma classe "Temperatura.java" e nela, vamos criar um método de conversão de Celsius para Fahrenheit.
@@ -117,6 +137,54 @@ No projeto exercicio, vamos criar uma classe "Temperatura.java" e nela, vamos cr
     }
 
 Existem diversas formas de resolvermos esse desafio. Porém, exigimos que deixem claro quem são as constantes e quem são as variáveis com os seus respectivos tipos de valores para resolvermos esse problema!
+
+Vamos praticar mais sobre os Tipos Primitivos na linguagem Java.
+
+Vamos criar uma classe "TiposPrimitivos" e nela vamos colocar o seguinte
+
+    package fundamentos;
+
+    public class TiposPrimitivos {
+
+        public static void main(String[] args) {
+            // Informações do funcionário
+            
+            // Tipos numéricos inteiros
+            byte anosDeEmpresa = 23; // se colocar 128 ele dará problema
+            short numeroDeVoos = 542; // se colocar acima disso dará problema
+            int id = 56789;
+            long pontosAcumulados = 1_234_845_223; // Se vc colocar mais que 3 bilhões dará um problema
+            pontosAcumulados = 3_234_845_223L; // Você precisa colocar um L (large) caso supere os 3 bilhões
+            
+            // Tipos numéricos reais
+            float salario = 11_445.44F;// Se vc utilizar o float, é necessário colocar o F (pode ser f) no final para indicar que é literal float, e não double
+            salario = 1.22F;
+            double vendasAcumuladas = 2_991_797_103.01;
+            
+            // Até agora, temos 6 tipos numéricos básicos.
+            
+            // Tipo booleano
+            boolean estaDeFerias = false; // true
+            
+            // Tipo caractere
+            char status = 'A'; // ativo - Vc pode colocar um tipo de caractere, não pode colocar, por exemplo, 'AT'
+    //		char statusDois = '\u0010'; // raras excecoes, vc pode colocar esse tipo de dado que é um tipo de valor da tabela unicode
+            
+            // Dias de empresas
+            System.out.println(anosDeEmpresa * 365);
+            
+            // Número de viagens
+            System.out.println(numeroDeVoos / 2);
+            
+            // Pontos por real
+            System.out.println(pontosAcumulados / vendasAcumuladas);
+            
+            System.out.println(id + ": ganha -> " + salario);
+            System.out.println("Férias? " + estaDeFerias);
+            
+            System.out.println("Status: " + status);
+        }
+    }
 
 ## Aula 05 - As três operações básicas de programação:
 No caso, as três operações básicas de um computador, essencialmente, são
@@ -381,3 +449,195 @@ Abraços e bons estudos! Nelio.
 Seguir o arquivo pdf
 
     02-exercicios1-estrutura-sequencial.pdf
+
+## Aula 13 - Inferência de Tipos:
+Vamos falar sobre inferência de tipos que é um recurso que surgiu no lançamento do Java 10.
+
+No projeto de exercícios, vamos criar uma classe chamado "Inferencia".
+
+No caso, a inferência, em Java, é quando vc coloca o seguinte
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5;
+            System.out.println(a);
+            
+            var b = 4.5;
+            System.out.println(b);
+        }
+    }
+
+Note que, acima, temos a variável "double", donde deixa claro o tipo de variável que vc está colocando. Enquanto que na variável "b", foi utilizado o "var" e foi colocado o mesmo tipo de número.
+
+No caso, a inferência aqui é quando vc usa esse "var" e, de acordo com o tipo de valor que vc colocar na variável, a linguagem Java, ela infere para determinar qual o tipo de valor que foi colocado.
+
+Ou seja, podemos realizar a mesma coisa para outros tipos de valores, como podemos ver abaixo
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5;
+            System.out.println(a);
+            
+            var b = 4.5;
+            System.out.println(b);
+            
+            var c = "Texto";
+            System.out.println(c);
+            
+            c= "Outro texto";
+            System.out.println(c);
+        }
+    }
+
+Abaixo, no uso de "var" para a variável "c", foi utilizado uma string. No momento em que é processado, será inferido que foi utilizado uma String.
+
+Agora, o que vc não pode fazer no uso da inferência de uma variável, é de colocar um outro tipo de valor em uma variável que já foi inferido uma vez
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5;
+            System.out.println(a);
+            
+            var b = 4.5;
+            System.out.println(b);
+            
+            var c = "Texto";
+            System.out.println(c);
+            
+            c= "Outro texto";
+            System.out.println(c);
+            
+            c = 4.5;
+        }
+    }
+
+Como podemos ver acima, na variável "c", que foi inferido uma vez uma string, vc não pode definir um valor float nela.
+
+Ou seja, em Java, uma vez que ela está amarrado à um tipo, vc não pode alterar ela ao longo do processo. Não é que nem JavaScript.
+
+O mesmo, obviamente, vale para outros tipos de variáveis que são definidos sem a inferência
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5;
+            System.out.println(a);
+            
+            a = 12;
+            System.out.println(a);
+            
+    //		a = "...";
+            
+            var b = 4.5;
+            System.out.println(b);
+            
+            var c = "Texto";
+            System.out.println(c);
+            
+            c= "Outro texto";
+            System.out.println(c);
+            
+    //		c = 4.5;
+        }
+    }
+
+Podemos ver que a variável "a", que está definido como double, foi colocado à ela um valor inteiro, mas o que será retornado no console será "12.0".
+
+Uma outra coisa que não podemos fazer usando "var" para inferir algum valor, seria em declarar alguma variável, diferentemente na forma como é definido uma variável sem usar a inferencia
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5; //declaracao da variavel e inicializacao da mesma
+            System.out.println(a);
+            
+            a = 12;
+            System.out.println(a);
+            
+    //		a = "... ";
+            
+            var b = 4.5;
+            System.out.println(b);
+            
+            var c = "Texto";
+            System.out.println(c);
+            
+            c= "Outro texto";
+            System.out.println(c);
+            
+    //		c = 4.5;
+            
+            double d; // variavel foi declarada
+            d = 123.65; // variavel foi inicializada
+            System.out.println(d); // variavel foi usada
+            
+    //		var e; // Não é possível declarar uma variavel usando o var
+    //		e = 123.65;
+            var e = 123.65;
+            System.out.println(e);
+        }
+    }
+
+Como podemos ver acima na comparação entre a variável "d" e "e", onde, a primeira, é declarada, em seguida inicializada e, depois, usada, sendo que na segunda, com o uso do "var", no momento em que ela é declarada já precisa ser inicializada tbm.
+
+Bom, lembrando, novamente, que visto que a linguagem de programação Java é de tipagem forte, então, uma vez que vc define um tipo não pode ser convertido em outra, exceto de for de double usando um int dentro dela, mas não o inverso, como podemos ver na variável "f" abaixo
+
+    package fundamentos;
+
+    public class Inferencia {
+
+        public static void main(String[] args) {
+            
+            double a = 4.5; //declaracao da variavel e inicializacao da mesma
+            System.out.println(a);
+            
+            a = 12;
+            System.out.println(a);
+            
+    //		a = "... ";
+            
+            var b = 4.5;
+            System.out.println(b);
+            
+            var c = "Texto";
+            System.out.println(c);
+            
+            c= "Outro texto";
+            System.out.println(c);
+            
+    //		c = 4.5;
+            
+            double d; // variavel foi declarada
+            d = 123.65; // variavel foi inicializada
+            System.out.println(d); // variavel foi usada
+            
+    //		var e; // Não é possível declarar uma variavel usando o var
+    //		e = 123.65;
+            var e = 123.65;
+            System.out.println(e);
+            
+            var f = 12;
+    //		f = 12.01;
+            System.out.println(f);
+        }
+    }
+
+Podemos ver que, na variável "a", se ela for definido como double, mesmo vc atribuindo um valor inteiro nela, ela reconhecerá como um double, mas o inverso não funciona. Ou seja, uma vez que vc define um inteiro, vc não consegue atribuir um valor double nela.
