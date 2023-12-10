@@ -448,7 +448,7 @@ Da mesma forma, usamos o casting da seguinte forma
     b = (int) a;
     System.out.println(b);
 
-## Aula 08 e 09 - Entrada de dados em Java - Parte 1 e 2:
+## Aula 08 e 09 - Entrada de dados em Java - Parte 1 e 2 - Console:
 Vamos ver sobre entrada de dados, que é quando vc digita algo pelo teclado, usualmente.
 
 Vamos usar o scanner para realizar a entrada de algum dado
@@ -539,6 +539,46 @@ Para resolver esse problema vc dá um outro nextLine antes dessa variável s1
     System.out.println(s1);
     System.out.println(s2);
     System.out.println(s3);
+
+Passando para esclarecer uma particularidade dos métodos nextInt() e nextDouble(). Ambos os métodos têm a mesma particularidade, mas vou explicá-la através do nextInt() com o exemplo abaixo.
+
+    Scanner teclado = new Scanner(System.in);
+ 
+    System.out.println("Qual a sua idade?");
+    int idade = teclado.nextInt();
+    System.out.println("Qual o seu nome?");
+    String nome = teclado.nextLine();
+    System.out.println("Qual o seu sobrenome?");
+    String sobrenome = teclado.nextLine();
+ 
+    teclado.close();
+
+À primeira vista, parece que está tudo bem com este código. Mas quando o rodamos, o que é impresso no console (contendo os inputs) é o seguinte:
+
+Qual a sua idade? 25
+Qual o seu nome? Qual o seu sobrenome? Silva
+Isso acontece por causa da maneira como o nextInt() faz a leitura dos valores.
+
+Esse método faz a leitura de um único número, por exemplo, 58 ou 958. Mas quando digitamos os inputs, além do valor que deve ser lido, também apertamos enter, o que gera um caracter "\n" no buffer de entrada (fila de coisas que devem ser lidas), que é uma representação do enter.
+
+Então, o que acontece é: "Qual a sua idade?" é impresso, digitamos o valor e apertamos enter. Quando fazemos isso, o buffer de entrada fica com o conteúdo "25\n", e quando o nextInt() faz a leitura, ele lê apenas o 25, deixando o "\n" para trás. Depois disso, "Qual o seu nome?" é impresso, e o método nextLine() vai ler tudo que estiver no buffer de entrada até encontrar um "\n". Como o nextInt() deixou um "\n" para trás, é esse o valor que o nextLine() lê. Isso conclui a leitura e a próxima linha de código, que é "Qual o seu sobrenome?", é impressa.
+
+Para resolver esse problema, precisamos "pegar" o "\n" que o nextInt() não lê. Isso pode ser feito colocando um comando nextLine() depois do nextInt(), de modo que o código abaixo vai funcionar da maneira como queríamos.
+
+Scanner teclado = new Scanner(System.in);
+ 
+    System.out.println("Qual a sua idade?");
+    int idade = teclado.nextInt();
+    teclado.nextLine(); //lê o "\\\\n" que o teclado.nextInt() deixa para trás.
+    System.out.println("Qual o seu nome?");
+    String nome = teclado.nextLine();
+    System.out.println("Qual o seu sobrenome?");
+    String sobrenome = teclado.nextLine();
+ 
+    teclado.close();
+
+### Obs:
+Seguir a classe "Console" criado no projeto exercicios, dentro do pacote fundamentos. Essa classe, serve como espaço para explorar mais dos recursos.
 
 ## Aula 10 - Funções matemáticas em Java:
 Vamos ver algumas funções matemáticas!
@@ -1068,3 +1108,49 @@ O mesmo vale para a classe "System", como segue
     }
 
 Além disso, podemos notar que a forma como importamos uma classe ela é feita importanto a path inteira. Isso, pode ser útil, pois caso exista duas classes com o mesmo nome, mas com o caminho diferente, podemos importar as duas classes em uma mesma classe sem termos o problema de conflito.
+
+## Aula 16 - Objeto vs Prmitivo - Wrappers:
+Sobre wrappers, temos uma abordagem desse conceito na seção 10 da aula 12 pela frente. Porém, vamos dar uma breve introdução da mesma.
+
+Vamos começando por criar a classe "PrimitivoVsObjeto" dentro do projeto exercicios, do pacote fundmentos
+
+    package fundamentos;
+
+    public class PrimitivosVsObjetos {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Já foi discutido que, em Java, temos 8 tipos de valores primitivos, sendo 6 numéricos, 1 booleano e 1 char.
+
+Vamos que, quando usamos a classe "String", vimos que conseguimos ter acessos aos métodos definidos dentro dessa classe. Porém, para os tipos primitivos, vimos que não
+
+    package fundamentos;
+
+    public class PrimitivosVsObjetos {
+
+        public static void main(String[] args) {
+            
+            String s = new String("Texto");
+            s.toUpperCase();
+            
+            // Wrappers - são a versão objeto dos tipos primitivos!
+            int a = 123;
+            System.out.println(a);
+        }
+    }
+
+No caso, os wrappers, basicamente, são objetos dos tipos primitivos. Ou seja, é um objeto que simula um valor primitivo, mas, por ser um objeto, te permite aplicar os métodos dentro dela.
+
+Bom, para melhor aprofundarmos nesse conceito, vamos criar uma nova classe dentro do projeto, exercicios, e dentro do pacote, fundamentos, chamado "Wrapper"
+
+    package fundamentos;
+
+    public class Wrapper {
+
+        public static void main(String[] args) {
+            
+        }
+    }
