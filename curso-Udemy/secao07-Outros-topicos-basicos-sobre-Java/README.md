@@ -96,58 +96,10 @@ Bom, aqui está um outro exemplo dessa aplicação
 
 No caso, o exemplo acima é para verificar se o sexto bit é um número 1 ou não, ou seja, 0000 0100, representado na forma 0b100000. No caso, colocado um número inteiro n, ele converterá no binário e irá comparar com o binário mask para verificar se esse número inteiro, o sexto bit dele tbm é um número 1.
 
-## Aula 04 - Funções interessantes para String:
-Bom, aqui é algo análogo do que foi visto em JavaScript.
-
-São os métodos úteis para o uso nas strings. São elas
-
-•Formatar: toLowerCase(), toUpperCase(), trim()
-
-•Recortar: substring(inicio), substring(inicio, fim)
-
-•Substituir: Replace(char, char), Replace(string, string)
-
-•Buscar: IndexOf, LastIndexOf
-
-•str.Split(" ")
-
-Bom, só dá uma revisada e pula para a próxima aula.
-
-Exemplos de suas aplicações
-
-    String original = "abcde FGHIJ ABC abc DEFG   ";
-    String s01 = original.toLowerCase();
-    String s02 = original.toUpperCase();
-    String s03 = original.trim();
-    String s04 = original.substring(2);
-    String s05 = original.substring(2, 9);
-    String s06 = original.replace('a', 'x');
-    String s07 = original.replace("abc", "xy");
-    int i = original.indexOf("bc");
-    int j = original.lastIndexOf("bc");
-    System.out.println("Original: -" + original + "-");
-    System.out.println("toLowerCase: -" + s01 + "-");
-    System.out.println("toUpperCase: -" + s02 + "-");
-    System.out.println("trim: -" + s03 + "-");
-    System.out.println("substring(2): -" + s04 + "-");
-    System.out.println("substring(2, 9): -" + s05 + "-");
-    System.out.println("replace('a', 'x'): -" + s06 + "-");
-    System.out.println("replace('abc', 'xy'): -" + s07 + "-");
-    System.out.println("Index of 'bc': " + i);
-    System.out.println("Last index of 'bc': " + j);
-
-Operação com o split
-
-    String s = "potato apple lemon";
-    String[] vect = s.split(" ");
-    String word1 = vect[0];
-    String word2 = vect[1];
-    String word3 = vect[2];
-
-## Aula 05 - Comentários em Java (básico):
+## Aula 04 - Comentários em Java (básico):
 É o mesmo do JavaScript, // e /* */.
 
-## Aula 06 - Funções (sintaxe):
+## Aula 05 - Funções (sintaxe):
 • Representam um processamento que possui um significado• Math.sqrt(double)
 
 • System.out.println(string)
