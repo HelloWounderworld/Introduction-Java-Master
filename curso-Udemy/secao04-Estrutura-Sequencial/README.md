@@ -103,7 +103,9 @@ São elas:
 
 - String:
 
-    string
+    string // essa palavra não está guardada no Java - String não é uma chave primitiva - Vamos dar uma atenção espécial para ela na seção Tipo Strings
+
+    String x = "bla" // Jeito certo de declararmos
 
 Os valores e valor padrão vc pode consultar na tabela que se encontra no pdf dessa seção.
 
@@ -123,6 +125,137 @@ No caso, a variável "a" será defido, por padrão, mesmo que usado o double, co
 Lembrando que, em tipos primitivos, sempre que vc converte algum valor da mesma natureza, numérica, por exemplo, para outra, se será ou não possível, vai ser visto via o tamanho de bytes. Como podemos ver no último exemplo da variável "a" e "b", onde usando o double, foi possível colocar o int, porque o double, ela pode armazenar até 8 bytes, "int < double".
 
 A lógica é o tipo menor sempre pode ser atribuído ao tipo maior.
+
+### Tipo String:
+Vamos falar um pouco mais sobre o tipo String, que, ela não é um tipo primitivo, mas, sim, ela é um tipo classe.
+
+Por começo, dentro do projeto, exercicios, no pacote, fundamentos, vamos criar uma classe chamado "TipoString"
+
+    package fundamentos;
+
+    public class TipoString {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Por começo, vamos printar um valor literal
+
+    package fundamentos;
+
+    public class TipoString {
+
+        public static void main(String[] args) {
+            System.out.println("Olá pessoal");
+            System.out.println("Olá pessoal".charAt(0));
+            System.out.println("Olá pessoal".charAt(1));
+            System.out.println("Olá pessoal".charAt(2));
+            System.out.println("Olá pessoal".charAt(3));
+            System.out.println("Olá pessoal".charAt(4));
+            System.out.println("Olá pessoal".charAt(5));
+        }
+    }
+
+Acima, estamos usando o método "charAt" donde colocamos um índice nela e vamos ver que ela, trata a String como uma lista, donde podemos exibir cada caractere onde está na sua posição. Bom, temos uma correspondência entre o conjunto {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10} e {O, l, á, , p, e, s, o, a} que daria uma função que define uma sequência.
+
+Bom, agora, trabalhando com algumas funcionalidades da String
+
+    package fundamentos;
+
+    public class TipoString {
+
+        public static void main(String[] args) {
+            System.out.println("Olá pessoal");
+            System.out.println("Olá pessoal".charAt(0));
+            System.out.println("Olá pessoal".charAt(1));
+            System.out.println("Olá pessoal".charAt(2));
+            System.out.println("Olá pessoal".charAt(3));
+            System.out.println("Olá pessoal".charAt(4));
+            System.out.println("Olá pessoal".charAt(5));
+            
+            String s = "Hello WounderWorld";
+            System.out.println(s.concat("!!!"));
+            System.out.println(s + "!!!");
+        }
+    }
+
+Bom, acima, temos o método "concat" que foi usado, porém, podemos fazer a mesma coisa usando o operador "+".
+
+Vamos deixar em mente uma coisa bem importante.
+
+Afirmação:
+
+    String é um objeto imutável
+
+O que significa isso?
+
+Significa que vc nunca, mas nunca, irá conseguir mudar o valor inicial atribuido à uma string. Por exemplo
+
+    package fundamentos;
+
+    public class TipoString {
+
+        public static void main(String[] args) {
+            System.out.println("Olá pessoal");
+            System.out.println("Olá pessoal".charAt(0));
+            System.out.println("Olá pessoal".charAt(1));
+            System.out.println("Olá pessoal".charAt(2));
+            System.out.println("Olá pessoal".charAt(3));
+            System.out.println("Olá pessoal".charAt(4));
+            System.out.println("Olá pessoal".charAt(5));
+            
+            String s = "Hello WounderWorld";
+            s = s.toUpperCase();
+            s = "Good Morning!";
+            System.out.println(s.concat("!!!"));
+            System.out.println(s + "!!!");
+        }
+    }
+
+Nos métodos que eu apliquei acima ou até mesmo troquei o valor, parece que eu mudei o valor original em si. Não se engane, pois eu não mudei o valor, eu troquei elas. Ou seja, o valor em si "Hello WounderWorld" eu não mudei absolutamente nada dela.
+
+Assim, a mesma analogia vale para outros métodos que temos para a classe "String"
+
+    package fundamentos;
+
+    public class TipoString {
+
+        public static void main(String[] args) {
+            System.out.println("Olá pessoal");
+            System.out.println("Olá pessoal".charAt(0));
+            System.out.println("Olá pessoal".charAt(1));
+            System.out.println("Olá pessoal".charAt(2));
+            System.out.println("Olá pessoal".charAt(3));
+            System.out.println("Olá pessoal".charAt(4));
+            System.out.println("Olá pessoal".charAt(5));
+            
+            String s = "Hello WounderWorld";
+            s = s.toUpperCase();
+            s = "Good Morning";
+            System.out.println(s.concat("!!!"));
+            System.out.println(s + "!!!");
+            System.out.println(s.startsWith("Good"));
+            System.out.println(s.startsWith("good"));
+            System.out.println(s.toLowerCase().startsWith("good"));
+            System.out.println(s.endsWith("Morning"));
+            System.out.println(s.endsWith("morning"));
+            System.out.println(s.toLowerCase().endsWith("Morning"));
+            System.out.println(s.equals("good morning"));
+            System.out.println(s.equalsIgnoreCase("good morning"));
+            
+            var nome = "Leonardo";
+            var sobrenome = "Teramatsu";
+            var idade = 27;
+            var salario = 3000.00;
+            
+            System.out.println("Nome: " + nome + "\nSobrenome: " + sobrenome + "\nIdade: " + idade + "\nSalario: " + salario);
+            System.out.printf("O senhor %s %s tem %d anos e ganha R$ %.2f.", nome, sobrenome, idade, salario);
+            
+            String frase = String.format("\nO senhor %s %s tem %d anos e ganha R$ %.2f.", nome, sobrenome, idade, salario);
+            System.out.println(frase);
+        }
+    }
 
 ### Desafio:
 No projeto exercicio, vamos criar uma classe "Temperatura.java" e nela, vamos criar um método de conversão de Celsius para Fahrenheit.
@@ -641,3 +774,297 @@ Bom, lembrando, novamente, que visto que a linguagem de programação Java é de
     }
 
 Podemos ver que, na variável "a", se ela for definido como double, mesmo vc atribuindo um valor inteiro nela, ela reconhecerá como um double, mas o inverso não funciona. Ou seja, uma vez que vc define um inteiro, vc não consegue atribuir um valor double nela.
+
+## Aula 14 - Notação Ponto:
+Bom, o uso do ponto, ".", dentro do programa Java é extremamente importante e relevante.
+
+Para aprofundarmos mais no assunto, vamos criar uma classe "NotacaoPonto", que será usada para explicarmos a importância disso
+
+    package fundamentos;
+
+    public class NotacaoPonto {
+
+        public static void main(String[] args) {
+            
+            double a = 2.3;
+            String s = "Bom dia X";
+            
+            
+        }
+    }
+
+Note que, quando pegamos a variável "s" que foi definida acima e fazemos "s.", ou seja, colocamos o ponto, ".", podemos ver que irá aparecer vários métodos nativos do Java que podemos aplicar sobre ela. Escolhemos o "toUpperCase()" como segue
+
+    package fundamentos;
+
+    public class NotacaoPonto {
+
+        public static void main(String[] args) {
+            
+            double a = 2.3;
+            String s = "Bom dia X";
+            
+            System.out.println(s.toUpperCase());
+            System.out.println(s); // Note que, o método "toUpperCase()" aplicado, não foi permanente
+            
+            s = s.toUpperCase();
+            System.out.println(s);
+        }
+    }
+
+Da mesma forma, a lógica serve para outros métodos que temos de nativos para podermos aplicar sobre a String
+
+    package fundamentos;
+
+    public class NotacaoPonto {
+
+        public static void main(String[] args) {
+            
+            double a = 2.3;
+            String s = "Bom dia X";
+            
+            System.out.println(s.toUpperCase());
+            System.out.println(s); // Note que, o método "toUpperCase()" aplicado, não foi permanente
+            
+            s = s.toUpperCase();
+            System.out.println(s);
+            
+            System.out.println(s.replace("X", "WounderWorld!"));
+            System.out.println(s);
+            
+            s = s.replace("X", "WounderWorld!");
+            System.out.println(s);
+            
+            s = s.concat("?????");
+            System.out.println(s);
+            
+            System.out.println("Leo".toUpperCase());
+            
+            String x = "Leo".toUpperCase();
+            System.out.println(x);
+            
+            String y = "Bom dia X".replace("X", "Lupin");
+            System.out.println(y);
+        }
+    }
+
+Porém, podemos ver que, esse uso de ponto, pode ser algo sequencial. Ou seja, podemos aplicar de forma em série
+
+    package fundamentos;
+
+    public class NotacaoPonto {
+
+        public static void main(String[] args) {
+            
+            double a = 2.3;
+            String s = "Bom dia X";
+            
+            System.out.println(s.toUpperCase());
+            System.out.println(s); // Note que, o método "toUpperCase()" aplicado, não foi permanente
+            
+            s = s.toUpperCase();
+            System.out.println(s);
+            
+            System.out.println(s.replace("X", "WounderWorld!"));
+            System.out.println(s);
+            
+            s = s.replace("X", "WounderWorld!");
+            System.out.println(s);
+            
+            s = s.concat("?????");
+            System.out.println(s);
+            
+            System.out.println("Leo".toUpperCase());
+            
+            String x = "Leo".toUpperCase();
+            System.out.println(x);
+            
+            String y = "Bom dia X"
+                    .replace("X", "Lupin")
+                    .toUpperCase()
+                    .concat("!!!");
+            System.out.println(y);
+        }
+    }
+
+A ordem de execução é de esquerda para a direita. Ou seja, "replace", em seguida, "toUpperCase" e, por fim, "concat".
+
+Lembrando que, todo esse processo fizemos sobre String, que não é um valor primitivo. Em um valor primitivo, esse ponto, não funciona
+
+    package fundamentos;
+
+    public class NotacaoPonto {
+
+        public static void main(String[] args) {
+            
+    //		double a = 2.3;
+            String s = "Bom dia X";
+            
+            System.out.println(s.toUpperCase());
+            System.out.println(s); // Note que, o método "toUpperCase()" aplicado, não foi permanente
+            
+            s = s.toUpperCase();
+            System.out.println(s);
+            
+            System.out.println(s.replace("X", "WounderWorld!"));
+            System.out.println(s);
+            
+            s = s.replace("X", "WounderWorld!");
+            System.out.println(s);
+            
+            s = s.concat("?????");
+            System.out.println(s);
+            
+            System.out.println("Leo".toUpperCase());
+            
+            String x = "Leo".toUpperCase();
+            System.out.println(x);
+            
+            String y = "Bom dia X"
+                    .replace("X", "Lupin")
+                    .toUpperCase()
+                    .concat("!!!");
+            System.out.println(y);
+            
+            // Tipos primitivos não tem o operador "."
+            int a = 3;
+            System.out.println(a);
+        }
+    }
+
+Ou seja, na variável inteiro "a" acima, se fizermos "a.", não irá aparecer nada.
+
+## Aula 15 - Import:
+Vamos falar um pouco sobre o import.
+
+O "import", basicamente, ela serve para conseguirmos importar classes para outras classes. Isso tem tudo haver com o conceito de orientação à objetos, pois esse processo de "import" ela serve para vc conseguir apontar um objeto para o outro de fora unívoca ou biunívoca. Bom, em teoria das categorias, isso, provavelmente, são chamados de funtores.
+
+Para explicarmos, de forma breve, sobre esse conceito, vamos criar uma classe chamado "Import"
+
+    package fundamentos;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Bom, por começo, temos o caso de podermos usar a "String" que é algo nativo dentro da linguagem de programação Java, que é um caso em que não temos necessidade de importarmos nada à respeito
+
+    package fundamentos;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+        }
+    }
+
+Porém, se eu tiver que usar um tipo "Date", como segue, para podermos realizar o uso dela, teremos, sim, que importar a tal classe para podermos aplicar os métodos definidos dentro dela
+
+    package fundamentos;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+            
+            Date d = new Date();
+            System.out.println(d);
+        }
+    }
+
+Se tentarmos executar na forma como está acima, teremos um grande problema, pois, mesmo que a classe Date, exista dentro da lingugem de programação Java, ela não existe como algo nativo. Então, o "Date" não será reconhecido pela linguagem Java. Para resolvermos isso, precisamos importar o "Date".
+
+    package fundamentos;
+
+    import java.util.Date;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+            
+            Date d = new Date();
+            System.out.println(d);
+        }
+    }
+
+Conseguimos, agora, exibir.
+
+Caso você queria construir uma interface gráfica em Java, temos a classe que existe em Java, mas não é nativo, que é o "JButton", quando digitamos o "JButton" e darmos "Ctrl + Space", será mostrado a opção de importação automatica
+
+    package fundamentos;
+
+    import java.util.Date;
+
+    import javax.swing.JButton;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+            
+            Date d = new Date();
+            System.out.println(d);
+            
+            JButton botao = new JButton();
+        }
+    }
+
+Bom, como podemos notar, nem tudo está disponível na linguagem Java de forma nativa, ao ponto de algumas coisas termos a necessidade de ter que importar.
+
+Note que, como exemplo, a classe "String", ela é uma classe, e não um valor primitivo. Porém, sempre que usamos ela, não temos a necessidade de importar a mesma. Porém, podemos mostrar em qual path essa classe "String" ela pertence
+
+    package fundamentos;
+
+    import java.util.Date;
+
+    import javax.swing.JButton;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            java.lang.String b = "Path onde a classe String pertence dentro do Java";
+            System.out.println(b);
+            
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+            
+            Date d = new Date();
+            System.out.println(d);
+            
+            JButton botao = new JButton();
+        }
+    }
+
+O mesmo vale para a classe "System", como segue
+
+    package fundamentos;
+
+    import java.util.Date;
+
+    import javax.swing.JButton;
+
+    public class Import {
+
+        public static void main(String[] args) {
+            java.lang.String b = "Path onde a classe String pertence dentro do Java";
+            java.lang.System.out.println(b);
+            
+            String s = "Hello WounderWorld!";
+            System.out.println(s);
+            
+            Date d = new Date();
+            System.out.println(d);
+            
+            JButton botao = new JButton();
+        }
+    }
+
+Além disso, podemos notar que a forma como importamos uma classe ela é feita importanto a path inteira. Isso, pode ser útil, pois caso exista duas classes com o mesmo nome, mas com o caminho diferente, podemos importar as duas classes em uma mesma classe sem termos o problema de conflito.
