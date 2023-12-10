@@ -32,6 +32,8 @@ Operadores lógicos são
     || - or
     ! - not
 
+Qualquer coisa, testar no projeto exercicio do pacote fundamentos e, dentro desse pacote está o pacote, operadores com a classe chamado "Logico".
+
 ## Aula 05 - Estrutura condicional (if-else):
 Vamos ver como é a sua sintaxe
 

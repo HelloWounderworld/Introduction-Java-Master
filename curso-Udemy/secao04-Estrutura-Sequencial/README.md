@@ -34,6 +34,10 @@ Assim como em Python e JavaScript, a leitura é de esquerda para direita, caso t
 
 A precedência que vai acima de tudo, será o entre parênmteses, ().
 
+Para melhor entendimento seguir o arquivo:
+
+    Operadores+Java+-+Tabela+de+Precedência.pdf
+
 ## Aula 04 - Variáveis e tipos Básico/Primitivos em Java:
 Bom, basicamente a ideia de variáveis e tipos básicos de Java, está no fato de como um programa de computador ele executa as suas contas
 
@@ -420,7 +424,7 @@ Vamos fazer um teste
 
 note que, cada sigla "%s", "%d" e "%f", corresponde aos tipos de valores primitivos.
 
-## Aula 07 - Processamento de dados em Java, Casting:
+## Aula 07 - Processamento de dados em Java, Casting (Conversão explícita):
 O processamento de dados ele é literalmente a atribuição, como foi visto no curso de JavaScript e Python. No caso, a sua estrutura se define o seguinte
 
 - Sintaxe:
@@ -492,6 +496,202 @@ Da mesma forma, usamos o casting da seguinte forma
     //		Usando o casting teria que corrigir assim
     b = (int) a;
     System.out.println(b);
+
+### Conversões de Tipos Primitivos:
+Baiscamente, seria uma relação de ordem do que te permite converter uma para outra sem ou com risco de perder alguma informação.
+
+    byte < short < int < long
+
+Ou seja, você consegue converter byte para short, sem correr risco de perder a informação, assim como de short para int, vale a transitividade de byte para int, e, por fim, converter de int para long sem perder informação. Isso porque, tem haver com o tamanho que é suportado de cada tipo primitivo para outro. Nesse caso, a conversão que obedece a ordem acima se chama do tipo implítico, nativo do Java.
+
+Já a conversão da ordem inversa do que foi dita acima, o tipo de conversão é explícita.
+
+A mesma ideia serve para a relação de conversão entre int e float.
+
+Bom, vamos ver isso na prática.
+
+Vamos, por começo, criar uma classe "ConversaoTipoPrimitivoNumerico", no projeto exercicios do pacote fundamentos.
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Primeiro, vamos mostrar uma conversão implícita. No caso, vamos definir uma variável do tipo double e nela iremos passar um tipo int
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+        }
+    }
+
+No caso, a conversão acima foi implícita, ou seja, não precisou mostrar algum processo de conversão.
+
+Agora, usando do tipo primitivo float, vamos mostrar como é feito uma conversão explícita. Segue o seguinte
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+            System.out.println(a);
+            
+            float b = (float) 1.0; // conversao explicita
+        }
+    }
+
+Acima, temos um exemplo de conversão explícita, pois mesmo que estivermos declarando o tipo float no valor primitivo, estamos colocando um tipo double dentro do valor. Uma forma de contornar esse problema seria, simplesmente, colocar "1.0F". Porém, temos também a forma de converter de forma explícita acima, dizendo que de double estou convertendo para um float.
+
+Mas, aí, lembra do que eu havía comentado sobre o risco de perder informações quando se faz uma conversão explicita? Bom, no cenário acima não muda. Ou seja, se colocarmos um número quebrado com várias casas decimais, teremos em um momento esse valor será arredondado, algo que no double não irá acontecer
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+            System.out.println(a);
+            
+            float b = (float) 1.0; // conversao explicita
+            float b2 = (float) 1.12324546;
+            float b3 = (float) 1.123245464654561515555555;
+            double b4 = 1.123245464654561515555555;
+            System.out.println(b);
+            System.out.println(b2);
+            System.out.println(b3);
+            System.out.println(b4);
+        }
+    }
+
+Bom, analogamente, a mesma ideia acima, serve para outros tipos primitivos, como podemos ver entre byte e o int
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+            System.out.println(a);
+            
+            float b = (float) 1.0; // conversao explicita (CAST)
+            float b2 = (float) 1.12324546;
+            float b3 = (float) 1.123245464654561515555555;
+            double b4 = 1.123245464654561515555555;
+            System.out.println(b);
+            System.out.println(b2);
+            System.out.println(b3);
+            System.out.println(b4);
+            
+            int c = 4;
+            byte d = (byte) c;
+            System.out.println(c);
+            System.out.println(d);
+        }
+    }
+
+Podemos ver acima que, o tipo int com o tipo byte foi feito uma conversão explícita. Além disso, conseguimos ver que se aumentarmos o valor do tipo int e tentarmos converter para o tipo byte, lembrando que o tipo byte suporta entre -128 até 127, então teremos
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+            System.out.println(a);
+            
+            float b = (float) 1.0; // conversao explicita (CAST)
+            float b2 = (float) 1.12324546;
+            float b3 = (float) 1.123245464654561515555555;
+            double b4 = 1.123245464654561515555555;
+            System.out.println(b);
+            System.out.println(b2);
+            System.out.println(b3);
+            System.out.println(b4);
+            
+            int c = 4;
+            byte d = (byte) c;
+            System.out.println(c);
+            System.out.println(d);
+            
+            int c1 = 130;
+            byte d1 = (byte) c1;
+            System.out.println(c1);
+            System.out.println(d1);
+        }
+    }
+
+para a conversão do tipo int de 130 para byte, um valor de -126. Ou seja, quando atingiu o valor de 127 que é o máximo, ela retorna da sequência inicial e recomeça a contagem a partir dela do valor restante. Ou seja, o intervalo de [-128, 127] ela vai se repetindo conforme o valor grande que foi colocado.
+
+Lembrando que, na análise da conversão, o Java não analisa os valores, mas, sim, os tipos. Não é a toa que mesmo em cenário em que uma conversão explícita não implicaria em algum problema, o Java não deixa de reclamar quando se faz uma conversão de um tipo maior para um tipo menor. Como prova disso, se fizermos o seguinte tipo de conversão explícita, ainda sim, o Java, vai reclamar
+
+    double e = 1;
+	int f = e;
+
+Ou seja, visto que na conversão o Java verifica o tipo, então nesse contexto, mesmo que esteja claro que o número "1" é um inteiro e que foi declarado dentro do tipo double, no momento que fizermos a conversão para o int, será necessário realizar uma conversão explícita
+
+    double e = 1;
+	int f = (int) e;
+
+Lembrando que, a conversão explícita do double para int, diferentemente da conversão explícita entre double e float, ela é de forma truncada
+
+    package fundamentos;
+
+    public class ConversaoTipoPrimitivoNumerico {
+
+        public static void main(String[] args) {
+            
+            double a = 1; // conversao implicita
+            System.out.println(a);
+            
+            float b = (float) 1.0; // conversao explicita (CAST)
+            float b2 = (float) 1.12324546;
+            float b3 = (float) 1.123245464654561515555555;
+            double b4 = 1.123245464654561515555555;
+            System.out.println(b);
+            System.out.println(b2);
+            System.out.println(b3);
+            System.out.println(b4);
+            
+            int c = 4;
+            byte d = (byte) c;
+            System.out.println(c);
+            System.out.println(d);
+            
+            int c1 = 130;
+            byte d1 = (byte) c1;
+            System.out.println(c1);
+            System.out.println(d1);
+            
+            double e = 1;
+            int f = (int) e;
+            System.out.println(e);
+            System.out.println(f);
+            
+            double e1 = 1.99999;
+            int f1 = (int) e1;
+            System.out.println(e1);
+            System.out.println(f1);
+        }
+    }
+
+Como podemos ver nas variáveis "e1" e "f1".
+
+As boas práticas falam para, na medida do possível, evitar o CAST!!!
+
+Sobre convserão temos tbm uma classe "ConversaoNumeroString" e "ConversaoStringNumero" dentro do mesmo projeto.
 
 ## Aula 08 e 09 - Entrada de dados em Java - Parte 1 e 2 - Console:
 Vamos ver sobre entrada de dados, que é quando vc digita algo pelo teclado, usualmente.
@@ -1199,3 +1399,57 @@ Bom, para melhor aprofundarmos nesse conceito, vamos criar uma nova classe dentr
             
         }
     }
+
+Bom, são elas, objetos do tipo primitivos, wrappers
+
+    package fundamentos;
+
+    import java.util.Scanner;
+
+    public class Wrapper {
+
+        public static void main(String[] args) {
+            
+            Scanner entrada = new Scanner(System.in);
+            
+            // byte
+            Byte b = 100; // byte
+            Short s = 1000; // short
+            Integer i = 10000; // int
+            Integer j = Integer.parseInt("1000");
+            Integer p = Integer.parseInt(entrada.nextLine());
+            Long l = 100000L; // long
+            
+            System.out.println(b.byteValue());
+            System.out.println(s.toString());
+            System.out.println(j);
+            System.out.println(p);
+            System.out.println(p * 3);
+            System.out.println(l / 3);
+            System.out.println(l / 3.0);
+            
+            entrada.close();
+            
+            Float f = 123.10F; // float
+            System.out.println(f);
+            
+            Double d = 1234.5678; // double
+            System.out.println(d);
+            
+            Boolean bo = Boolean.parseBoolean("true"); //boolean
+            System.out.println(bo);
+    //		System.out.println(bo.toUpperCase()); // vai dar errado
+            System.out.println(bo.toString().toUpperCase());
+            
+            boolean bu = Boolean.parseBoolean("true");
+            System.out.println(bu);
+    //		System.out.println(bu.toString().toUpperCase()); // Vai dar errado
+            System.out.println(("" + bu).toUpperCase());
+            
+            Character c = '#'; // chr
+            System.out.println(c.toString());
+            System.out.println(c + "...");
+        }
+    }
+
+Ou seja, note que, são classes, donde as declarações são feitas com letras iniciais maiúsculas, em vez de minúsculas como foi visto em valores primitivos.
