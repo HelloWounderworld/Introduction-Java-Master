@@ -26,7 +26,7 @@ Vamos entender um pouco sobre o histórico e edições de Java.
 
     https://www.coursera.org/articles/what-is-java-used-for
 
-## Aula 05 - JDK / JVM - Máquina Virtual do Java:
+## Aula 05 - JDK / JVM - Máquina Virtual do Java - Javac vs Java, rodando pelo terminal:
 Seguir o link para leitura
 
     https://www.naukri.com/learning/articles/difference-between-jdk-jre-and-jvm/
@@ -45,6 +45,134 @@ Obs: O JVM é necessário em ambos JDK e JRE.
 
 ### Definição de JDK
 É um software com o ambiente completop para construir aplicações e aparatos para usar a linguagem de programação Java. Em outras palavras, o JDK é um software que possui a definição do JRE mais as ferramentas de desenvolvimentos.
+
+### Javac vs Java:
+Vamos criar, por começo, um arquivo Teste.java e nela coloquemos o seguinte código
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            System.out.println("Hello WounderWordl!!");
+        }
+    }
+
+Coloquemos esse arquivo no ambiente de trabalho da sua máquina e abrimos um terminal em cima dele.
+
+Daí, pelo terminal, coloquemos o seguinte
+
+    javac Teste.java
+
+Você vai ver que será produzido um novo arquivo, Teste.class. Esse arquivo ele está em byte.
+
+Como comparação, vamos olhar o que tem de conteúdo dentro dela
+
+    cat Teste.java
+
+E no arquivo .class damos
+
+    cat Teste.class
+
+Vamos que são completamente diferentes.
+
+No caso, no Teste.class, será mostrado o bytecode que será interpretado pela máquina virtual, JVM.
+
+Daí, para conseguirmos compilar o arquivo, vamos ter que fazer o seguinte
+
+    javac Teste.java
+
+O comando acima, serve para compilar o arquivo
+
+    java Teste 
+
+Para, por fim, executar o arquivo.
+
+Para vermos como só de realizar tais passos nos permite abrir muita coisa para simular, podemos realizar o seguinte. Acrescentamos no código o seguinte
+
+    import java.util.Scanner;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            System.out.println("Hello WounderWordl!!");
+
+            Scanner entrada = new Scanner(System.in);
+
+            String valor = entrada.nextLine();
+
+            System.out.println("Valor é " + valor);
+
+            entrada.close();
+        }
+    }
+
+Assim, para conseguirmos executar o comando acima, primeiro, vamos precisar recompilar e, em seguida, executar, então faremos
+
+    javac Texte.java
+    java Teste
+
+Agora, vamos entender o que é esse "args" que vem dentro do "main". Vamos dar, primeiro, um print sobre ela
+
+    import java.util.Scanner;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            System.out.println("Hello WounderWordl!!");
+            System.out.println(args);
+
+            Scanner entrada = new Scanner(System.in);
+
+            String valor = entrada.nextLine();
+
+            System.out.println("Valor é " + valor);
+
+            entrada.close();
+        }
+    }
+
+Novamente, ao recompilarmos o código e, em seguida, executarmos a mesma, vamos ter o seguinte
+
+    Ljava.lang.String;@28d93b30
+
+Agora, vamos colocar o seguinte print
+
+    import java.util.Scanner;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            System.out.println("Hello WounderWordl!!");
+            System.out.println(args);
+            System.out.println(args[0]);
+
+            Scanner entrada = new Scanner(System.in);
+
+            String valor = entrada.nextLine();
+
+            System.out.println("Valor é " + valor);
+
+            entrada.close();
+        }
+    }
+
+Daí, no momento em que recompilarmos, vamos fazer um pouco diferente
+
+    javac Teste.java
+    java Teste Howdy!!
+
+Note que, no momento em que executarmos, onde estiver "System.out.println(args[0]);" será exibido essa msg no momento em que digitei comando para executar.
+
+Isso explica o significado do "args" que está sendo colocado no "main", pois indica o arquivo que está sendo enviado para ela, no momento em que vc chama o arquivo para executar. E isso vc usará muito, quando vc começar a apontar classes para outras classes, que entra na ideia de orientação à objetos. Quando vc aponta um objeto para um outro objeto, haverá muita, mas muita, situações em que vc estará enviando algum argumento para o objeto apontado.
+
+O que fizemos, agora, pelo terminal, é uma pequena simulação disso. Pois, quando vc executa o arquivo Teste, vc está chamando o objeto e quando vc colocou alguma string "java Teste string" vc está enviando alguma argumento para aquele objeto que vc chamou/apontou.
+
+Bom, no caso, o eclipse, que será a IDE que vc irá usar nesse curso, ele faz esses dois papeis do java e javac.
+
+Seguir o link para entender mais sobre a funcionalidade do javac:
+
+    https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html#:~:text=Description,on%20the%20Java%20Virtual%20Machine.
+
+    https://www.computerhope.com/jargon/j/javac.htm
 
 ## Aula 06 - Estrutura de uma aplicação Java - Organização da linguagem de programação Java:
 O Java é uma linguagem orientada à objetos.

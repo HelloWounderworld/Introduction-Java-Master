@@ -1,4 +1,4 @@
-package fundamentos;
+package fundamentos.operadores;
 
 public class DesafioAritmeticos {
 
@@ -10,6 +10,6 @@ public class DesafioAritmeticos {
 		System.out.println(b);
 		System.out.println(c);
 		
-		// Não vou fazer porque ele só quer que faça uma conta gigante para ver se manjo das precedencias
+		// Não vou fazer porque ele só quer que faça uma conta gigante para ver se manjo das precedencias	
 	}
 }

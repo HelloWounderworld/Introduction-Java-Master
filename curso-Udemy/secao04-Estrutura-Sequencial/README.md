@@ -14,7 +14,7 @@ Seguir os seguintes pdfs
     04-estrutura-sequencial.pdf
     04-estrutura-sequencial(para-anotacoes).pdf
 
-## Aula 03 - Expressões aritméticas:
+## Aula 03 - Expressões aritméticas - Suas formas unários e de atribuição - formas pós-fixadas e pré-fixadas:
 Vamos ver como é a expressão aritmética!
 
 No caso, como eu já sei Python e JavaScript, então eu irei realizar apenas a codificação do conceito que eu já sei traduzindo para o conceito lexico e sintatico da linguagem java. São elas
@@ -33,6 +33,8 @@ Agora, a sua precedência seria, em ordem decrescente
 Assim como em Python e JavaScript, a leitura é de esquerda para direita, caso tenha operadores no mesmo nível de precedencia.
 
 A precedência que vai acima de tudo, será o entre parênmteses, ().
+
+Seguir as classes "Unarios", "Aritmeticos" e "Atribuicao" do projeto exercicios.
 
 Para melhor entendimento seguir o arquivo:
 
@@ -367,6 +369,37 @@ Vamos criar uma classe "TiposPrimitivos" e nela vamos colocar o seguinte
             System.out.println("Status: " + status);
         }
     }
+
+### Tipo String Equal:
+Comparações de String é um assunto importante, mas, tbm, que confunde bastante a cabeça de várias pessoas.
+
+Vamos começar por mostrar o seguinte
+
+    System.out.println("2" == "2");
+
+Qual será o resultado acima? Resposta: true.
+
+Mas, aí, se fizermos o seguinte
+
+    String s = new String("2");
+	System.out.println("2" == s);
+
+Nesse caso, dará um "false".
+
+Agora, vamos confundir mais ainda a sua cabeça.
+
+Se fizermos o seguinte
+
+    String s = new String("2");
+    System.out.println("2".equals(s));
+
+Isso dará "true"...
+
+Ué... O que está acontecendo por baixo dos panos?
+
+Bom, enquanto que na forma de comparação, "System.out.println("2" == s);", está sendo visto a classe e o conteúdo, na forma, "System.out.println("2".equals(s));", está sendo visto apenas o conteúdo dentro dela.
+
+Eu cheguei a ver isso no curso de Python tbm, então, revisar por lá.
 
 ## Aula 05 - As três operações básicas de programação:
 No caso, as três operações básicas de um computador, essencialmente, são

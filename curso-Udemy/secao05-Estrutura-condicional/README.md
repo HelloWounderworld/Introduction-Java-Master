@@ -198,6 +198,8 @@ Um exemplo disso
     double preco = 34.5;
     double desconto = (preco < 20.0) ? preco * 0.1 : preco * 0.05;
 
+Verificar a classe "Ternario" do projeto, exercícios.
+
 ## Aula 11 - Escopo e inicialização:
 No caso, a nível de variável, que é o básico, precisamos sempre que uma variável seja inicializada
 
@@ -228,3 +230,93 @@ Ou a outra alternativa que podemos usar, caso seja necessário somente declarar 
     System.out.println(discount);
 
 Isso não irá mais exibir o erro no print.
+
+## Aula 12 - Desafio Calculadora:
+Vamos criar uma calculadora.
+
+Primeiro, no projeto, exercicios, vamos dentro de fundamentos, vamos criar uma classe "DesafioCalculadora"
+
+    package fundamentos;
+
+    public class DesafioCalculadora {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Daí, o desafio é o seguinte
+
+    // Ler num1
+    // Ler num2
+    // + - * / %
+
+No caso, o seu programa deverá o primeiro número, num1, em seguida escolher a operação que deseja, + - * / %, daí, por último, escolher o número que será feito a operação com o primeiro número, num2.
+
+Bom, o meu código ficou assim
+
+    package fundamentos;
+
+    import java.util.Scanner;
+
+    public class DesafioCalculadora {
+
+        public static void main(String[] args) {
+            // Ler num1
+            // Ler num2
+            // + - * / %
+
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.println("Escolha o primeiro número:");
+            double num1 = Double.parseDouble(entrada.next());
+            
+            System.out.println("Escolha a operação que deseja realizar: + - * / %");
+            String operacao = entrada.next();
+            
+            System.out.println("Escolha o segundo número: ");
+            double num2 = Double.parseDouble(entrada.next());
+            
+            double adiciona = operacao.equals("+") ? num1 + num2 : 0;
+            double subtrai = operacao.equals("-") ? num1 - num2 : adiciona;
+            double multiplica = operacao.equals("*") ? num1 * num2 : subtrai;
+            double divide = operacao.equals("/") ? num1 / num2 : multiplica;
+            double resultado = operacao.equals("%") ? num1 % num2 : divide;
+            System.out.printf("%.2f %s %.2f = %.2f", num1, operacao, num2, resultado);
+            
+            entrada.close();
+        }
+    }
+
+Seguir o código do professor
+
+    package fundamentos;
+
+    import java.util.Scanner;
+
+    public class DesafioCalculadoraProf {
+
+        public static void main(String[] args) {
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.print("Informe o número: ");
+            double num1 = entrada.nextDouble();
+            
+            System.out.print("Informe o número: ");
+            double num2 = entrada.nextDouble();
+            
+            System.out.print("Informe a operação: ");
+            String op = entrada.next();
+            
+            double resultado = "+".equals(op) ? num1 + num2 : 0;
+            resultado = "-".equals(op) ? num1 - num2 : resultado;
+            resultado = "*".equals(op) ? num1 * num2 : resultado;
+            resultado = "/".equals(op) ? num1 / num2 : resultado;
+            resultado = "%".equals(op) ? num1 % num2 : resultado;
+            
+            System.out.printf("%f %s %f = %.2f", num1, op, num2, resultado);
+            entrada.close();
+        }
+    }
+
+Seguir as classes "DesafioCalculadora" e "DesafioCalculadoraProf" do projeto exercicios, dentro do pacote fundamentos.
