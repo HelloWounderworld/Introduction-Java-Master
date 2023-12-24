@@ -70,6 +70,62 @@ Um exemplo de aplicação
 
 Bom, por desencargo de consciência, a estrutura condicional simples é quando vc usa somente o if, a composta é quando vc usa (if, else if e else) ou (if e else).
 
+Diferente de JavaScript, provavelmente o Python tbm entra nessa, que consegue converter as strings ou outros valores primitivos para algum booleano, a linguagem Java, não é possível.
+
+A linguagem Java, diferentemente de Python, que é identação, ela é feito por blocos, então, por exemplo, o cenário seguinte
+
+    package controle;
+
+    import java.util.Scanner;
+
+    public class If {
+
+        public static void main(String[] args) {
+            
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.print("Informe a média: ");
+            double media = entrada.nextDouble();
+            
+            if(media >= 7.0)
+                System.out.println("Aprovado!");
+                System.out.println("Parabéns!");
+            
+            entrada.close();
+        }
+    }
+
+Nesse cenário, caso eu coloque alguma nota estritamente menor que "7", será exibido a mensagem "Parabéns!" também, sendo que não é a mensagem correta a ser exibida, visto que a pessoa não foi aprovado (a não ser que vc esteja sendo irônico). No caso, para que consigamos considerar que a mensagem, "Parabéns", também, seja exibido somente caso a média for maior ou igual à "7", devemos colocar esse código dentro de um bloco que é representado por "{}". No caso, ficaria
+
+    package controle;
+
+    import java.util.Scanner;
+
+    public class If {
+
+        public static void main(String[] args) {
+            
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.print("Informe a média: ");
+            double media = entrada.nextDouble();
+            
+            if(media >= 7.0) {
+                System.out.println("Aprovado!");
+                System.out.println("Parabéns!");
+            }
+            
+            entrada.close();
+        }
+    }
+
+Mas isso não foge da forma como o "if" funciona, pois o "if" ele considera a identação que vem após ela para ser executado, caso a condição seja satisfeita. No caso, estamos colocando um bloco, {}, em vez de um print. Então, ela irá executar tudo o que estiver dentro do bloco.
+
+Seguir a classe "If" do projeto, exercicios, no pacote, controle.
+
+### Desafio:
+
+
 ## Aula 06 - AVISO: exercícios para iniciantes PARTE 2 e Aula 07 - Exercícios para Iniciantes - PARTE 2:
 ATENÇÃO ESTUDANTES INICIANTES: se você ainda não sabe Lógica de Programação (em qualquer linguagem) e optou por não adquirir nosso curso "Java primeiros passos - Lógica de Programação e Algoritmos", então você DEVE fazer os exercícios contidos no documento PDF abaixo para que você tenha condição mínima de acompanhar o restante do curso.
 
@@ -320,3 +376,24 @@ Seguir o código do professor
     }
 
 Seguir as classes "DesafioCalculadora" e "DesafioCalculadoraProf" do projeto exercicios, dentro do pacote fundamentos.
+
+## Aula 13 - Mais exercícios de fundamentos:
+Exercícios: Conceitos Básicos
+
+Fundamentos
+
+- Criar um programa que leia a temperatura em Fahrenheit e converta para Celsius.
+
+- Criar um programa que leia a temperatura em Celsius e converta para Fahrenheit.
+
+- Criar um programa que leia o peso e a altura do usuário e imprima no console o IMC.
+
+- Criar um programa que leia um valor e apresente os resultados ao quadrado e ao cubo do valor.
+
+- Criar um programa que leia o valor da base e da altura de um triângulo e calcule a área.
+
+- Criar um programa que resolve equações do segundo grau (ax2 + bx + c = 0) utilizando a fórmula de Bhaskara. Use como exemplo a = 1, b = 12 e c = -13. Encontre o delta
+
+Seguir o link:
+
+    https://github.com/cod3rcursos/fundamentos-programacao-java/tree/master/CursoJavaExercicios/src/fundamentos
