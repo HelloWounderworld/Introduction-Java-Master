@@ -121,10 +121,59 @@ Nesse cenário, caso eu coloque alguma nota estritamente menor que "7", será ex
 
 Mas isso não foge da forma como o "if" funciona, pois o "if" ele considera a identação que vem após ela para ser executado, caso a condição seja satisfeita. No caso, estamos colocando um bloco, {}, em vez de um print. Então, ela irá executar tudo o que estiver dentro do bloco.
 
-Seguir a classe "If" do projeto, exercicios, no pacote, controle.
+Seguir as classes "If", "IfElse" e "IfElseIf" do projeto, exercicios, no pacote, controle.
 
-### Desafio:
+### Desafio - If:
+Vamos, por começo, criar uma classe chamado "DesafioIf" no projeto, exercicios, do pacote controle
 
+    package controle;
+
+    public class DesafioIf {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+e nela, vamos incluir o seguinte
+
+    package controle;
+
+    public class DesafioIf {
+
+        public static void main(String[] args) {
+            
+            double nota = 1.3;
+            
+            if (nota >= 9.0); {
+                System.out.println("Quadro de Honra!");
+                System.out.println("Você é fera!");
+            }
+        }
+    }
+
+O desafio é entender o motivo de, mesmo que o valor da nota não ter sido atingido, como podemos ver acima, ainda sim, os dois prints são exibidos.
+
+Com base do que foi explicado sobre o if nessa aula, explique o motivo disso ter ocorrido acima.
+
+### Desafio - Dia da Semana:
+Vamos, por começo, criar a classe "DesafioDiaSemana" no projeto, exercicio, no pacote, controle
+
+    package controle;
+
+    import javax.swing.JOptionPane;
+
+    public class DesafioDiaSemana {
+
+        public static void main(String[] args) {
+            
+            // Domingo -> retorna: 1
+            // Quarta -> retorna: 4
+            // Terça -> retorna: 3
+        }
+    }
+
+O desafio é vc retornar um número correspondente à semana.
 
 ## Aula 06 - AVISO: exercícios para iniciantes PARTE 2 e Aula 07 - Exercícios para Iniciantes - PARTE 2:
 ATENÇÃO ESTUDANTES INICIANTES: se você ainda não sabe Lógica de Programação (em qualquer linguagem) e optou por não adquirir nosso curso "Java primeiros passos - Lógica de Programação e Algoritmos", então você DEVE fazer os exercícios contidos no documento PDF abaixo para que você tenha condição mínima de acompanhar o restante do curso.

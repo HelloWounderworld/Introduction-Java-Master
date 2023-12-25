@@ -10,7 +10,7 @@ public class If {
 		
 		System.out.print("Informe a média: ");
 		double media = entrada.nextDouble();
-		
+		System.out.println(media);		
 //		if(media >= 7.0)
 //			System.out.println("Aprovado!");
 //			System.out.println("Parabéns!"); // Indicativo de que Java é linguagem por bloco, coloca uma nota menor que 7 para ver
