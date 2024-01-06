@@ -293,6 +293,61 @@ e como ficaria em switch-case
         }
     }
 
+Para mais abordagem, seguir a classe "SwitchComBreak" do projeto "exercicios" do pacote "controle".
+
+### Switch sem break:
+Vamos, por começo, criar uma classe "SwitchSemBreak" no projeto "exercicios" do pacote "controle"
+
+    package controle;
+
+    public class SwitchSemBreak {
+
+        public static void main(String[] args) {
+            
+        }
+    }
+
+Na maioria das vezes, usamos o "break", porém, existem, sim, casos em que não precisamos usar o "break".
+
+Daí, nela, iremos realizar a seguinte abordagem
+
+    package controle;
+
+    public class SwitchSemBreak {
+
+        public static void main(String[] args) {
+            
+            String faixa = "preta";
+            
+            switch(faixa.toLowerCase()) {
+            case "preta":
+                System.out.println("Sei o Bassai-Dai...");
+            case "marrom":
+                System.out.println("Sei o Tekki Shodan");
+            case "roxa":
+                System.out.println("Sei o Heian Godan");
+            case "verde":
+                System.out.println("Sei o Heian Yodan");
+            case "laranja":
+                System.out.println("Sei o Heian Sandan");
+            case "vermelha":
+                System.out.println("Sei o Heian Nidan");
+            case "amarela":
+                System.out.println("Sei o Heian Shodan");
+            default:
+                System.out.println("Sei porra nenhuma! Só apanhei e me lasquei!");
+            }
+        }
+    }
+
+Note que, se rodarmos da forma como está cima, iremos entrar no caso, da faixa "preta", porém, as outras condicionais de print tbm será exibido.
+
+Mas, se mudarmos a variável faixa para "branca", vamos ver que será exibido só o print do default.
+
+Ou seja, o switch, sem o break, ela exibe de forma escalonada decrescente.
+
+Bom, esse tipo de comportamento, mesmo que poucas vezes, existem casos bem específicos que queremos ela se comporte dessa forma escalonada.
+
 ## Aula 10 - Expressão condicional ternária:
 A ternária é o mesmo que vimos em JavaScript
 
