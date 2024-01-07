@@ -158,6 +158,100 @@ Feito a alteração acima, vc vai ver que no arquivo Program.java será exibido 
 
 Bom, feito as alterações acima, agora sim, com o uso do construtor, vamos conseguir evitar o risco com que o usuário crie um produto que não tenha nome, preço e quantidade.
 
+Seguir as classes "Produto" e "ProdutoTeste" do projeto "exercicio" do pacote "classe".
+
+### Obs:
+Todos os construtores é um método, mas nem todos os métodos é um construtor.
+
+Exemplo:
+
+Abaixo, temos o exemplo de um construtor explícito. Ou seja, sempre que eu instanciar a classe Produto, "Produto p = new Produto(bla)", preciso passar algum parâmetro dentro dela, pois a forma como está abaixo, exige que tenha algum parâmetro.
+
+    public class Produto {
+
+        Produto (int a) {
+            ....
+        }
+    }
+
+O construtor explícito acima é o Produto. O implícito é quando instanciamos ela em outra classe sem parâmetros, que é construtor padrão
+
+    Produto p1 = new Produto();
+
+Agora, se fizermos
+
+    public class Produto {
+
+        void Produto (int a) {
+            ....
+        }
+    }
+
+Vira um método, mas não é um construtor.
+
+O que diferencia entre construtor e um método, está exatamente na ausência de retorno. Ou seja, um construtor não retorna nada!
+
+Basicamente, a regra geral de construtor é o seguinte.
+
+Você criou uma classe e não definiu nenhum construtor, então o construtor será padrão/implícita, sempre que vc instanciar essa classe numa outra classe
+
+    public class Produto {
+
+    }
+
+Caso vc definiu um construtor com um parâmetro, vc criou um construtor explícito. Ou seja, sempre que vc instanciar essa classe para uma outra classe, vc precisa passar algum parâmetro ao construtor
+
+    public class Produto {
+
+        Produto (int a) {
+            ....
+        }
+    }
+
+Porém, se vc quiser que uma classe com construtor explícito seja possível definir um construtor implícito/padrão, basta vc definir um construtor vazio dentro dessa classe
+
+    public class Produto {
+
+        Produto (int a) {
+            ....
+        }
+
+        Produto() {
+
+        }
+    }
+
+O que não podemos fazer no construtor é o seguinte.
+
+Suponhamos que uma classe tenha dois atributos definidos
+
+    public class Produto {
+
+        int a;
+        int b;
+    }
+
+Não podemos fazer o seguinte
+
+    public class Produto {
+
+        int a;
+        int b;
+
+        Produto (int a) {
+            ....
+        }
+
+        Produto (int b) {
+            ....
+        }
+    }
+
+O java não consegue reconhecer a diferença de um parâmetro único ao do outro parâmetro único que é passado... Ela diferencia pela estrutura.
+
+### Desafio Construtor:
+Da classe "Data" e "DataTeste" que está no projeto "exercicio" dentro do pacote "classe", queremos que crie um construtor explícito, onde devo passar o dia, mês e o ano. E outra, um construtor padrão, mas com o dia, mês e ano pré-definido.
+
 ## Aula 04 - Palavra this:
 Bom, seguir uma fonte de leitura quando vc for revisar
 

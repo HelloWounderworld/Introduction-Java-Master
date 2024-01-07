@@ -26,6 +26,7 @@ Vale ressaltar que a teoria de categoria é um assunto bem antigo que já havia 
 Bom, segue um link para referência
 
     https://dev.to/kspeakman/category-theory-is-object-oriented-3l8k
+    
     https://cstheory.stackexchange.com/questions/21387/whats-the-relation-between-oop-and-category-theory
 
 Bom, vamos agora à resolução do problema
@@ -181,6 +182,29 @@ No caso, isso irá funcionar da mesma forma que a resolução que fizemos sem o 
 
 No caso, de forma abstrata, o que está acontecendo? Visto que teoria de categoria é vc partir de um objeto e apontar para o outro objeto, onde isso está acontecendo? Ele acontece exatamente quando apontamos os elementos que estão dentro do objeto Stack para os elementos que estão dentro do objeto Heap, ambos dentro de uma memória.
 
+Seguir a classe "Produto" e "ProdutoTeste" do projeto "exercicios" do pacote "classe", para abordar mais dos conceitos.
+
+Para melhor entendimento do conceito de classe, seguir com a leitura dos dois livros, depois que realizar o curso da Udemy
+
+    Fundamentals of Java Programming, Mitsunori Ogihara
+
+    Java como programar, 10ª Edição, Paul Deitel
+
+Lembrando, que, eu, Leonardo, pelo menos, tenho a ideia de que o curso da Udemy não é uma espécie de estudo. Mas, sim, para te fornecer uma visão geral sobre o conceito que vc está estudando. O estudo, para mim, começa essencialmente quando realizo uma leitura de um bom livro, donde tais conceitos abordados de forma superficial na Udemy, para tornar o conceito abstrado em algo concreto dentro da minha mente.
+
+Lembrando que, em programação, o código, ela evolui conforme o tempo. Porém, a base conceitual delas, sempre será a mesma, pois toda a linguagem de programação ela é originada de conceitos matemáticos que nunca será substituida. Bom, assim espero kkkkkkkk
+
+Logo, o que torna mais importante em programação, não é a codificação em si. Mas, sim, o conceito que lhe é aplicado sobre ela.
+
+### Desafio - Classe Data:
+Dentro do projeto "exercicio" do pacote "classe", criamos nela duas classes "Data" e "DataTeste".
+
+Na classe "Data", definimos três atributos
+
+    dia, mes, ano
+
+E dentro da classe "DataTeste" teremos o método main, nela iremos instanciar duas datas.
+
 ## Aula 05 - Criando um método para obtermos os benefícios de reaproveitamento e delegação:
 Vamos agora criar os métodos.
 
@@ -254,6 +278,11 @@ Agora, no arquivo Program.java, vamos colocar o seguinte
     }
 
 Bom, fizemos isso até agora, mas temos um ponto bem crucial do que não foi definido na classe triangle. Pois veja que podemos definir medidas de triangulos impossíveis e mesmo assim efetuar as contas. No caso, o que seria necessário verificar para isso?? Bom deixarei ao cargo do leitor essa melhoria.
+
+Seguir com as classes "Produto" e "ProdutoTeste" do projeto "exerccicios" do pacote "classe".
+
+### Desafio - Data Formatada:
+Na classe "Data" e "DataTeste" que foi feito no desafio da aula 04 desta seção, do projeto "exercicios" no pacote "classe", o desafio é criar um método "obterDataFormatada" e nela iremos formatar a data de acordo com o que foi passado nela.
 
 ## Aula 06 - Começando a resolver um segundo problema exemplo e Aula 07 - Object e toString:
 Bom, segue a sentença do exercício
@@ -682,7 +711,24 @@ Importante deixar claro aqui que, visto que os membros da classe Calculator são
 
 Entretanto, precisamos deixar bem claro a diferença entre quando é bom usar o static e quando não, no lugar usar a instanciada.
 
-## Aula 12 - Exercício de fixação:
+## Aula 13 - Membros de Classes vs Instância:
+Existem cenários, em que, quando criamos uma classe, os atributos definidos nela, quando instanciados, sejam as mesmas para qualquer outra nova instanciação da mesma classe.
+
+Exemplo:
+
+    public class Data {
+        
+        int dia;
+        int mes;
+        int ano;
+    }
+
+Existem casos em que, o atributo "int dia" seja uniforme para qualquer outra nova instanciação
+
+    Data d1 = new Data();
+    Data d2 = new Data();
+
+## Aula 14 - Exercício de fixação:
 Se der tempo, fazer isso na revisão!
 
     Faça um programa para ler a cotação do dólar, e depois um valor em dólares a ser comprado por uma pessoa em reais. Informar quantos reais a pessoa vai pagar pelos dólares, considerando ainda que a pessoa terá que pagar 6% de IOF sobre o valor em dólar. Criar uma classe CurrencyConverter para ser responsável pelos cálculos.
