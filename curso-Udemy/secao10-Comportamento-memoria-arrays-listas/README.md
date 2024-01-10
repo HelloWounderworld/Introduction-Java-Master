@@ -15,7 +15,7 @@ Recursos para esta aula
     05-memoria-arrays-e-listas.pdf
     05-exercicios-de-fixacao-vetores.pdf
 
-## Aula 03 - Tipos referência vs. tipos valor:
+## Aula 03 - Tipos referência vs. tipos valor - Atribuição: Valor vs Referência:
 Vamos diferenciar tipos referências e tipos valor
 
     https://www.devmedia.com.br/tipos-de-dados-por-valor-e-por-referencia-em-java/25293#:~:text=O%20Java%20possui%20dois%20tipos,Strings%2C%20Arrays%20Primitivos%20e%20Objetos.
@@ -30,6 +30,8 @@ Bom, ao declararmos um valor, diferentemente de JavaScript, ao printarmos ela se
     System.out.println(p);
 
 Ou seja, para printar alguma variável, é necessário que a tal variável declarada, já tenha algum vlaor atribuído para ela.
+
+
 
 ## Aula 04 - Desalocação de memória - garbage collector e escopo local:
 Seguir o link para leitura

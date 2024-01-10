@@ -728,6 +728,25 @@ Existem casos em que, o atributo "int dia" seja uniforme para qualquer outra nov
     Data d1 = new Data();
     Data d2 = new Data();
 
+Ou seja, a uniformidade que eu me refiro aqui seria que o atributo "dia" seja o mesmo tanto para a instância "d1" quanto para "d2".
+
+Para isso, iremos usar "static" que torna o atributo de uma classe único, a partir das novas instâncias posteriores depois de definido tal valor. Ou seja, definido um valor para esse atributo que estiver com "static" qualquer outra instanciação da classe terá o mesmo valor para esse atributo que estiver com essa sintaxe. No caso, conseguimos alterar o valor do atributo que estiver com "static". Porém, isso significa que, a partir dessa alteração, as novas instanciações que ocorrem adiante, irá ter esse mesmo valor.
+
+Do ponto de vista de rendimento de memória isso é efiente. Pois, para cada atributo com o seu valor é ocupado um espaço na memória. No caso, o "static", do ponto de vista de uso de memória, ocupa um único espaço de memória e a mesma memória, sendo utilizado cada vez que for instanciado.
+
+Conseguimos distinguir se uma determinada classe é estático ou não, pela necessidade de se precisamos ou não instanciar, new NomeDaClasse()...
+
+Haverá casos em que queremos que um certo atributo de um problema seja uma constante. Para isso, conseguimos transformar um atributo em uma constante colocando a seguinte combinação de sintaxe "final static" ou "static final".
+
+A analogia vale para os métodos estáticos tbm. Ou seja, se colocarmos a sintaxe "static" num determinado método, conseguirmos acessar esse método sem instanciar a classe, "NomeDaClasse.metodoEstatico()".
+
+Seguir as classes "AreaCirc" e "AreaCircTeste" do projeto "exercicios" e do pacote "classe", onde estará sendo abordado mais sobre esse conceito, aplicado o "static" sobre uma constante matemáca, pi.
+
+### Desafio:
+Seguir a classe "Produto" e "ProdutoTeste" no projeto "exercicios" do pacote "classe".
+
+Usando o método "static", colocar um desconto uniforme para os produtos.
+
 ## Aula 14 - Exercício de fixação:
 Se der tempo, fazer isso na revisão!
 
