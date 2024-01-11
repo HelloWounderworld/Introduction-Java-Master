@@ -70,8 +70,14 @@ Basicamente, o garbage collector ele significa de um dado que ficará acoplado n
 
 O ato acima fará com que o p1 e o p2 aponte para a mesma classe, Product("PC", 1500.00, 0), mas e a classe Product("TV", 900.00, 0)? Ela será guardada no garbage collector, donde será apagado da memória caso caia, de fato, em um desuso.
 
-## Aula 05 e 06 - Vetores - Parte 1 e 2:
+## Aula 05 e 06 - Vetores - Parte 1 e 2 - Array:
 Bom, a ideia aqui é análoga que foi estudada em Álgebra Linear.
+
+Array é um objeto:
+
+- Estático - Tem o tamanho fixo
+
+- Homogêneo - Vc computa um conjunto de valores, em todas elas são da mesma natureza
 
 Só vamos aprender as suas sintaxes
 
@@ -131,6 +137,8 @@ Claro, os vetores, todas elas, não precisa ter um nome de vect. Podemos colocar
 
     Product[] nomes = new Product[n];
     double[] price = new double[n];
+
+Seguir a classe "Exercicio" do projeto "exercicios" do pacote "array".
 
 ## Aula 07 - Exercícios de fixação sobre vetores:
 Seguir o arquivo
