@@ -31,7 +31,30 @@ Bom, ao declararmos um valor, diferentemente de JavaScript, ao printarmos ela se
 
 Ou seja, para printar alguma variável, é necessário que a tal variável declarada, já tenha algum vlaor atribuído para ela.
 
+### Desafio:
+Vamos criar a classe "PrimeiroTrauma" do projeto "exercicios" do pacote "classe".
 
+Motivo desse nome, é que, segundo o professor, Leonardo Moura Leitao, esse exercício foi, literalmente, o primeiro trauma dele quando estava estudando programação.
+
+    package classe;
+
+    public class PrimeiroTrauma {
+        
+        int a = 3; // Não pode mexer aqui
+
+        public static void main(String[] args) {
+            
+            // pode mexer aqui
+            System.out.println(a);
+            // pode mexer aqui
+        }
+    }
+
+Bom, o desafio é o seguinte.
+
+Note que, a variável "int a = 3;" está definido fora do main e estou tentando printar essa variável dentro do main usando o "System.out.println".
+
+No caso, sem alterar nada na variável que está definido fora do main, quero que, dentro do main, vc realize uma alteração que corrija o problema que está dando, quando vc tenta rodar o código no formato acima.
 
 ## Aula 04 - Desalocação de memória - garbage collector e escopo local:
 Seguir o link para leitura

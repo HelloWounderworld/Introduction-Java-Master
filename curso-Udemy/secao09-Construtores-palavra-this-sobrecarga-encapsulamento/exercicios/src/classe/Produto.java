@@ -4,7 +4,7 @@ public class Produto {
 
 	String nome;
 	double preco;
-	double desconto;
+	static double desconto = 0.25;
 	
 	// Posso criar quantos construtores que eu quiser.
 	
@@ -20,11 +20,11 @@ public class Produto {
 		preco = precoInicial;
 	}
 	
-	Produto(String nomeInicial, double precoInicial, double descontoInicial) {
-		nome = nomeInicial;
-		preco = precoInicial;
-		desconto = descontoInicial;
-	}
+//	Produto(String nomeInicial, double precoInicial, double descontoInicial) {
+//		nome = nomeInicial;
+//		preco = precoInicial;
+//		desconto = descontoInicial;
+//	}
 	
 	// Possibilitei que o construtor seja feita de forma implícita
 	// Ou seja, consigo instanciar Produto p = new Produto();

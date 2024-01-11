@@ -252,7 +252,7 @@ O java não consegue reconhecer a diferença de um parâmetro único ao do outro
 ### Desafio Construtor:
 Da classe "Data" e "DataTeste" que está no projeto "exercicio" dentro do pacote "classe", queremos que crie um construtor explícito, onde devo passar o dia, mês e o ano. E outra, um construtor padrão, mas com o dia, mês e ano pré-definido.
 
-## Aula 04 - Palavra this:
+## Aula 04 - Palavra this e this():
 Bom, seguir uma fonte de leitura quando vc for revisar
 
     https://www.devmedia.com.br/o-que-significa-cada-palavra-reservada/8320#:~:text=%C2%B7%20this%3A%20Vari%C3%A1vel%20de%20refer%C3%AAncia%20que,de%20retorno%20para%20o%20m%C3%A9todo.
@@ -262,6 +262,8 @@ Bom, seguir uma fonte de leitura quando vc for revisar
 Bom, a princípio a palavra this ele é uma referência para o próprio objeto, this object. Usualmente, ele serve para diferenciar atributos de variáveis locais e passar o próprio objeto como argumento na chamada de um método ou construtor.
 
 Basicamente, podemos associar, para quem conhece VueJS, que o this, ele guarda elementos que foi guardado com algum valor padrão dentro do escopo do objeto, no caso do Vue da tela, em que vc está criando.
+
+Para mais abordagem seguir as classes "Data" e "DataTeste"  do projeto "exercicios" do pacote "classe".
 
 ## Aula 05 - Sobrecarga:
 Seguir os links de leitura

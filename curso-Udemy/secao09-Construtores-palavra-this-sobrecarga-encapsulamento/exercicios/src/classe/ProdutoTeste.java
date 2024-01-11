@@ -24,12 +24,12 @@ public class ProdutoTeste {
 		Produto p3 = new Produto("MacBook", 24999.99);
 		p3.desconto = 0.25;
 		
-		Produto p4 = new Produto("IMac", 24999.99, 0.15);
+//		Produto p4 = new Produto("IMac", 24999.99, 0.15);
 		
 		System.out.println(p1.nome);
 		System.out.println(p2.nome);
 		System.out.println(p3.nome);
-		System.out.println(p4.nome);
+//		System.out.println(p4.nome);
 		
 //		double precoFinal1 = p1.preco * (1-p1.desconto);
 //		double precoFinal2 = p2.preco * (1-p2.desconto);
@@ -47,5 +47,34 @@ public class ProdutoTeste {
 		System.out.println(mediaCarrinho);
 		
 		System.out.printf("Média do carrinho = R$%.2f.", mediaCarrinho);
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("Produto com o desconto definido pela classe: 0.25");
+		var p5 = new Produto("Iphone", 9998.99);
+		double precoFinal6 = p5.precoComDesconto();
+		System.out.println("Desconto que sofreu: " + p5.desconto);
+		System.out.println(precoFinal6);
+		System.out.println();
+		
+		System.out.println("Me aproveitando do static que foi definido em desconto");
+		Produto.desconto = 0.28;
+		var p6 = new Produto("Notebook Gamer Dell G16", 10000.0);
+		double precoFinal7 = p6.precoComDesconto();
+		System.out.println("Desconto que sofreu: " + p6.desconto);
+		System.out.println(precoFinal7);
+		System.out.println();
+		
+		var p7 = new Produto("Notebook Gamer Dell G16", 10000.0);
+		double precoFinal8 = p7.precoComDesconto();
+		System.out.println("Desconto que sofreu: " + p7.desconto);
+		System.out.println(precoFinal8);
+		System.out.println();
+		
+		var p8 = new Produto("Notebook Gamer Dell Alienware", 20000.00);
+		double precoFinal9 = p8.precoComDesconto();
+		System.out.println("Desconto que sofreu: " + p8.desconto);
+		System.out.println(precoFinal9);
+		
 	}
 }
