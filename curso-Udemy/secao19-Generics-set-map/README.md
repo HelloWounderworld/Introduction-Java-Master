@@ -378,6 +378,8 @@ Para deixarmos mais claro o ponto de cima, vamos realizar o seguinte em Program.
 
 A comparação, System.out.println(s1 == s2);, retornará "true", pois aqui, no caso, essa comparação é algo especial, pois colocamos diretamente o valor. Daria falso se tivessemos forçado da seguinte forma String s1 = new String("Teste"); para s2 tbm. Aí sim, a comparação usando o operador "==", se tornará por referência.
 
+Seguir as classes "Equals", "Hashcode" e "Usuario" que está no projeto "exercicios" dentro do pacote "classe".
+
 ## Aula 08 - Set:
 Seguir o link para leitura
 
@@ -536,6 +538,8 @@ Dentro do Program.java, desse projeto, coloquemos o seguinte
     }
 
 Bom, o conceito acima se torna trivial de se entender, pois é teoria de conjuntos básicos.
+
+Seguir a classe "ConjuntoBaguncado" do projeto "exercicios" do pacote "colecoes".
 
 ## Aula 09 - Como Set testa igualdade:
 Como as coleções Hash testam igualdade?
@@ -740,6 +744,8 @@ Logo, no arquivo Product.java, vamos precisar realizar oseguinte
 
 Ou seja, impelementamos o Comparable<Product> e isso nos possibilita realizarmos a ordenação.
 
+Seguir a classe "ConjuntoComportado" do projeto "exercicio" do pacote "colecoes".
+
 ## Aula 11 - Exercício resolvido (Set):
 Seguir o link de resolução do professor
 
@@ -798,7 +804,13 @@ Tenta resolver isso e compara com a resolução do professor
 
     https://github.com/acenelio/set2-java
 
-## Aula 13 - Map:
+## Aula 13 - List:
+Seguir as classes "Lista" e "Usuario" do projeto "exercicios" do pacote "colecoes".
+
+## Aula 14 - Queue (Fila):
+
+
+## Aula 15 - Map:
 Seguir o link de leitura
 
     https://docs.oracle.com/javase/10/docs/api/java/util/Map.htm
@@ -992,7 +1004,7 @@ Aqui está sem o equals e hascode. Ao rodarmos o programa dessa forma, vamos ver
 
 Agora, rodando o programa, será retornado um true.
 
-## Aula 14 - Exercício de fixação (Map):
+## Aula 16 - Exercício de fixação (Map):
 Seguir o enunciado
 
     Na contagem de votos de uma eleição, são gerados vários registros de votação contendo o nome do candidato e a quantidade de votos (formato .csv) que ele obteve em uma urna de votação. Você deve fazer um programa para ler os registros de votação a partir de um arquivo, e daí gerar um relatório consolidado com os totais de cada candidato.

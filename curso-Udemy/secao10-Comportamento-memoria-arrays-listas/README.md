@@ -535,6 +535,8 @@ Lista dentro de lista
 
 - Dificuldade para se realizar inserções e deleções
 
+Seguir a classe "Matriz" do projeto "exercicios" do pacote "array".
+
 ## Aula 19 - Exercício resolvido:
 Seguir o link da resolução
 
