@@ -140,6 +140,9 @@ Claro, os vetores, todas elas, não precisa ter um nome de vect. Podemos colocar
 
 Seguir a classe "Exercicio" do projeto "exercicios" do pacote "array".
 
+### Desafio - Cálculo de notas dos alunos:
+Seguir a classe "Desafio" do projeto "exercicios" do pacote "array".
+
 ## Aula 07 - Exercícios de fixação sobre vetores:
 Seguir o arquivo
 
