@@ -808,7 +808,7 @@ Tenta resolver isso e compara com a resolução do professor
 Seguir as classes "Lista" e "Usuario" do projeto "exercicios" do pacote "colecoes".
 
 ## Aula 14 - Queue (Fila):
-
+Seguir a classe "Fila" do projeto "exercicios" do pacote "colecoes".
 
 ## Aula 15 - Map:
 Seguir o link de leitura
