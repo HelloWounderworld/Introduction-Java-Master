@@ -1,4 +1,4 @@
-# Seção 19: Generic, Set, Map:
+# Seção 19: Generic, Set, Map - Collections - É um conceito bem importante, então vale a pena dar ler algum livro conceitual sobre:
 
 Revisar definitivamente essa seção!!!! Será muito necessário!
 
@@ -810,7 +810,14 @@ Seguir as classes "Lista" e "Usuario" do projeto "exercicios" do pacote "colecoe
 ## Aula 14 - Queue (Fila):
 Seguir a classe "Fila" do projeto "exercicios" do pacote "colecoes".
 
-## Aula 15 - Map:
+## Aula 15 - Stack (Pilha):
+Seguir a classe "Pilha" do projeto "exercicios" do pacote "colecoes".
+
+Os métodos de manipulações são os mesmos que as Fila.
+
+Conceito de pilha - O último que entrou será o primeiro a sair.
+
+## Aula 16 - Map:
 Seguir o link de leitura
 
     https://docs.oracle.com/javase/10/docs/api/java/util/Map.htm
@@ -1004,7 +1011,9 @@ Aqui está sem o equals e hascode. Ao rodarmos o programa dessa forma, vamos ver
 
 Agora, rodando o programa, será retornado um true.
 
-## Aula 16 - Exercício de fixação (Map):
+Seguir a classe "Mapa" do projeto "exercicios" do pacote "colecoes".
+
+### Exercício de fixação (Map):
 Seguir o enunciado
 
     Na contagem de votos de uma eleição, são gerados vários registros de votação contendo o nome do candidato e a quantidade de votos (formato .csv) que ele obteve em uma urna de votação. Você deve fazer um programa para ler os registros de votação a partir de um arquivo, e daí gerar um relatório consolidado com os totais de cada candidato.
