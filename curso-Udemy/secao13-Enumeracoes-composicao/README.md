@@ -196,12 +196,14 @@ Agora, vamos ver sobre a conversão de String para enum. No caso, no arquivo Pro
 
 Verifique se o código está funcionando corretamente.
 
+Seguir as classes "Jogador", "Jogo" e enumeração "Direcao" do projeto "exercicios" do pacote "oo.heranca".
+
 ## Aula 04 - Vamos falar um pouco sobre design:
 Vamos falar um pouco sobre design.
 
 No caso, o design que quero falar aqui ela está mais atrelada na forma como organizamos os diretórios, que podemos ver como se estivessemos categorizando as classes, como Views, Controllers, Entities, Services e Repositories. No caso, é algo análogo à organização de diretórios que estudei em JavaScript.
 
-## Aula 05 - Composição:
+## Aula 05 - Composição - Entendendo Composição (É o mesmo que composição de funções):
 Vamos começar com a parte de composição!
 
 Seguir o link de leitura
@@ -213,6 +215,57 @@ Simplesmente passamos a informação - na forma de Objeto - para outro Objeto, e
 
 Costuma-se dizer que composição é o ato de delegar trabalho para outro objeto.
 Isso deixa seu código mais elegante, menor e mais seguro.
+
+### Composição - Reuso via Composição:
+
+Seguir link de leitura:
+
+    http://treeindev.net/article/code-reusability-software-programming
+
+    https://www.dio.me/articles/introducao-a-programacao-orientada-a-objetos-poo
+
+    https://materialpublic.imd.ufrn.br/curso/disciplina/5/8/6/2
+
+    https://www.devmedia.com.br/entendendo-o-conceito-de-heranca-e-composicao/25456
+
+### Relacionamento um para um:
+
+Seguir as classes "Motor", "CarroTeste" e "Carro" do projeto "exercicios" do pacote "oo.composicao".  
+
+Seguir link de leitura
+
+    https://ead4.fgv.br/producao/DI/FUNDACAO_BRADESCO/validacao/base_18/design/20170411/curso/pag/3_1_0.html
+
+    https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_orientada_a_objetos#:~:text=Programa%C3%A7%C3%A3o%20orientada%20a%20objetos%20(POO,procedimentos%2C%20tamb%C3%A9m%20conhecidos%20como%20m%C3%A9todos.
+    
+
+### Relacionamento um para muitos:
+Seguir as classes "Item", "Compra" e "CompraTeste" do projeto "exercicios" do pacote "oo.composicao".
+
+Seguir link de leitura
+
+    https://www.macoratti.net/09/10/vbn_ir1n.htm
+
+    https://maryclaired.medium.com/modeling-one-to-many-and-many-to-many-relationships-in-ruby-105e1dfa2af1
+
+### Relacionamento Muitos para Muitos:
+Seguir as classes "Aluno", "CursoTeste" e "Curso" do projeto "exercicios" do pacote "oo.composicao".
+
+Seguir link de leitura
+
+    https://maryclaired.medium.com/modeling-one-to-many-and-many-to-many-relationships-in-ruby-105e1dfa2af1
+
+### Desafio - Composição:
+Seguir as classes "Cliente", "Compra", "Item", "Produto" e "Sistema" (essa última, estará onde o método main) do projeto "exercicios" do pacote "oo.composicao.desafio".
+
+A relação que queremos entre essas classes acima está expresso na imagem, Desafio-Composicao.png. Ou seja, conseguimos ter o seguinte diagrama
+
+    Cliente (1 <-> n) Compra (1 <-> n) Item (n <-> 1) Produto
+
+Pode comutar, ou seja, são os mesmos n <-> 1 e 1 <-> n:
+- 1 <-> 1 (Um para um)
+- 1 <-> n (Um para muitos)
+- n <-> n (Um para muitos)
 
 ## Aula 06 e 07 - Exercício resolvido 1 - Parte 1 e 2:
 Seguir o enunciado

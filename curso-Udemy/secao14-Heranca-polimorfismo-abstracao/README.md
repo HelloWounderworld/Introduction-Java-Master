@@ -17,6 +17,8 @@ Recursos para esta aula
 ## Aula 03 - Herança:
 Seguir link para leitura
 
+    https://www.devmedia.com.br/heranca-versus-composicao-qual-utilizar/26145
+    https://www.treinaweb.com.br/blog/devo-usar-heranca-ou-composicao
     https://www.devmedia.com.br/entendendo-e-aplicando-heranca-em-java/24544
     https://www.computersciencemaster.com.br/heranca-em-java/
     https://www.devmedia.com.br/encapsulamento-polimorfismo-heranca-em-java/12991#:~:text=A%20heran%C3%A7a%20%C3%A9%20um%20mecanismo,e%20reaproveitamento%20de%20c%C3%B3digo%20existente.
@@ -174,6 +176,8 @@ Definições importantes
 - Herança/extensão
 
 - Herança é uma associação entre classes (e não entre objetos)
+
+Seguir as classes "Jogador", "Jogo" e enumeração "Direcao" do projeto "exercicios" do pacote "oo.heranca".
 
 ## Aula 04 - Upcasting e downcasting:
 Seguir link para leitura
@@ -842,7 +846,11 @@ Seguir o link para leitura
     https://ncatlab.org/nlab/show/polymorphism
     https://blog.hubspot.es/website/polimorfismo-java#:~:text=El%20polimorfismo%20hace%20referencia%20a,nombre%20para%20ejecutar%20funciones%20diferentes.
 
-Polimorfismo
+Existem duas formas de polimorfismo:
+
+- Estático/Sobrecarga
+
+- Dinâmico
 
 Em Programação Orientada a Objetos, polimorfismo é recurso que permite que variáveis de um mesmo tipo mais genérico possam apontar para objetos de tipos específicos diferentes, tendo assim comportamentos diferentes conforme cada tipo específico.
 
@@ -936,7 +944,7 @@ Seguir o link do repositório do professor. Comparar a sua resolução com a del
 
     https://github.com/acenelio/inheritance5-java
 
-## Aula 10 - Classes abstratas:
+## Aula 10 Abstração - Classes abstratas:
 Seguir o link de leitura
 
     https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html#:~:text=An%20abstract%20class%20is%20a,but%20they%20can%20be%20subclassed.&text=When%20an%20abstract%20class%20is,methods%20in%20its%20parent%20class.

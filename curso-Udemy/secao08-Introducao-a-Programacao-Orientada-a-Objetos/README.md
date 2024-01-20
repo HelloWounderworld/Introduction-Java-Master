@@ -16,9 +16,32 @@ Recursos para esta aula
     03-classes-atributos-membros-staticos(para-anotacoes).pdf
     03-classes-atributos-membros-staticos.pdf
 
-### As relações mais importantes em programação orientada à objetos:
+### Os princípios que sustentam o conceito de Orientação à Objetos:
+Antes de abordarmos esses conceitos, vamos tbm abordar alguns conceitos que nos preparam para entender sobre os princípios que sustentam o conceito de Orientação à Objetos. São elas:
+
+- Composição - Seção 13
+
+- Enumeração - Seção 13
+
+Claro, elas servem mais para nos possibilitar o entendimento sobre o conceitos que serão abordados na Seção 14.
+
+Os princípios que sustentam o conceito de Orientação à Objetos são:
+
+- Encapsulamento - Seção 9
+
+- Herança - Seção 14
+
+- Polimorfismo - Seção 14
+
+- Abstração - Seção 14
+
+No caso, será dicutido uma por uma os conceitos acima.
+
+Nessa seção, só iremos discutir os conceitos introdutórios de orientação à objetos, mostrando uma visão geral fazendo um comparativo de problemas sendo resolvido usando orientação à objeto e sem o uso da mesma, para entender a utilidade dela.
 
 Seguir link de leitura
+
+    https://www.dio.me/articles/os-4-pilares-da-programacao-orientada-a-objetos-Y0CN7G
 
     https://medium.com/@humzakhalid94/understanding-object-oriented-relationships-inheritance-association-composition-and-aggregation-4d298494ac1c#:~:text=At%20its%20core%2C%20OOP%20relies,%2C%20maintainable%2C%20and%20scalable%20software.
 
@@ -215,7 +238,7 @@ Na classe "Data", definimos três atributos
 
 E dentro da classe "DataTeste" teremos o método main, nela iremos instanciar duas datas.
 
-## Aula 05 Entendendo Composição (É o mesmo que composição de funções) - Criando um método para obtermos os benefícios de reaproveitamento e delegação:
+## Aula 05 Criando um método para obtermos os benefícios de reaproveitamento e delegação:
 Vamos agora criar os métodos.
 
 No caso, na classe Triangle criada, vamos criar um método para calcular a sua área. Basicamente, vamos definir uma função que tem a finalidade de calcular a área sem a necessidade de ficarmos repetindo a mesma conta como ocorria no código inicial.
@@ -291,59 +314,8 @@ Bom, fizemos isso até agora, mas temos um ponto bem crucial do que não foi def
 
 Seguir com as classes "Produto" e "ProdutoTeste" do projeto "exerccicios" do pacote "classe".
 
-### Composição - Reuso via Composição:
-
-Seguir link de leitura:
-
-    http://treeindev.net/article/code-reusability-software-programming
-
-    https://www.dio.me/articles/introducao-a-programacao-orientada-a-objetos-poo
-
-    https://materialpublic.imd.ufrn.br/curso/disciplina/5/8/6/2
-
-    https://www.devmedia.com.br/entendendo-o-conceito-de-heranca-e-composicao/25456
-
-### Relacionamento um para um:
-
-Seguir as classes "Motor", "CarroTeste" e "Carro" do projeto "exercicios" do pacote "oo.composicao".  
-
-Seguir link de leitura
-
-    https://ead4.fgv.br/producao/DI/FUNDACAO_BRADESCO/validacao/base_18/design/20170411/curso/pag/3_1_0.html
-
-    https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_orientada_a_objetos#:~:text=Programa%C3%A7%C3%A3o%20orientada%20a%20objetos%20(POO,procedimentos%2C%20tamb%C3%A9m%20conhecidos%20como%20m%C3%A9todos.
-    
-
-### Relacionamento um para muitos:
-Seguir as classes "Item", "Compra" e "CompraTeste" do projeto "exercicios" do pacote "oo.composicao".
-
-Seguir link de leitura
-
-    https://www.macoratti.net/09/10/vbn_ir1n.htm
-
-    https://maryclaired.medium.com/modeling-one-to-many-and-many-to-many-relationships-in-ruby-105e1dfa2af1
-
-### Relacionamento Muitos para Muitos:
-Seguir as classes "Aluno", "CursoTeste" e "Curso" do projeto "exercicios" do pacote "oo.composicao".
-
-Seguir link de leitura
-
-    https://maryclaired.medium.com/modeling-one-to-many-and-many-to-many-relationships-in-ruby-105e1dfa2af1
-
 ### Desafio - Data Formatada:
 Na classe "Data" e "DataTeste" que foi feito no desafio da aula 04 desta seção, do projeto "exercicios" no pacote "classe", o desafio é criar um método "obterDataFormatada" e nela iremos formatar a data de acordo com o que foi passado nela.
-
-### Desafio - Composição:
-Seguir as classes "Cliente", "Compra", "Item", "Produto" e "Sistema" (essa última, estará onde o método main) do projeto "exercicios" do pacote "oo.composicao.desafio".
-
-A relação que queremos entre essas classes acima está expresso na imagem, Desafio-Composicao.png. Ou seja, conseguimos ter o seguinte diagrama
-
-    Cliente (1 <-> n) Compra (1 <-> n) Item (n <-> 1) Produto
-
-Pode comutar, ou seja, são os mesmos n <-> 1 e 1 <-> n:
-- 1 <-> 1 (Um para um)
-- 1 <-> n (Um para muitos)
-- n <-> n (Um para muitos)
 
 ## Aula 06 - Começando a resolver um segundo problema exemplo e Aula 07 - Object e toString:
 Bom, segue a sentença do exercício
