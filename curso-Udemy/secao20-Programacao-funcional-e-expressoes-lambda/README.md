@@ -389,7 +389,7 @@ Seguir o link do repositório de resolução do professor
 
     https://github.com/acenelio/lambda1-java
 
-## Aula 04 - Programação funcional e cálculo lambda:
+## Aula 04 - Programação funcional e cálculo lambda - Funções lambdas:
 Seguir links de leitura
 
     https://medium.com/@nvieirarafael/programa%C3%A7%C3%A3o-funcional-no-java-2a005964cb20
@@ -423,6 +423,8 @@ Programação Imperativa vs Programação Funcional
 O que são "expressões lambda"?
 
 Em programação funcional, expressão lambda corresponde a uma função anônima de primeira classe.
+
+Seguir as classes
 
 ## Aula 05 - Interface funcional:
 Interface funcional
