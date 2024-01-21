@@ -25,6 +25,10 @@ Seguir o link para leitura sobre Interface
 
 Bom, ainda estou em dúvida do que seria uma interface é em quais momentos seria de uma boa prática a sua utilização.
 
+Do que eu entendi, seria que, as interfaces nos ajudam a implementar novos métodos a uma classe, que independente dos outros métodos que a classe já possui.
+
+Ou seja, a interface, do que consegui entender, ela é uma forma de conseguir customizar mais ainda as qualidades de uma classe, que já possui as suas qualidades intrísecas.
+
 ## Aula 04 e 05 - Solução do problema - PARTE 1 e 2:
 Vamos resolver um problema sem o uso da interface para depois entender como se deve usar uma interface.
 
@@ -515,6 +519,8 @@ Feito a tal implementação, agora, na classe RentalService.java só vamos preci
     }
 
 Agora, no caso, o que vai acontecer é que na aplicação Program.java, onde está RentalService rentalService = new RentalService(pricePerHour, pricePerDay, new BrazilTaxService()); mudarmos para USATaxService, por exemplo, só será necessário isso, visto que a nova regra de negócio foi implementada para TaxService tbm.
+
+Seguir as interfaces "Esportivo" e "Luxo" e a classe "Ferrari" do pacote "oo.herenca.desafio" do projeto "exercicio".
 
 ## Aula 07 - Inversão de controle e injeção de dependência:
 Seguir o link para leitura

@@ -916,10 +916,12 @@ Importante entender
     x.withdraw(50.0);
     y.withdraw(50.0);
 
-Seguir as classes 
+Seguir as classes "Pessoa", "Arroz", "Feijao", "Sorvete" e "Jantar" do pacote "oo.polimorfismo" do projeto "exercicios".
 
 ### Desafio - Polimorfismo:
+Seguir as classes "Pessoa", "Arroz", "Feijao", "Sorvete" e "Jantar" do pacote "oo.polimorfismo" do projeto "exercicios", que estão em polimorfismo estático.
 
+O desafio seria, tornar esse polimorfismo estático/sobrecarga para dinâmico.
 
 ## Aula 08 - Exercício resolvido:
 Seguir o enunciado
