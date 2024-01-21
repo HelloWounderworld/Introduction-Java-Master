@@ -177,7 +177,53 @@ Definições importantes
 
 - Herança é uma associação entre classes (e não entre objetos)
 
-Seguir as classes "Jogador", "Jogo" e enumeração "Direcao" do projeto "exercicios" do pacote "oo.heranca".
+Seguir as classes "Jogador", "Jogo", "Heroi" e "Monstro" e enumeração "Direcao" do projeto "exercicios" do pacote "oo.heranca".
+
+### Deafio - Herança - Carros:
+Criar uma classe "Carro" e, a partir dessa classe genérica, crie duas classes "Ferrari" e "Civic" que irá herdar a classe "Carro" e nela definiremos os métodos de acelerar e frear com diferentes intensidades, dentro do projeto "exercicios" do pacote "oo.heranca.desafio".
+
+Por fim, para conseguirmos testa-las, criamos a classe "CarroTeste" no mesmo nível das outras classes de cima, para instanciarmos.
+
+### Desafio - Herança - Carro - Colocando condições para evitar absurdos:
+Bom, fizemos a seguinte modificação na classe Carro
+
+    package oo.heranca.desafio;
+
+    public class Carro {
+
+        final int VELOCIDADE_MAXIMA;
+        int velocidadeAtual;
+        int delta = 5;
+        
+        Carro(int velocidadeMaxima) {
+            VELOCIDADE_MAXIMA = velocidadeMaxima;
+        }
+        
+        void acelerar() {
+            
+            if(velocidadeAtual + delta > VELOCIDADE_MAXIMA) {
+                velocidadeAtual = VELOCIDADE_MAXIMA;
+            } else {
+                velocidadeAtual += delta;
+            }
+        }
+        
+        void frear() {
+            if(velocidadeAtual >= delta) {
+                velocidadeAtual -= delta;
+            } else {
+                velocidadeAtual = 0;
+            }
+        }
+        
+        public String toString() {
+            return "Velocidade atual " + velocidadeAtual + "km/h.";
+        }
+    }
+
+Com essa forma atual, as outras classes que herdaram a classe carro irá exibir o erro.
+
+O desafio é vc conseguir corrigir o erro de modo que o Civic e a Ferrari continue com o mesmo funcionamento.
 
 ## Aula 04 - Upcasting e downcasting:
 Seguir link para leitura
