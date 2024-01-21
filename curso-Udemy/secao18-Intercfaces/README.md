@@ -1,4 +1,4 @@
-# Seção 18: Interfaces:
+# Seção 18: Interfaces - Acho que posso mergear essa seção com a seção 14...:
 
 ## Aula 01 - Visão geral do capítulo Interfaces e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
@@ -28,6 +28,10 @@ Bom, ainda estou em dúvida do que seria uma interface é em quais momentos seri
 Do que eu entendi, seria que, as interfaces nos ajudam a implementar novos métodos a uma classe, que independente dos outros métodos que a classe já possui.
 
 Ou seja, a interface, do que consegui entender, ela é uma forma de conseguir customizar mais ainda as qualidades de uma classe, que já possui as suas qualidades intrísecas.
+
+Dentro da interface, todos os métodos são public e abstract (método que não tem corpo {})!!!
+
+A classe que implementar uma interface, é obrigatório que sobrescreva todos os métodos definido dentro desssa interface, a não ser que vc crie uma implementação padrão no método definido dentro da interface.
 
 ## Aula 04 e 05 - Solução do problema - PARTE 1 e 2:
 Vamos resolver um problema sem o uso da interface para depois entender como se deve usar uma interface.

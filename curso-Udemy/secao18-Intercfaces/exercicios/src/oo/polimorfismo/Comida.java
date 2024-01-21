@@ -1,6 +1,6 @@
 package oo.polimorfismo;
 
-public class Comida {
+public abstract class Comida {
 	
 	// Polimorfando as classes Arroz, Feijao e Sorvete
 	// Para conseguirmos criar um único método comer na classe Pessoa!!

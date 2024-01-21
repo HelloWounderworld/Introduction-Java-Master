@@ -132,12 +132,15 @@ public class CarroTeste {
 		
 		System.out.println("Ativar o modo turbo!!!!");
 		c5.ligarTurbo();
+		c5.ligarAr();
 		
 		c5.acelerar();
 		System.out.println(c5);
 		
 		c5.acelerar();
 		System.out.println(c5);
+		
+		c5.desligarAr();
 		
 		c5.acelerar();
 		System.out.println(c5);

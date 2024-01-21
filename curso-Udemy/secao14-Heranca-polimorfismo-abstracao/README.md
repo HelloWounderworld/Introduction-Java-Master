@@ -1011,6 +1011,14 @@ Classes abstratas:
 - É uma forma de garantir herança total: somente subclasses não 
 abstratas podem ser instanciadas, mas nunca a superclasse abstrata
 
+Basicamente, as classes abstratas, elas carregam todas as características ou definições intrísecas do que define um determinado conceito.
+
+Exemplo, um animal, a definição são seres vivos que possuem algumas características em comum: nascem, desenvolvem-se, reproduzem-se e morrem. Donde, com base dessa definição, temos muitos, mas muitos, animais como gato, cachorro, papagaio, etc... Só que, sempre que vemos esses animais, não chamamos elas de "animais", certo? E sim, chamamos pelo nome que torna único as características desses seres, mas que não deixam de serem animais. 
+
+Basicamente, quem está exercendo o papel de uma classe abstrata aqui é a classe "animal", donde, dentro dela, podemos definir as características que qualquer "animal" possui, porém, sempre que queremos pegar algum animal de exemplo, que é o momento em que instanciamos, não instanciamos essa classe "animal", mas, sim, instanciamos as subclasses que derivam desse conceito de animal, como gato, cachorro, papagaio, peixe, etc...
+
+Ou seja, basicamente, tornarmos uma classe abstrata, é quando conseguimos definir uma categoria, onde está definido as estruturas fundamentais donde originam outras subcategorias que são estruturas mais específicas, mas que usam, como base, essa estrutura fundamental.
+
 Vamos seguir com um exemplo.
 
     Suponha que em um negócio relacionado a banco, apenas contas poupança e contas para empresas são permitidas. Não existe conta comum.
@@ -1245,13 +1253,19 @@ Bom, ciente do motivo de usarmos o abstract acima, vamos ver como adotamos as bo
 
 Bom, aqui em cima, usamos fortemente o conceito de polimorfismo para conseguirmos controlar as ações que seriam uniformes.
 
+Seguir as classes "Arroz", "Feijao", "Sorvete", "Comida", "Pessoa" e "Jantar" do pacote "oo.polimorfismo" do projeto "exercicios" - Nesse exercíco, eu abstrai a classe "Comida".
+
+Seguir as classes "Animal", "Mamifero", "Cachorro" e "TesteAbstrato" do pacote "oo.abstrato" do projeto "exercicios".
+
 ## Aula 11 - Métodos abstratos:
 Seguir o link de leitura
 
     https://www.feg.unesp.br/Home/PaginasPessoais/profedsonluizfrancasenne/pc2-cap5.pdf
     https://www.devmedia.com.br/polimorfismo-classes-abstratas-e-interfaces-fundamentos-da-poo-em-java/26387
 
-Métodos abstratos
+Métodos abstratos, são basicamente, métodos inacabados. É como se vc soubesse que existe uma função, mas não sabe ainda como será a cara dela. Então, vc define esse método de forma implícito/abstrato, para ter a flexibilidade de conseguir definir esse método nos momentos mais certeiros das subclasses que foram herdando a classe abstrata que possui esse método abstrato.
+
+Os métodos abstratos, tem como característica, os seguintes:
 
 - São métodos que não possuem implementação.
 
@@ -1260,6 +1274,10 @@ Métodos abstratos
 - Se uma classe possuir pelo menos um método abstrato, então esta classe também é abstrata. (Demonstre matematicamente!)
 
 - Notação UML: itálico
+
+- As classes não abstratas que herdarem das classes abstratas que contem um método abstrato, necessariamente, essa classe precisa implementar esse método abstrado que foi definido na classe Pai.
+
+- Uma classe abstrata herdada de uma classe abstrata, que contém um método abstrato, não precisa implementar o método abstrado da classe abstrata pai.
 
 Vamos fazer um exercício disso.
 
@@ -1538,6 +1556,8 @@ Feito as criações acima, vamos agora realizar as alterações no Program.java.
     }
 
 Agora, basta rodar o programa para verificar se está tudo funcionando corretamente.
+
+Seguir as classes "Animal", "Mamifero", "Cachorro" e "TesteAbstrato" do pacote "oo.abstrato" do projeto "exercicios".
 
 ## Aula 12 - Exercício de fixação:
 Seguir o enunciado
