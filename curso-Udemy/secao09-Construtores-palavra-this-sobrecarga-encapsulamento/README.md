@@ -468,8 +468,19 @@ Seguir o link para leitura
 
     https://www.devmedia.com.br/encapsulamento-polimorfismo-heranca-em-java/12991#:~:text=Encapsulamento%20vem%20de%20encapsular%2C%20que,e%20m%C3%A9todos%20de%20uma%20classe.
     https://es.wikipedia.org/wiki/Encapsulamiento_(inform%C3%A1tica)
+    https://stackify.com/oop-concept-for-beginners-what-is-encapsulation/
 
 Uma analogia legal do encapsulamento é muito parecido com a diferença entre o front-end e back-end. Enquanto que no front-end o usuário realiza as tais ações, a execução de tais ações toda a arquitetura ou os tipos de acessos que ocorrem vc não vê ela acontecendo, pois ela fica tudo no back-end, que é por baixo dos panos, o que possibilita executar com base das ações que o usuário realiza pela tela. Basicamente, o encapsulamento é algo análogo à isso, ou seja, como funcionará por baixo dos panos.
+
+As sintaxes que definem os pilares do encapsulamento:
+
+- Private
+
+- Default (Pacote)
+
+- Protected
+
+- Public
 
 Regra geral básica para encapsulamento
 
@@ -1037,6 +1048,8 @@ Agora, e o quantity é necessário aplicarmos o get o set nela? Bom, aí que est
     }
 
 Dessa forma, conseguimos proteger que a quantidade sempre fique no estado consistente, no sentido de que ela só irá alterar quando houver, apenas, alguma entrada ou saída.
+
+Seguir as classes "Paulo", "Pedro", "Ana" e "Julia" do projeto "exercicios" dos pacotes "oo.encapsulamento.casaA" e "oo.encapsulamento.casaB".
 
 ## Aula 07 - Gerando automaticamente construtores, getters e setters com Eclipse:
 Bom, segue a seguinte instrução
