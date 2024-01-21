@@ -472,6 +472,8 @@ Seguir o link para leitura
 
 Uma analogia legal do encapsulamento é muito parecido com a diferença entre o front-end e back-end. Enquanto que no front-end o usuário realiza as tais ações, a execução de tais ações toda a arquitetura ou os tipos de acessos que ocorrem vc não vê ela acontecendo, pois ela fica tudo no back-end, que é por baixo dos panos, o que possibilita executar com base das ações que o usuário realiza pela tela. Basicamente, o encapsulamento é algo análogo à isso, ou seja, como funcionará por baixo dos panos.
 
+É muito importante entender sobre encapsulamento, pois a compreensão profunda dela, nos permite conseguir construir relações e arquiteturas mais robustas de um sistema, de modo que fique mais perfomático e com segurança. Entender como os níveis de visibilidade funciona, pode ou não fornecer brechas de vazamento de dados ou, até mesmo, nos permite melhorar a performance, visto que os níveis de relações acaba sendo um fator que facilita ou não que informações de uma classe para outra seja compartilhada, sem muita necessidade de termos que colocar ou usar algum critério que implique em mais uso de processamento.
+
 As sintaxes que definem os pilares do encapsulamento:
 
 - Private
@@ -484,8 +486,7 @@ As sintaxes que definem os pilares do encapsulamento:
 
 Regra geral básica para encapsulamento
 
-- Um objeto NÃO deve expor nenhum atributo (modificador de acesso 
-private)
+- Um objeto NÃO deve expor nenhum atributo (modificador de acesso private)
 
 - Os atributos devem ser acessados por meio de métodos get e set:
 
@@ -513,7 +514,7 @@ Um exemplo disso
         this.price = price;
     }
 
-No caso, seguind a regra de exemplo acima, vamos aplicar isso no arquivo Product.java. No caso, vamos encapsular os atributos
+No caso, seguindo a regra de exemplo acima, vamos aplicar isso no arquivo Product.java. No caso, vamos encapsular os atributos
 
     package entities;
 
@@ -1050,6 +1051,9 @@ Agora, e o quantity é necessário aplicarmos o get o set nela? Bom, aí que est
 Dessa forma, conseguimos proteger que a quantidade sempre fique no estado consistente, no sentido de que ela só irá alterar quando houver, apenas, alguma entrada ou saída.
 
 Seguir as classes "Paulo", "Pedro", "Ana" e "Julia" do projeto "exercicios" dos pacotes "oo.encapsulamento.casaA" e "oo.encapsulamento.casaB".
+
+### Desafio - Modificadores de Acesso:
+
 
 ## Aula 07 - Gerando automaticamente construtores, getters e setters com Eclipse:
 Bom, segue a seguinte instrução
