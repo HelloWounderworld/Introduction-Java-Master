@@ -1053,9 +1053,13 @@ Dessa forma, conseguimos proteger que a quantidade sempre fique no estado consis
 Seguir as classes "Paulo", "Pedro", "Ana" e "Julia" do projeto "exercicios" dos pacotes "oo.encapsulamento.casaA" e "oo.encapsulamento.casaB".
 
 ### Desafio - Modificadores de Acesso:
+Vamos mover as classes "Jogo" e "CarroTeste" dentro do pacote "oo.heranca.teste" do projeto "exercicios".
 
+Isso irá alterar os níveis de visibilidade das outras classes.
 
-## Aula 07 - Gerando automaticamente construtores, getters e setters com Eclipse:
+O desafio é, basicamente, ajustar os níveis de visibilidade das outras classes para fazer com que a classe que tenha o main volte a funcionar.
+
+## Aula 07 - Gerando automaticamente construtores, getters e setters com Eclipse - eses dois contrutores tem muito haver sim com encapsulamento:
 Bom, segue a seguinte instrução
 
 Comandos
@@ -1064,6 +1068,10 @@ Comandos
     •Botão direito -> Source -> Generate Getters and Setters
 
 Bom, na prática isso irá construir, por exemplo, automaticamente um construtor e dentro dela aparecerá uma função super();, super classe.
+
+O getters e setters, elas tem muita utilidade para o encapsulamento. No sentido, de se tivermos algum atributo que queremos que ela seja protegido ou privado, conseguimos definir isso para os atributos sem que isso afete nos níveis de visibilidade para a outra classe que estiver relacionado. Usamos o getters e setters, para conseguirmos ter mais flexibilidade em atribuir os níveis de visibilidade nos atributos de uma classe.
+
+Seguir as classes
 
 ## Aula 08 - Modificadores de acesso:
 Modificadores de acesso

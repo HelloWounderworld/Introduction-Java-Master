@@ -2,15 +2,17 @@ package oo.heranca.desafio;
 
 public class Carro {
 
-	final int VELOCIDADE_MAXIMA;
-	int velocidadeAtual;
-	int delta = 5;
+	public final int VELOCIDADE_MAXIMA;
+	protected int velocidadeAtual; // protected, visto que não quero que isso seja visível, pela possibilidade de ser alterado
+	protected int delta = 5; // protected, visto que não quero que isso seja visível, pela possibilidade de ser alterado
 	
-	Carro(int velocidadeMaxima) {
+	// coloquei protected - visto que não quero que seja instanciado diretamente pela classe Carro
+	// somente pelas suas heranças.
+	protected Carro(int velocidadeMaxima) {
 		VELOCIDADE_MAXIMA = velocidadeMaxima;
 	}
 	
-	void acelerar() {
+	public void acelerar() {
 		
 		if(velocidadeAtual + delta > VELOCIDADE_MAXIMA) {
 			velocidadeAtual = VELOCIDADE_MAXIMA;
@@ -19,7 +21,7 @@ public class Carro {
 		}
 	}
 	
-	void frear() {
+	public void frear() {
 		if(velocidadeAtual >= delta) {
 			velocidadeAtual -= delta;
 		} else {

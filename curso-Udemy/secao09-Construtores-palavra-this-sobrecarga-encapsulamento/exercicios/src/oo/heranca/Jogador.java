@@ -2,20 +2,20 @@ package oo.heranca;
 
 public class Jogador {
 
-	int vida = 100;
-	int x;
-	int y;
+	public int vida = 100;
+	public int x;
+	public int y;
 	
 	// Esse construtor explícito, irá gerar um erro nas classes filhos, Heroi e Monstro
 	// O motivo disso seria porque o this, ele faz referencia aos atributos da classe Jogador
 	// É como se fosse uma genética que não foi ativado pelo filho mesmo que este herdou-a
 	// Logo, o filho precisa ativar isso
-	Jogador(int x, int y) {
+	protected Jogador(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	boolean atacar(Jogador oponente) {
+	public boolean atacar(Jogador oponente) {
 		
 		int deltaX = Math.abs(x - oponente.x);
 		int deltaY = Math.abs(y - oponente.y);
@@ -31,7 +31,7 @@ public class Jogador {
 		}
 	}
 	
-	boolean andar(Direcao direcao) {
+	public boolean andar(Direcao direcao) {
 		switch(direcao) {
 		case NORTE:
 			y--;

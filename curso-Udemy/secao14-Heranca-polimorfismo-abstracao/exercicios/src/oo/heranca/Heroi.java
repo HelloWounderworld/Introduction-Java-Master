@@ -9,13 +9,13 @@ public class Heroi extends Jogador {
 	// Ativando a genética recebida do pai.
 	// Essa é a maneira de uma classe herdada
 	// ser instanciada de forma explícita
-	Heroi(int x, int y) {
+	public Heroi(int x, int y) {
 		super(x, y);
 	}
 
 	// Herença - Estou herdando as qualidades do Jogador
 	// Se eu quiser usar o método que já existe dentro da classe pai sem alterar nada?
-	boolean atacar(Jogador oponente) {
+	public boolean atacar(Jogador oponente) {
 		// só com a forma abaixo consigo repetir o mesmo método da classe pai
 //		return super.atacar(oponente);
 		
