@@ -1963,8 +1963,10 @@ Seguir a classe "ImprimindoObjeto" do pacote "streams" do projeto "exercicios".
 Seguir a classe "CriandStreams" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Map em Stream:
+Seguir a classe "Map" do pacote "streams" do projeto "exercicios".
 
 ### Desafio - Map em Stream:
+Seguir a classe "DesafioMap" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Filter em Stream:
 
