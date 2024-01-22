@@ -424,6 +424,8 @@ O que são "expressões lambda"?
 
 Em programação funcional, expressão lambda corresponde a uma função anônima de primeira classe.
 
+Seguir as classes "Soma", "Multiplicar", "CalculoTese1" e "CalculoTeste2" e a interface "Calculo" do pacote "lambda" do projeto "exercicios".
+
 ## Aula 05 - Interface funcional:
 Interface funcional
 
@@ -1969,6 +1971,7 @@ Seguir a classe "Map" do pacote "streams" do projeto "exercicios".
 Seguir a classe "DesafioMap" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Filter em Stream:
+Seguir a classe 
 
 ### Desafio - Uso do Filter em Stream:
 
