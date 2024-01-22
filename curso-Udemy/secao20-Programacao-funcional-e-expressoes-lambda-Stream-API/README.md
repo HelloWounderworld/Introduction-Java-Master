@@ -1821,7 +1821,7 @@ Seguir o link de resolução do professor
 
 Revisar esse conceito!!! Pois é bem importante!
 
-## Aula 10 - Stream:
+## Aula 10 - Stream, List e Iterator:
 Seguir o link de leitura
 
     http://www.oracle.com/technetwork/pt/articles/java/streams-api-java-8-3410098-ptb.html
