@@ -1960,6 +1960,20 @@ Revisar esse conceito!!! Muito importante!!!
 
 Seguir a classe "ImprimindoObjeto" do pacote "streams" do projeto "exercicios".
 
+Seguir a classe "CriandStreams" do pacote "streams" do projeto "exercicios".
+
+### Uso do Map em Stream:
+
+### Desafio - Map em Stream:
+
+### Uso do Filter em Stream:
+
+### Desafio - Uso do Filter em Stream:
+
+### Uso do Reduce em Stream:
+
+### Uso do Match em Stream:
+
 ## Aula 11 - Pipeline (demo):
 Seguir link para leitura
 
