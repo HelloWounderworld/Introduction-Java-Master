@@ -424,8 +424,6 @@ O que são "expressões lambda"?
 
 Em programação funcional, expressão lambda corresponde a uma função anônima de primeira classe.
 
-Seguir as classes
-
 ## Aula 05 - Interface funcional:
 Interface funcional
 
@@ -1959,6 +1957,8 @@ No caso, em Program.java coloquemos o seguinte
     }
 
 Revisar esse conceito!!! Muito importante!!!
+
+Seguir a classe "ImprimindoObjeto" do pacote "streams" do projeto "exercicios".
 
 ## Aula 11 - Pipeline (demo):
 Seguir link para leitura
