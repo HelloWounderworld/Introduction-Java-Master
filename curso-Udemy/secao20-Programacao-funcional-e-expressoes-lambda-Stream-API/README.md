@@ -1857,14 +1857,17 @@ Seguir a classe "OperadorUnario" do pacote "lambdas" do projeto "exercicios".
 ## Aula 11 - Binary Operator e BiFunction (Operador Binário e Função Bi):
 Seguir a classe "OperadorBinario" do pacote "lambdas" do projeto "exercicios".
 
-## Aula 10 - Criando funções que recebem funções como parâmetro:
+### Desafio - Operador Binário:
+Seguir a classe "Desafio" do pacote "lambdas" do projeto "exercicios".
+
+## Aula 12 - Criando funções que recebem funções como parâmetro:
 Seguir o link de resolução do professor
 
     https://github.com/acenelio/lambda5-java
 
 Revisar esse conceito!!! Pois é bem importante!
 
-## Aula 11 - Stream, List e Iterator:
+## Aula 13 - Stream, List e Iterator:
 Seguir o link de leitura
 
     http://www.oracle.com/technetwork/pt/articles/java/streams-api-java-8-3410098-ptb.html
@@ -2020,7 +2023,7 @@ Seguir a classe
 
 ### Uso do Match em Stream:
 
-## Aula 11 - Pipeline (demo):
+## Aula 14 - Pipeline (demo):
 Seguir link para leitura
 
     https://medium.com/@deepakbapat/the-pipeline-design-pattern-in-java-831d9ce2fe21
@@ -2060,7 +2063,7 @@ Em Program.java, vamos colocar o seguinte
 
     }
 
-## Aula 12 - Exercício resolvido (stream):
+## Aula 15 - Exercício resolvido (stream):
 Exercício resolvido - filter, sorted, map, reduce
 
 Seguir o enunciado
@@ -2091,7 +2094,7 @@ Seguir o link da resolução
 
     https://github.com/acenelio/lambda6-java
 
-## Aula 13 - Exercício de fixação:
+## Aula 16 - Exercício de fixação:
 Seguir o enunciado
 
     Fazer um programa para ler os dados (nome, email e salário)de funcionários a partir de um arquivo em formato .csv.
