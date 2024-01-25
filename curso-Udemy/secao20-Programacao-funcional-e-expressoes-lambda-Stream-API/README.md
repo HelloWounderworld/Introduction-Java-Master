@@ -472,8 +472,8 @@ Seguir a classe "CalculoTeste3" do pacote "lambdas" do projeto "exercicios".
 ### Usando o Foreach Funcional:
 Seguir a classe "Foreach" do pacote "lambdas" do projeto "exercicios".
 
-## Aula 06 - Predicate:
-A sintaxe para o uso da interface PRedicate é o seguinte
+## Aula 06 - Predicate (Predicado):
+A sintaxe para o uso da interface Predicate é o seguinte
 
     public interface Predicate<T> {
         boolean test (T t);
@@ -917,7 +917,13 @@ Versões:
 
         }
 
-## Aula 07 - Consumer:
+Obs: Existem várias, mas várias, interfaces funcionais.
+
+    https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+
+Seguir as classes "Predicado" e "Produto" no pacote "lambdas" do projeto "exercicios".
+
+## Aula 07 - Consumer (Consumidor):
 Bom, a abordagem desse conceito será feito analogamente com a aula antecessor.
 
 A sintaxe do consumer, basicamente, é o seguinte
@@ -1378,6 +1384,12 @@ Versões:
 
         }
 
+Obs: Existem várias, mas várias, interfaces funcionais.
+
+    https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+
+Seguir as classes "Produto" e "Consumidor" do pacote "lambdas" do projeto "exercicios".
+
 ## Aula 08 - Function:
 A sintaxe da function é o seguinte
 
@@ -1827,6 +1839,12 @@ Versões:
             }
 
         }
+
+Obs: Existem várias, mas várias, interfaces funcionais.
+
+    https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+
+
 
 ## Aula 09 - Criando funções que recebem funções como parâmetro:
 Seguir o link de resolução do professor

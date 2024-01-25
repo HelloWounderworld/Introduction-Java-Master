@@ -16,6 +16,7 @@ public class CalculoTeste3 {
 		// O Java não consegue converter o tipo int para Double primitivo automaticamente.
 		// Mas é possível que double -> Double
 //		Double a = 1; // Note que, estou colocando um int em um primitivo Double, mas não é feito a conversão automática, como acontece quando usamos double
+//		Double a = 1.0; // double -> Double
 		System.out.println(calculo.apply(2.0, 3.0));
 		
 //		calculo = (x, y) -> { return x * y; };
