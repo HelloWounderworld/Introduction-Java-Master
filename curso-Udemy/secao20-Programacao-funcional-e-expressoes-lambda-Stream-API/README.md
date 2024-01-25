@@ -464,7 +464,10 @@ Obs: Existem várias, mas várias, interfaces funcionais.
 
     https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
 
-Seguir o interface "Calculo" do pacote "lambdas" do projeto "exercicios".
+Seguir o interface "Calculo" e a classe "CalculoTeste2" do pacote "lambdas" do projeto "exercicios".
+
+### Usando interfaces funcionais disponíveis em Java:
+Seguir a classe "CalculoTeste3" do pacote "lambdas" do projeto "exercicios".
 
 ## Aula 06 - Predicate:
 A sintaxe para o uso da interface PRedicate é o seguinte
