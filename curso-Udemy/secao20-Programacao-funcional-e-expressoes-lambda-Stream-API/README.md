@@ -460,6 +460,12 @@ Algumas outras interfaces funcionais comuns
 
     - Nota: ao contrário das outras interfaces funcionais, no caso do Consumer, é esperado ele possa gerar efeitos colaterais
 
+Obs: Existem várias, mas várias, interfaces funcionais.
+
+    https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+
+Seguir o interface "Calculo" do pacote "lambdas" do projeto "exercicios".
+
 ## Aula 06 - Predicate:
 A sintaxe para o uso da interface PRedicate é o seguinte
 
