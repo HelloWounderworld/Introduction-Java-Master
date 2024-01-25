@@ -923,6 +923,8 @@ Obs: Existem várias, mas várias, interfaces funcionais.
 
 Seguir as classes "Predicado" e "Produto" no pacote "lambdas" do projeto "exercicios".
 
+Seguir a classe "PredicadoComposicoes" no pacote "lambdas" do projeto "exercicios".
+
 ## Aula 07 - Consumer (Consumidor):
 Bom, a abordagem desse conceito será feito analogamente com a aula antecessor.
 
@@ -1844,16 +1846,25 @@ Obs: Existem várias, mas várias, interfaces funcionais.
 
     https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
 
+Seguir a classe "Funcao" do pacote "lambdas" do projeto "exercicios".
 
+## Aula 09 - Supplier (Fornecedor):
+Seguir a classe "Fornecedor" do pacote "lambdas" do projeto "exercicios".
 
-## Aula 09 - Criando funções que recebem funções como parâmetro:
+## Aula 10 - Unary Operator (Operador Unário):
+Seguir a classe "OperadorUnario" do pacote "lambdas" do projeto "exercicios".
+
+## Aula 11 - Binary Operator e BiFunction (Operador Binário e Função Bi):
+Seguir a classe "OperadorBinario" do pacote "lambdas" do projeto "exercicios".
+
+## Aula 10 - Criando funções que recebem funções como parâmetro:
 Seguir o link de resolução do professor
 
     https://github.com/acenelio/lambda5-java
 
 Revisar esse conceito!!! Pois é bem importante!
 
-## Aula 10 - Stream, List e Iterator:
+## Aula 11 - Stream, List e Iterator:
 Seguir o link de leitura
 
     http://www.oracle.com/technetwork/pt/articles/java/streams-api-java-8-3410098-ptb.html
