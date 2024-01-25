@@ -469,6 +469,9 @@ Seguir o interface "Calculo" e a classe "CalculoTeste2" do pacote "lambdas" do p
 ### Usando interfaces funcionais disponíveis em Java:
 Seguir a classe "CalculoTeste3" do pacote "lambdas" do projeto "exercicios".
 
+### Usando o Foreach Funcional:
+Seguir a classe "Foreach" do pacote "lambdas" do projeto "exercicios".
+
 ## Aula 06 - Predicate:
 A sintaxe para o uso da interface PRedicate é o seguinte
 
