@@ -1860,6 +1860,9 @@ Seguir a classe "OperadorBinario" do pacote "lambdas" do projeto "exercicios".
 ### Desafio - Operador Binário:
 Seguir a classe "Desafio" do pacote "lambdas" do projeto "exercicios".
 
+### Extra - Interfaces Funcionais Antes de Java 8:
+Seguir as classes "Threads" e "Trabalho1" do pacote "lambdas" do projeto "exercicios".
+
 ## Aula 12 - Criando funções que recebem funções como parâmetro:
 Seguir o link de resolução do professor
 
