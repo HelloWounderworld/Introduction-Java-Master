@@ -2018,7 +2018,7 @@ Seguir a classe "Map" do pacote "streams" do projeto "exercicios".
 Seguir a classe "DesafioMap" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Filter em Stream:
-Seguir a classe 
+Seguir as classes "Filter" e "Aluno" do pacote "streams" do projeto "exercicios". 
 
 ### Desafio - Uso do Filter em Stream:
 
