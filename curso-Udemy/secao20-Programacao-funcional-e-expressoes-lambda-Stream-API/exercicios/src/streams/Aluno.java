@@ -16,4 +16,13 @@ public class Aluno {
 		this.bomComportamento = bomComportamento;
 	}
 	
+	public String toString() {
+		return nome + " tem nota " + nota;
+	}
+	
+//	@Override
+//	public int hashCode() {
+//		// TODO Auto-generated method stub
+//		return 1;
+//	}
 }

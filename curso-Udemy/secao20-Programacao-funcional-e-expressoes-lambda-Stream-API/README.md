@@ -2024,6 +2024,7 @@ Seguir as classes "Filter" e "Aluno" do pacote "streams" do projeto "exercicios"
 Seguir as classes "Reduce1", "Reduce2", "Reduce3", "Media" e "MediaTeste" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Match em Stream:
+Seguir a classe "Match" do pacote "streams" do projeto "exercicios".
 
 ## Aula 14 - Pipeline (demo):
 Seguir link para leitura
