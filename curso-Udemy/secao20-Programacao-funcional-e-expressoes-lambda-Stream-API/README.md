@@ -2021,6 +2021,7 @@ Seguir a classe "DesafioMap" do pacote "streams" do projeto "exercicios".
 Seguir as classes "Filter" e "Aluno" do pacote "streams" do projeto "exercicios". 
 
 ### Uso do Reduce em Stream:
+Seguir as classes "Reduce1", "Reduce2", "Reduce3", "Media" e "MediaTeste" do pacote "streams" do projeto "exercicios".
 
 ### Uso do Match em Stream:
 
