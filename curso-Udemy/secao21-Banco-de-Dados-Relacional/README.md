@@ -25,6 +25,10 @@ Comando para iniciar o mysql pelo terminal:
 
 Será necessário digitar a senha que eu uso para acessar o próprio computador e a senha que foi definido para acessar o mysql pelo terminal.
 
+Para sair do mysql:
+
+    \q
+
 Note que, as manipulações que eu realizar no MySQL Worbench, reflete nos dados que consigo consultar pelo terminal com mysql ativo.
 
 Logo, o ambiente para conseguirmos estudar sobre banco de dados relacional está pronta.
