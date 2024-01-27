@@ -1,4 +1,4 @@
-# Seção 15: Tratamento de exceções:
+# Seção 15: Tratamento de exceções/erros:
 
 ## Aula 01 - Visão geral do capítulo Tratamento de Exceções e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
@@ -14,7 +14,23 @@ Recursos para esta aula
     09-tratamento-de-excecoes(espaco-para-anotacoes).pdf
     09-tratamento-de-excecoes.pdf
 
-## Aula 03 - Discussão inicial sobre exceções:
+## Aula 03 - Tipos de Erros:
+Existem dois tipos de erros:
+
+- O que é identificado pelo compilação:
+
+    Caso aconteça algum erro, a compilação para no meio do processo.
+
+- Erro de tempos de execução:
+
+    Um tipo de erro, quando o seu programa já foi compilado. É um caso em que precisamos implementar o conceito de tratamento de exceção.
+
+### Pilhas e Métodos:
+Serve para entender, quando é exibido algum erro, qual é a ordem de interpretação certa que realizamos para conseguirmos tratar o erro e identificar exatamente onde ocorreu.
+
+Ou seja, pilhas de métodos, é uma forma de facilitar em detectar o erro e ver onde exatamente isso aconteceu.
+
+## Aula 04 - Discussão inicial sobre exceções - Basico:
 Exceções
 
 - Uma exceção é qualquer condição de erro ou comportamento inesperado encontrado por um programa em execução
@@ -40,8 +56,9 @@ Por que exceções?
 
     -  A exceção pode carregar dados quaisquer
 
+Seguir as classes "Basico" e "Aluno" do pacote "excecao" do projeto "exercicios". 
 
-## Aula 04 - Estrutura try-catch:
+## Aula 05 - Estrutura try-catch:
 Estrutura try-catch:
 
 - Bloco try
@@ -159,7 +176,7 @@ Para melhor entendimento do conceito, seguir o seguinte link
 
     https://stackoverflow.com/questions/651619/what-is-the-advantage-of-using-try-catch-versus-if-else#:~:text=In%20general%2C%20try%2Dcatch%20blocks,when%20an%20error%20is%20hit.
 
-## Aula 05 - Pilha de chamadas de métodos (stack trace):
+## Aula 06 - Pilha de chamadas de métodos (stack trace):
 Vamos continuar a trabalhar em cima do mesmo projeto, excession.
 
 Bom, vamos criar um método colocando tudo o que foi usado no try catch. Logo, no arquivo Program.java ficaria da seguinte forma
@@ -342,7 +359,7 @@ Visto que está tudo funcionando corretamente, vamos gerar um erro, então. Ou s
 
 Vamos, novamente, simular o mesmo erro para ver o que está acontecendo. Note que, desta vez, foi exibido um erro, exatamente como um sistema exibiria pelo console, só que, a única diferença, é que o sistema não parou de funcionar. Ele continou seguindo o fluxo. Além de que, o StackTrace ele chamará todos os métodos que estavam envolvidos no processo para tratá-la.
 
-## Aula 06 - Bloco finally:
+## Aula 07 - Bloco finally:
 Bom, o bloco finally, já estudei pelo JavaScript.
 
 Aqui no Java, a lógica de funcionalidade é a mesma.
@@ -391,7 +408,7 @@ Seguir o código que realiza o experimento disso
         }
     }
 
-## Aula 07 - Criando exceções personalizadas:
+## Aula 08 - Criando exceções personalizadas:
 Vamos aprender a criar exceções personalizadas.
 
 Antes disso, sugerimos o uso de pacotes model
@@ -464,7 +481,7 @@ Seguir o link da resolução
 
 Só vamos deixar preparado os ambientes.
 
-## Aula 08 - Primeira solução - muito ruim:
+## Aula 09 - Primeira solução - muito ruim:
 Bom, vamos começando com a seguinte modificação
 
 Seguir o link de leitura para enteder melhor o throws exception
@@ -532,7 +549,7 @@ No arquivo Program.java vamos colocar o seguinte
 
 Bom, note que, aqui na solução péssima acima, tratamos as excessões usando loucamente if, else if e else, o que é péssimo, pois fica ruim no ponto de vista da interpretação do código, ruim no sentido de eficiência e péssimo no quesito de contar outras possibilidades do que poderia acontecer e não cobrir nenhuma delas. Além disso, o sistema pode parar caso algum erro aconteça.
 
-## Aula 09 - Segunda solução - ruim:
+## Aula 10 - Segunda solução - ruim:
 Bom, a péssima solução da aula anterior estava no problema de lógica de validação no programa principal. Algo que deveria estar presente nas classes.
 
 Vamos corrigir esse problema, mas ainda sim o código ao todo estará ruim, pois teremos problemas do método retornando string.
@@ -661,7 +678,7 @@ Entretanto, ainda sim podemos melhorar a solução, pois seria usando o tratamen
 
 Resforçando aqui, vale a pena dar uma lida reforçada entre quando usamos as condicionais e o try/catch para tratamento de erros.
 
-## Aula 10 - Terceira solução - boa:
+## Aula 11 - Terceira solução - boa:
 Agora, vamos ver a solução boa, donde, desta vez, é codando de forma que tratamos as exceções.
 
 No caso, a última melhoria que fizemos é enviar as condicionais nas classes, de forma, que o código de aplicação torne-a muito mais simples de ler.
@@ -1259,7 +1276,7 @@ Resumo da aula
     - É possível capturar inclusive outras exceções de sistema
 
 
-## Aula 11 - Exercício de fixação:
+## Aula 12 - Exercício de fixação:
 Seguir o enunciado
 
     Fazer um programa para ler os dados de uma conta bancária e depois realizar um saque nesta conta bancária, mostrando o novo saldo. Um saque não pode ocorrer ou se não houver saldo na conta, ou se o valor do saque for superior ao limite de saque da conta. Implemente a conta bancária conforme projeto abaixo:
@@ -1304,7 +1321,7 @@ Seguir o link de resolução do professor
 
     https://github.com/acenelio/exceptions2-java
 
-## Aula 12 - Correção do exercício de fixação:
+## Aula 13 - Correção do exercício de fixação:
 Olá pessoal! A correção deste exercício foi feita em uma live no Youtube:
 
 https://www.youtube.com/watch?v=AiIuJqJ0r8A
