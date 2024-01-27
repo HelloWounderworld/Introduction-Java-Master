@@ -2026,6 +2026,12 @@ Seguir as classes "Reduce1", "Reduce2", "Reduce3", "Media" e "MediaTeste" do pac
 ### Uso do Match em Stream:
 Seguir a classe "Match" do pacote "streams" do projeto "exercicios".
 
+### Uso do Max e Min:
+Seguir a classe "MinMax" do pacote "streams" dp projeto "exercicios".
+
+### Outros streams:
+Seguir a classe "Outros" do pacote "streams" do projeto "exercicios".
+
 ## Aula 14 - Pipeline (demo):
 Seguir link para leitura
 
