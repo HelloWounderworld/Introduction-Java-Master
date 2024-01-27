@@ -25,11 +25,6 @@ Existem dois tipos de erros:
 
     Um tipo de erro, quando o seu programa já foi compilado. É um caso em que precisamos implementar o conceito de tratamento de exceção.
 
-### Pilhas e Métodos:
-Serve para entender, quando é exibido algum erro, qual é a ordem de interpretação certa que realizamos para conseguirmos tratar o erro e identificar exatamente onde ocorreu.
-
-Ou seja, pilhas de métodos, é uma forma de facilitar em detectar o erro e ver onde exatamente isso aconteceu.
-
 ## Aula 04 - Discussão inicial sobre exceções - Basico:
 Exceções
 
@@ -359,6 +354,11 @@ Visto que está tudo funcionando corretamente, vamos gerar um erro, então. Ou s
 
 Vamos, novamente, simular o mesmo erro para ver o que está acontecendo. Note que, desta vez, foi exibido um erro, exatamente como um sistema exibiria pelo console, só que, a única diferença, é que o sistema não parou de funcionar. Ele continou seguindo o fluxo. Além de que, o StackTrace ele chamará todos os métodos que estavam envolvidos no processo para tratá-la.
 
+### Pilhas e Métodos:
+Serve para entender, quando é exibido algum erro, qual é a ordem de interpretação certa que realizamos para conseguirmos tratar o erro e identificar exatamente onde ocorreu.
+
+Ou seja, pilhas de métodos, é uma forma de facilitar em detectar o erro e ver onde exatamente isso aconteceu.
+
 ## Aula 07 - Bloco finally:
 Bom, o bloco finally, já estudei pelo JavaScript.
 
@@ -480,6 +480,8 @@ Seguir o link da resolução
     https://github.com/acenelio/exceptions1-java
 
 Só vamos deixar preparado os ambientes.
+
+Seguir a classe "ChecadaVsNaoChecada" do pacote "excecao" do projeto "exercicios".
 
 ## Aula 09 - Primeira solução - muito ruim:
 Bom, vamos começando com a seguinte modificação
