@@ -39,6 +39,12 @@ Seguir o link da aplicação de generic do professor
 
     https://github.com/acenelio/generics1-java
 
+### Exemplo Básico sem Generics:
+Seguir as classes "CaixaObjeto" e "CaixaObjetoTeste" do pacote "generics" do projeto "exercicios".
+
+### Exemplo Básico com Generics:
+Seguir as classes "Caixa" e "CaixaTeste" do pacote "generics" do projeto "exercicios".
+
 ## Aula 04 - Genéricos delimitados:
 Seguir link de leitura
 
