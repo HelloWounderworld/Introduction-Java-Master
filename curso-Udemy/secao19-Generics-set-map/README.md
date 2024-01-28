@@ -54,6 +54,12 @@ Seguir as classes "CaixaNumero" e "CaixaNumeroTeste" do pacote "generics" do pro
 ### Usando o generics em métodos:
 Seguir as classes "ListUtil" e "ListUtilTeste" do pacote "generics" do projeto "exercicios".
 
+### Criando uma Estrutura Chave/Valor com Generics:
+Seguir as classes "Par", "Pares" e "ParesTeste" do pacote "generics" do projeto "exercicios".
+
+### Comparable:
+Seguir a classe "ComparableTeste" do pacote "generics" do projeto "exercicios".
+
 ## Aula 04 - Genéricos delimitados:
 Seguir link de leitura
 
