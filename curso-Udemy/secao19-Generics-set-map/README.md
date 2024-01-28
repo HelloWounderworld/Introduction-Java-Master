@@ -45,6 +45,15 @@ Seguir as classes "CaixaObjeto" e "CaixaObjetoTeste" do pacote "generics" do pro
 ### Exemplo Básico com Generics:
 Seguir as classes "Caixa" e "CaixaTeste" do pacote "generics" do projeto "exercicios".
 
+### Generics e Herança:
+Seguir as classes "CaixaInt" e "CaixaIntTeste" do pacote "generics" do projeto "exercicios".
+
+### Generics e Herança, com restrições:
+Seguir as classes "CaixaNumero" e "CaixaNumeroTeste" do pacote "generics" do projeto "exercicios".
+
+### Usando o generics em métodos:
+Seguir as classes "ListUtil" e "ListUtilTeste" do pacote "generics" do projeto "exercicios".
+
 ## Aula 04 - Genéricos delimitados:
 Seguir link de leitura
 

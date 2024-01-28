@@ -1403,7 +1403,7 @@ Vamos começando por criar a classe "PrimitivoVsObjeto" dentro do projeto exerci
 
 Já foi discutido que, em Java, temos 8 tipos de valores primitivos, sendo 6 numéricos, 1 booleano e 1 char.
 
-Vamos que, quando usamos a classe "String", vimos que conseguimos ter acessos aos métodos definidos dentro dessa classe. Porém, para os tipos primitivos, vimos que não
+Vimos que, quando usamos a classe "String", conseguimos ter acessos aos métodos definidos dentro dessa classe. Porém, para os tipos primitivos, vimos que não
 
     package fundamentos;
 
