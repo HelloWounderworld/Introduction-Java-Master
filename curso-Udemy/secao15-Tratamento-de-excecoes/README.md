@@ -481,8 +481,6 @@ Seguir o link da resolução
 
 Só vamos deixar preparado os ambientes.
 
-Seguir a classe "ChecadaVsNaoChecada" do pacote "excecao" do projeto "exercicios".
-
 ## Aula 09 - Primeira solução - muito ruim:
 Bom, vamos começando com a seguinte modificação
 
@@ -1277,6 +1275,29 @@ Resumo da aula
     
     - É possível capturar inclusive outras exceções de sistema
 
+Seguir a classe "ChecadaVsNaoChecada" do pacote "excecao" do projeto "exercicios".
+
+Basicamente, as exceções tem o seguintes tipos:
+
+- Checada/Verificada:
+
+    São problemas que entra dentro das categorias de necessidade de tratamento.
+
+- Não Checada/Verificada:
+
+    Entra na categoria das exceções, cujo o tratamento é opcional.
+
+### Exceção PersonalizadaA - Exceções Checadas:
+Seguir as classes "NumeroForaDoIntervaloException", "StringVaziaException", "Validar" e "TesteValidacoes" do pacote "excecao.personalizadaA" do projeto "exercicios".
+
+### Excelão PersonalizadaB - Exceções Não checadas:
+Seguir as classes "NumeroForaDoIntervaloException", "StringVaziaException", "Validar" e "TesteValidacoes" do pacote "excecao.personalizadaB" do projeto "exercicios".
+
+### Uso do Finally - Independente do que aconteceu em try e catch, ela sempre será acionada:
+Seguir a classe "Finally" do pacote "excecao" do projeto "exercicios".
+
+### Exceção causada por uma outra exceção:
+Seguir a classe "Causa" do pacote "excecao" do projeto "exercicios".
 
 ## Aula 12 - Exercício de fixação:
 Seguir o enunciado
