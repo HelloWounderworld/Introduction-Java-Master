@@ -126,6 +126,8 @@ Seguir o arquivo "criar-tabela-estado.sql".
 ## Aula 09 - Inserir Estados:
 Seguir o arquivo "inserirEstado1.sql".
 
+http://files.cod3r.com.br/curso-web/estados.sql
+
 ## Aula 10 - Consultar Estados:
 
 ## Aula 11 - Atualizar Estados:
