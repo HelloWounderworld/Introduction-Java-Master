@@ -120,6 +120,12 @@ Visto que os ambientes estão prontos, então estamos preparados para conseguir 
 ## Aula 07 - Visão Geral do Modelo:
 Vamos criar as tabelas Estados, Cidades, Prefeitos e Empresas e brincar com as relações entre eles.
 
+Para cada comando
+
+    Ctrl + Shift + e
+
+Para executar e conseguir visualizar os comandos selecionados por parte.
+
 ## Aula 08 - Criar Tabela Estados:
 Seguir o arquivo "criar-tabela-estado.sql".
 
@@ -129,6 +135,7 @@ Seguir o arquivo "inserirEstado1.sql".
 http://files.cod3r.com.br/curso-web/estados.sql
 
 ## Aula 10 - Consultar Estados:
+Seguir o arquivo "consultarEstados.sql".
 
 ## Aula 11 - Atualizar Estados:
 
