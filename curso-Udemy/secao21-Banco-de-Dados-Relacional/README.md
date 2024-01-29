@@ -3,6 +3,7 @@
 ## Aula 01 - Instalação MySQL Server & Workbench:
 
 ### Windows:
+Em breve irei comprar um outro notebook, com OS Windows, então irei colocar os passos a passos aqui.
 
 ### MacOs:
 
@@ -33,10 +34,124 @@ Note que, as manipulações que eu realizar no MySQL Worbench, reflete nos dados
 
 Logo, o ambiente para conseguirmos estudar sobre banco de dados relacional está pronta.
 
-## Aula 02 - Modelo E/R:
+## Aula 02 - Modelo E/R (Entidade(Tabela)/Relacionamento):
+Bom, basicamente, explica a estrutura do que é um banco de dados relacional, que é uma matriz, donde para cada coluna, ela define um tipo de dados a ser computado nela.
+
+Além disso, tais tabelas/matriz podem ser relacionados com outras tableas/matrizes, donde vc manipula dados.
 
 ## Aula 03 - Chave Primária:
+As características principais de uma chave primária:
+
+- única
+
+- não vazia
+
+- não muda
+
+Ou seja, a chave primária é uma identidade única, como se fosse uma identidade que existe unicamente nesse mundo. Isso serve para conseguirmos estabelecer os relacionamentos, pois quando estivermos relacionando as tabelas, exatamente, é pela chave primária que estabelecemos o relacionamento entre tabelas. Ou seja, cada tabela tem um identificador único.
 
 ## Aula 04 - Relacionamentos:
+Quando vamos relacionar duas tabelas, por via de uma chave primária, onde cada tabela possui, é feito como se fosse um cartesiano de dois conjuntos.
+
+Exemplo:
+
+- Tabela A = Coleciona o nome das mães
+
+- Tabela B = Coleciona o nome dos filhos das mães acima
+
+Logo, o relacionamento com essas duas tabelas, é dada via a chave primária que cada mãe possui unicamente, assim como cada filho possui unicamente.
+
+Assim, temos que 
+
+    Tabela A x Tabela B = { (x,y); x in Tabela A and y in Tabela B}
+
+No caso, o relacionamento entre a Tablea A e Tabela B, seria um conjunto
+
+    R = { (x,y) in Tabela A x Tabela B; x ~ y}
+
+donde
+
+    x ~ y <=> x é mãe de y (identificado um par de chave primária)
+
+e R é subconjunto de Tabela A x Tabela B.
+
+Bom, o relacionamento de uma tabela, poderia ser um simples Join, quando R = Tabela A x Tabela B ou quando R é subconjunto de Tabela A x Tabela B.
 
 ## Aula 05 - SQL - Visão geral:
+SQL - Strutctural Query Language, possui quatro pilares:
+
+- DML - Data Manipulation Language - é o mais usado (select, update, insert, delete, etc...)
+
+- DDL - Data Definition Language - outra mais usada (create, alter, drop, etc...)
+
+- DCL - Data Control Language - controla quem pode ou não acessar os dados, ou seja, controla a segurança dos banco de dados (grant, deny, revoke etc...)
+
+- TCL - Transaction Control Language - muito usado para processos de transações de dinheiro entre banco/banco ou banco/cliente (begin trans, commit trans, rollback, etc...)
+
+## Aula 06 - Criar Schema & Plugins VS Code:
+Fala, pessoal!
+
+Nessa seção do curso o Leo utilizará na maior parte a extensão vscode-database para se comunicar com o banco de dados MySQL. Após instalar a extensão, é necessário conectá-la ao banco de dados. Podemos fazer isto seguindo os seguintes passos:
+
+1. Clique no botão Server not selected
+
+2. Clique em New Connection
+
+3. Selecione a caixa insecure auth e preencha o campo Password com a senha do seu banco de dados
+
+4. Crie um arquivo com o nome criarSchema.sql, digite a linha create schema wm; e clique no ícone Run file as query para criar o schema que será utilizado nesta seção
+
+5. Clique no botão Database not selected
+
+6. selecione wm
+
+Pronto, agora você pode acompanhar as aulas desta seção sempre executando as querys diretamente pelo VS Code, através do botão Run file as query.
+
+Ou seja, qualquer query que irei realizar com os comandos SQL será refletidos nessa base, wm, que foi criado.
+
+Bons estudos!
+
+Pode-se usar o MySQL Workbench, também, para acompanhar o curso!
+
+Guardarei todas as querys dentro da pasta, banco-relacional, desse curso.
+
+Visto que os ambientes estão prontos, então estamos preparados para conseguir dar continudade no aprendizado desse curso!
+
+## Aula 07 - Visão Geral do Modelo:
+Vamos criar as tabelas Estados, Cidades, Prefeitos e Empresas e brincar com as relações entre eles.
+
+## Aula 08 - Criar Tabela Estados:
+Seguir o arquivo "criar-tabela-estado.sql".
+
+## Aula 09 - Inserir Estados:
+Seguir o arquivo "inserirEstado1.sql".
+
+## Aula 10 - Consultar Estados:
+
+## Aula 11 - Atualizar Estados:
+
+## Aula 12 - Inserir Estados com ID:
+
+## Aula 13 - Excluir Estados:
+
+## Aula 14 - Consultar Estados com Agregação:
+
+## Aula 15 - Criar Tabelas Cidades:
+
+## Aula 16 - Inserir Cidades:
+
+## Aula 17 - Consultar Múltiplas Tabelas (JOIN):
+
+## Aula 18 - Tipos de JOIN's:
+
+## Aula 19 - Criar Tabela Prefeitos:
+
+## Aula 20 - Inserir Prefeitos:
+
+## Aula 21 - Explorando os Tipos de JOIN's:
+
+## Aula 22 - Criar Tabela Empresas:
+
+## Aula 23 - Inserir Empresas:
+
+## Aula 24 - Consultar Empresas e Cidades:
