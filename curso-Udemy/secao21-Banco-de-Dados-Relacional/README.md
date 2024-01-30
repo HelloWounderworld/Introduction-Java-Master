@@ -14,6 +14,8 @@ Seguir os seguintes links para realizar a instalção:
 
     https://www.youtube.com/watch?v=Gw8_QOicyIQ&t=100s
 
+    https://www.youtube.com/watch?v=Gw8_QOicyIQ
+
     https://stackoverflow.com/questions/17975120/access-denied-for-user-rootlocalhost-using-password-yes-no-privileges
 
     https://stackoverflow.com/questions/43094726/your-password-does-not-satisfy-the-current-policy-requirements
