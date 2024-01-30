@@ -162,13 +162,18 @@ Seguir o arquivo "consultarComJoin.sql".
 Seguir o arquivo "osTiposDeJoins.sql"
 
 ## Aula 19 - Criar Tabela Prefeitos:
+Seguir o arquivo "criarTabelaPrefeito.sql".
 
 ## Aula 20 - Inserir Prefeitos:
+Seguir o arquivo "inserirPrefeitos.sql".
 
 ## Aula 21 - Explorando os Tipos de JOIN's:
+Seguir o arquivo "osTiposDeJoins.sql". Faremos isso no Workbench, pois aqui pelo VSCode, teremos alguns problemas de plugins.
 
 ## Aula 22 - Criar Tabela Empresas:
+Seguir o arquivo "criarTabelaEmpresas.sql"
 
 ## Aula 23 - Inserir Empresas:
+Seguir o arquivo "inserirEmpresas.sql".
 
 ## Aula 24 - Consultar Empresas e Cidades:
