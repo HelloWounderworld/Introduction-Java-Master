@@ -89,6 +89,9 @@ E para conseguirmos conectar ao banco de dados que temos dentro dessa porta, ser
 Temos uma base de dados, wm. Verifique se o print continua sendo exibido sem nenhum problema.
 
 ## Aula 02 - Criar Banco de Dados:
+Bom, configurado o ambiente de conexão entre o projeto, exercicios, e o servidor MySQL que foi instalado na máquina, agora, vamos manipular, via o projeto, o banco de dados.
+
+Primeiro, vamos criar uma nova base de banco de dados.
 
 ## Aula 03 - Fábrica de Conexões:
 
