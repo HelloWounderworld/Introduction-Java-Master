@@ -177,3 +177,4 @@ Seguir o arquivo "criarTabelaEmpresas.sql"
 Seguir o arquivo "inserirEmpresas.sql".
 
 ## Aula 24 - Consultar Empresas e Cidades:
+Seguir o arquivo "consultarEmpresas.sql". Realizemos essa consulta pelo Workbench, visto que em VSCode está tendo algum problema de plugins.
