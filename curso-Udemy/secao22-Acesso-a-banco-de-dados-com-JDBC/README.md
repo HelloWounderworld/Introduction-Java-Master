@@ -1,4 +1,4 @@
-# Seção 22: Banco de dados com JDBC
+# Seção 22: Banco de dados com JDBC - Java Data Base Connection
 
 ## Aula 01 - Abrindo uma conexão:
 O Objetivo dessa aula seria, apenas, se conectar com o banco de dados.
