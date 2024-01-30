@@ -138,20 +138,28 @@ http://files.cod3r.com.br/curso-web/estados.sql
 Seguir o arquivo "consultarEstados.sql".
 
 ## Aula 11 - Atualizar Estados:
+Seguir o arquivo "atualizarEstados.sql".
 
 ## Aula 12 - Inserir Estados com ID:
+Seguir o arquivo "inserirNovosEstados.sql".
 
 ## Aula 13 - Excluir Estados:
+Seguir o arquivo "excluirEstados.sql"
 
 ## Aula 14 - Consultar Estados com Agregação:
+Seguir o arquivo "consultarComAgregacao.sql".
 
 ## Aula 15 - Criar Tabelas Cidades:
+Seguir o arquivo "criarTabelasCidades.sql".
 
 ## Aula 16 - Inserir Cidades:
+Seguir o arquivo "inserirCidades.sql".
 
 ## Aula 17 - Consultar Múltiplas Tabelas (JOIN):
+Seguir o arquivo "consultarComJoin.sql".
 
 ## Aula 18 - Tipos de JOIN's:
+Seguir o arquivo "osTiposDeJoins.sql"
 
 ## Aula 19 - Criar Tabela Prefeitos:
 
