@@ -11,7 +11,7 @@ public class FabricaConexao {
 		try {
 //			final String url = "jdbc:mysql://localhost?useSSL=false";
 //			final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
-			final String url = "jdbc:mysql://localhost:3306/wm";
+			final String url = "jdbc:mysql://localhost:3306/curso_java";
 			final String usuario = "root";
 			final String senha = "123456";
 			

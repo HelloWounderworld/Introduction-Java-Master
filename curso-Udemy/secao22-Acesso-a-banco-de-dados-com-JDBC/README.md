@@ -319,7 +319,72 @@ Bom, vamos remover a base que foi criada, pois não precisamos dela, realizando 
 Bom, na próxima aula, vamos começar a criar as tabelas no banco de dados.
 
 ## Aula 04 - Criar Tabela:
+Vamos, agora, aprender a criar as tabelas via Java.
 
+No projeto, exercicios, do pacote, jdbc, criamos a classe "CriarTabelaPessoas". E nela adicionamos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarTabelaPessoas {
+
+        public static void main(String[] args) throws SQLException {
+            Connection conexao = FabricaConexao.getConexao();
+            
+            String sql = "CREATE TABLE pessoas("
+                    +"codigo INT AUTO_INCREMENT PRIMARY KEY,"
+                    + "nome VARCHAR(80) NOT NULL"
+                    +")";
+            
+            Statement stmt = conexao.createStatement();
+            stmt.execute(sql);
+            
+            System.out.println("Tabela criada com sucesso!");
+            conexao.close();
+        }
+    }
+
+Se vc rodar o coódigo como está acima, será exibido um erro, pois ainda não selecionamos nenhum banco onde será criado essa tabela.
+
+Agora, na classe, FabricaConexao, vamos apontar para qual base de dados vamos querer criar essa tabela
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+
+    public class FabricaConexao {
+
+        public static Connection getConexao() {
+            // try/cath - Ctrl + Alt + z
+            try {
+    //			final String url = "jdbc:mysql://localhost?useSSL=false";
+    //			final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
+                final String url = "jdbc:mysql://localhost:3306/curso_java";
+                final String usuario = "root";
+                final String senha = "123456";
+                
+                return DriverManager.getConnection(url, usuario, senha);
+            } catch (SQLException e) {
+    //			e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+Agora, sim, rodando o código da classe, CriarTabelaPessoas, vamos conseguir criar a tabela na base, curso_java.
+
+Analisando isso no Workbench, vamos ver que na base de dado, curso_java, essa tabela, pessoas, estará aparecendo.
+
+Bom, visto que conseguimos criar a tabela na base de dados, agora, é só implementar o conhecimento que adquirimos na seção sobre banco de dados relacional. Brincar com o CRUD.
+
+Seguir o link:
+
+    https://openjdk.org/jeps/355
 
 ## Aula 05 - Inserir Registro:
 
