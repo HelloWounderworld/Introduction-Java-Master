@@ -13,6 +13,7 @@ public class FabricaConexao {
 //			final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
 			final String url = "jdbc:mysql://localhost:3306/wm";
 			final String usuario = "root";
+			final String senha = "123456";
 			
 			return DriverManager.getConnection(url, usuario, senha);
 		} catch (SQLException e) {
