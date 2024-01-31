@@ -91,11 +91,235 @@ Temos uma base de dados, wm. Verifique se o print continua sendo exibido sem nen
 ## Aula 02 - Criar Banco de Dados:
 Bom, configurado o ambiente de conexão entre o projeto, exercicios, e o servidor MySQL que foi instalado na máquina, agora, vamos manipular, via o projeto, o banco de dados.
 
-Primeiro, vamos criar uma nova base de banco de dados.
+Primeiro, vamos criar uma nova base de banco de dados a partir do Java.
+
+Obs: Geralmente, o processo de criação de uma base é feito diretamente no servidor do banco de dados do que realizar isso pela linguagem de programação. Mas, essa abordagem serve para deixar ciente que é possível sim realizar a criação por essa via tbm.
+
+Criamos no pacote, jdbc, uma nova classe "CriarBanco.java" do projeto, exercicios, e nessa classe coloquemos
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+    //		final String url = "jdbc:mysql://localhost?useSSL=false";
+    //		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
+            final String url = "jdbc:mysql://localhost:3306/wm";
+            final String usuario = "root";
+            final String senha = "xxxxxxxx";
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            conexao.close();
+        }
+    }
+
+Agora, vamos colocar os comandos que permite a criação do banco de dados. Para isso, vamos importar o módulo Statment e com ela realizamos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+    //		final String url = "jdbc:mysql://localhost?useSSL=false";
+    //		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
+            final String url = "jdbc:mysql://localhost:3306/wm";
+            final String usuario = "root";
+            final String senha = "xxxxxxxxx";
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            Statement stmt = conexao.createStatement();
+            stmt.execute("CREATE DATABASE curso_java");
+            
+            System.out.println("Banco criado com sucesso!");
+            
+            conexao.close();
+        }
+    }
+
+No caso, agora, basta executar o código acima que será possível criar o banco de dados que queremos. Para checar isso, podemos verificar isso via VSCode ou visitando o Workbench.
+
+Agora, se tentarmos executar novamente o código acima, provavelmente, dara um erro, pois esse banco de dados já foi criado
+
+    Exception in thread "main" java.sql.SQLException: Can't create database 'curso_java'; database exists
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+        at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:770)
+        at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:653)
+        at jdbc.CriarBanco.main(CriarBanco.java:21)
+
+Como uma alternativa, assim como foi aprendido em banco de dados relacional, colocar uma condição de "IF NOT EXISTS" como seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+    //		final String url = "jdbc:mysql://localhost?useSSL=false";
+    //		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
+            final String url = "jdbc:mysql://localhost:3306/wm";
+            final String usuario = "root";
+            final String senha = "xxxxxxxxx";
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            Statement stmt = conexao.createStatement();
+            stmt.execute("CREATE DATABASE IF NOT EXISTS curso_java");
+            
+            System.out.println("Banco criado com sucesso!");
+            
+            conexao.close();
+        }
+    }
+
+Assim, o erro acima não será mais exibido, pois visto que existe o banco de dados, então, simplesmente, não foi feito nada.
+
+Agora, claro, se criamos um banco de dados, podemos tbm remover o mesmo usando o Drop como seguinte, primeiro vamos criar uma base de exemplo
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+    //		final String url = "jdbc:mysql://localhost?useSSL=false";
+    //		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
+            final String url = "jdbc:mysql://localhost:3306/wm";
+            final String usuario = "root";
+            final String senha = "xxxxxxxx";
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            Statement stmt = conexao.createStatement();
+    //		stmt.execute("CREATE DATABASE curso_java");
+            stmt.execute("CREATE DATABASE IF NOT EXISTS curso_java2");
+            
+            System.out.println("Banco criado com sucesso!");
+            
+            conexao.close();
+        }
+    }
+
+Conferido no Workbench que essa base de dados, curso-java2, foi criado (dá um refresh), agora, vamos dropar ela
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+            final String url = "jdbc:mysql://localhost:3306/wm";
+            final String usuario = "root";
+            final String senha = "xxxxxxx";
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            Statement stmt = conexao.createStatement();
+            stmt.execute("DROP DATABASE IF EXISTS curso_java2");
+            
+            System.out.println("Banco criado com sucesso!");
+            
+            conexao.close();
+        }
+    }
+
+Novamente, confira no Workbench se a base, curso_java2, não existe mais (dando refresh).
+
+Bom, esses são os passos que precisamos para realizar a criação e remoção de uma base de dados.
+
+Na próxima aula, vamos aprender a apontar para as tabelas que criadas para cada base de dados.
 
 ## Aula 03 - Fábrica de Conexões:
+Vamos criar uma classe que nos ajudará a estabelecer uma conexão com as bases que precisamos.
+
+Em outras palavras, é uma classe que, nela iremos configurar, apenas, uma única vez as chaves, senhas, urls, etc... para quando uma outra classe for necessária estabelecer uma conexão com alguma base, bastaria importar essa classe e inserir os parâmetros necessários nela para realizar a tal conexão.
+
+No projeto, exercicios, do pacote, jdbc, vamos criar a classe "FabricaConexao" e nela colocamos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+
+    public class FabricaConexao {
+
+        public static Connection getConexao() {
+            // try/cath - Ctrl + Alt + z
+            try {
+                final String url = "jdbc:mysql://localhost:3306/wm";
+                final String usuario = "root";
+                final String senha = "xxxxxxx";
+                
+                return DriverManager.getConnection(url, usuario, senha);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+Agora, vamos testar se essa conexão está sendo feito de forma certa.
+
+Na classe, CriarBanco.java, vamos realizar o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+
+    public class CriarBanco {
+
+        public static void main(String[] args) throws SQLException {
+            
+            Connection conexao = FabricaConexao.getConexao();
+            
+            Statement stmt = conexao.createStatement();
+            stmt.execute("CREATE DATABASE IF NOT EXISTS curso_java2");
+            
+            System.out.println("Banco criado com sucesso!");
+            
+            conexao.close();
+        }
+    }
+
+Executando o código acima, vamos verificar se a msg do println será exibido. Se exibir, significa que a conexão deu certo e foi criado a base de dados, caso não exista.
+
+Bom, vamos remover a base que foi criada, pois não precisamos dela, realizando o mesmo processo feito na classe, CriarBanco, para a classe, RemoverBanco.
+
+Bom, na próxima aula, vamos começar a criar as tabelas no banco de dados.
 
 ## Aula 04 - Criar Tabela:
+
 
 ## Aula 05 - Inserir Registro:
 

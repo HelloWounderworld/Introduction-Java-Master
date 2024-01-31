@@ -12,7 +12,6 @@ public class TesteConexao {
 //		final String url = "jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true";
 		final String url = "jdbc:mysql://localhost:3306/wm";
 		final String usuario = "root";
-		// Sem senha por segurança
 		
 		Connection conexao = DriverManager.getConnection(url, usuario, senha);
 		
