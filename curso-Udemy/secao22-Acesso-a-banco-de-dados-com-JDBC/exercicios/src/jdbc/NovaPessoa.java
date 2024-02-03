@@ -31,6 +31,7 @@ public class NovaPessoa {
 		
 		System.out.println(sql);
 		
+		conexao.close();
 		entrada.close();
 	}
 }

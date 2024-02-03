@@ -511,16 +511,216 @@ Ao executarmos a classe "ConsultarPessoa1", conseguimos ver que puxamos os dados
 ## Aula 07 e 08 - Desafio Consultar Registros - Resposta:
 Seguir a classe "ConsultarPessoa2" do projeto, exercicios, do pacote, jdbc.
 
-Esse desafio é aprender a manusear a sintaxe de consulta "LIKE" do sql.
+Esse desafio é aprender a manusear a sintaxe de consulta "LIKE" do sql, via java.
 
-## Aula 09 - Desafio Atualizar Registro:
+## Aula 09 e 10 - Desafio Atualizar Registro - Resposta:
+Seguir a classe "AlterarNomePessoa" do projeto, exercicios, do pacote, jdbc.
 
-## Aula 10 - Desafio Atualizar Registro - Resposta:
+Esse desafio serve para aprender a manusear a sintaxe de atualização "UPDATE" do sql, via java.
 
 ## Aula 11 - Excluir Registro:
+Vamos aprender a realizar a exclusão da pessoa via java.
+
+Do projeto, exercicios, do pacote, jdbc, vamos criar a classe "ExcluirPessoa" e nela inserimos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.PreparedStatement;
+    import java.sql.SQLException;
+    import java.util.Scanner;
+
+    public class ExcluirPessoa {
+
+        public static void main(String[] args) throws SQLException {
+            
+            Scanner entrada = new Scanner(System.in);
+            System.err.print("Informe o código: ");
+            int codigo = entrada.nextInt();
+            
+            Connection conexao = FabricaConexao.getConexao();
+            String sql = "DELETE FROM pessoas WHERE codigo = ?";
+            
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, codigo);
+        
+            if(stmt.executeUpdate() > 0) {
+                System.out.println("Pessoa excluida com sucesso!");
+            } else {
+                System.out.println("Nada feito...");
+            }
+            
+            conexao.close();
+            entrada.close();
+        }
+    }
+
+No caso, o código como está feito acima, é uma forma simples de excluir os dados de uma tabela.
 
 ## Aula 12 - Externalizando Dados de Conexão:
+Vamos, agora, aprender sobre arquivo de propriedade.
 
-## Aula 13 - Padrão DAO #01:
+No caso, no projeto, exercicios, vamos criar um arquivo com o nome "conexao.properties" e nela inserimos o seguinte
 
-## Aula 14 - Padrão DAO #02:
+    banco.url=jdbc:mysql://localhost?verifyServerCertificate=false&useSSL=true 
+    banco.usuario=root
+    banco.senha=123456
+
+O bom desse arquivo é que ela serve para conseguirmos externalizar os dados de acesso de modo que bastaríamos, em código, montar um algoritmo que realize a leitura desse arquivo.
+
+Obs: Eu alterei algumas condições de segurança quando instalei o MySQL server. Provavelmente, ele está mais fácil, mas, visto que só instalei para estudos, então não vi muita necessidade de procurar deixar firme o banco de dados. Lembre-se, sempre colocar alguma senha que seja em número sem caracteres especiais. Logo, com a url acima, pode ser que não funcione a conexão com o banco de dados. Por isso, caso tenha ocorrido algum problema do tipo, tente com a url, jdbc:mysql://localhost:3306/curso_java, em vez do que foi configurado acima.
+
+Uma outra vantagem desse problema, seria na facilidade de conseguirmos alterar os dados de conexão sem a necessidade de encontrarmos a classe que contenha esse dado.
+
+Feito a inputação dos dados de acesso servidor MySQL, na classe "FabricaConexao" realizamos o seguinte
+
+    package jdbc;
+
+    import java.io.IOException;
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+    import java.util.Properties;
+
+    public class FabricaConexao {
+
+        public static Connection getConexao() {
+            // try/cath - Ctrl + Alt + z
+            try {
+                Properties prop = getProperties();
+                final String url = prop.getProperty("banco.url");
+                final String usuario = prop.getProperty("banco.usuario");
+                final String senha = prop.getProperty("banco.senha");
+                
+                return DriverManager.getConnection(url, usuario, senha);
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        private static Properties getProperties() throws IOException {
+            Properties prop = new Properties();
+            String caminho = "/conexao.properties";
+            prop.load(FabricaConexao.class.getResourceAsStream(caminho));
+            return prop;
+        }
+    }
+
+Lembrando, o arquivo "conexao.properties" está localizado dentro da pasta src do projeto, exercicios. As boas práticas nos informam que seria melhor criar uma pasta de usuários e nela guardar tais arquivos que informa os dados da conexão, assim, evitando que esse arquivo seja configurado como o arquivo java. Em outras palavras, isso nos evita expor informações importantes dentro do repositório de modo que acaba comprometendo na segurança do sistema.
+
+Caso vc for buildar esse repositório, é recomendado que tenha um arquivo gitignore e nela considerar para ignorar esse arquivo, conexao.properties, para evitar que ocorra uma exposição de dados de conexões importantes.
+
+Bom, basicamente, a externalização das informações de conexões do banco de dados, é uma prática que nos permite manter o sistema da pessoa em segurança.
+
+Seguir link de leitura:
+
+    https://stackoverflow.com/questions/585534/what-is-the-best-way-to-find-the-users-home-directory-in-java
+
+## Aula 13 e 14 - Padrão DAO (Data Access Object) #01 e #02:
+Basicamente, o padrão DAO é uma forma de organizar os códigos para cada finalidade, sejam elas voltado para regra de negócio, infra-estrutura, etc...
+
+Motivo de ter surgido esse conceito, está em exatamente ter ocorrido, historicamente, problemas atrelados em misturar códigos de regra de negócio com códigos de infra-estrutura. Isso torna confuso entender qual código é para qual finalidade.
+
+Vamos construir uma classe que retrate, de forma simples, essa ideia.
+
+No projeto, exercicios, do pacote, jdbc, vamos criar uma classe "DAO" e nela inserimos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+
+    public class DAO {
+
+        private Connection conexao;
+        
+        public int incluir(String sql, Object... atributos) {
+            try {
+                PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+                adicionarAtributos(stmt, atributos);
+                
+                if(stmt.executeUpdate() > 0) {
+                    ResultSet resultado = stmt.getGeneratedKeys();
+                    
+                    if(resultado.next()) {
+                        return resultado.getInt(1);
+                    }
+                }
+                
+                return -1;
+            } catch(SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        public void close() {
+            try {
+                getConexao().close();
+            } catch (Exception e) {
+                
+            } finally {
+                conexao = null;
+            }
+        }
+        
+        private void adicionarAtributos(PreparedStatement stmt, Object[] atributos) throws SQLException {
+            int indice = 1;
+            for(Object atributo: atributos) {
+                if(atributo instanceof String) {
+                    stmt.setString(indice, (String) atributo);
+                } else if(atributo instanceof Integer) {
+                    stmt.setInt(indice, (Integer) atributo);
+                }
+                
+                indice++;
+            }
+        }
+        
+        private Connection getConexao() {
+            try {
+                if(conexao != null && !conexao.isClosed()) {
+                    return conexao;
+                }
+            } catch (SQLException e) {
+                
+            }
+            
+            conexao = FabricaConexao.getConexao();
+            return conexao;
+        }
+    }
+
+Basicamente, com o código acima, não precisamos mais nos preocupar com a forma como iremos nos conectar com o banco de dados. Fizemos uma espécie de encapsulamento.
+
+Falta, agora, testarmos o "DAO" que criamos acima. Para isso, vamos realizar o seguinte, dentro do projeto, exercicios, do pacote, jdbc, vamos criar a classe "DAOTeste" e nela implementamos o seguinte
+
+    package jdbc;
+
+    public class DAOTeste {
+
+        public static void main(String[] args) {
+            
+            DAO dao = new DAO();
+            
+            String sql = "INSERT INTO pessoas (nome) VALUES (?)";
+            dao.incluir(sql, "Albert Einstein");
+            dao.incluir(sql, "Alan Turing");
+            dao.incluir(sql, "Kiyoshi Oka");
+
+            dao.close();
+        }
+    }
+
+No caso, quando rodarmos o código acima, iremos inserir esses elementos na tabela pessoas.
+
+Para conferir se a inserção foi bem sucedida, bastaria, rodarmos a classe "ConsultarPessoa1" ou verificar diretamente do Workbench.
+
+Basicamente, o que notamos aqui nesse estudo é a ideia de encapsularmos os métodos que conseguimos acessar diretamente da infra-estrutura, como close, exceute, incluir. Ou seja, a classe, DAO, tem a funcionalidade de evitarmos que use os métodos diretamente vinda da infraestrutura de modo que isso nos permite não misturarmos com os códigos mais voltados para a regra de negócio, como foi visto no código, DAOTeste.
+
+Seguir link de leitura:
+
+    https://www.devmedia.com.br/dao-pattern-persistencia-de-dados-utilizando-o-padrao-dao/30999#:~:text=Padr%C3%A3o%20DAO%20(Data%20Access%20Object,tornar%20nossas%20classes%20mais%20leg%C3%ADveis.
+
+    https://pt.stackoverflow.com/questions/113840/como-funciona-o-padr%C3%A3o-dao
