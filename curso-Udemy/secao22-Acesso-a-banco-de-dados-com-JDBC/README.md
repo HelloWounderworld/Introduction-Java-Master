@@ -509,6 +509,9 @@ No mesmo projeto e pacote, vamos criar uma classe "ConsultarPessoa1" e nela inse
 Ao executarmos a classe "ConsultarPessoa1", conseguimos ver que puxamos os dados da tabela "pessoas", como é exibido no console.
 
 ## Aula 07 e 08 - Desafio Consultar Registros - Resposta:
+Seguir a classe "ConsultarPessoa2" do projeto, exercicios, do pacote, jdbc.
+
+Esse desafio é aprender a manusear a sintaxe de consulta "LIKE" do sql.
 
 ## Aula 09 - Desafio Atualizar Registro:
 
