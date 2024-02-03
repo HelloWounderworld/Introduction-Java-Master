@@ -387,12 +387,128 @@ Seguir o link:
     https://openjdk.org/jeps/355
 
 ## Aula 05 - Inserir Registro:
+Vamos aprender a inserir registros pelo Java.
+
+Temos duas formas de realizamos isso, uma, por via padrão que realizamos, até agora, usando o Statement e, outra, por via de mais segura, que não usamos em nenhum momento ainda. 
+
+Motivo disso, seria porque as inserções em banco de dados precisa de muita cautela, principalmente, quando se trata do banco de dados que lhe é utilizado por muita gente. Logo, estabelecer um protocolo de segurança para isso é essencial para evitarmos que gere um problema muito grande a nível de ocorrer alguma perda aquisitiva para a empresa.
+
+Para o começo no projeto, exercicios, do pacote, jdbc, vamos criar uma classe "NovaPessoa" e nela coloquemos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.PreparedStatement;
+    import java.sql.SQLException;
+    import java.util.Scanner;
+
+    public class NovaPessoa {
+
+        public static void main(String[] args) throws SQLException {
+            
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.print("Informe o nome: ");
+            String nome = entrada.nextLine();
+            
+            System.out.println("Pessoa que será inserido: " + nome);
+            
+            Connection conexao = FabricaConexao.getConexao();
+            
+    //		String sql = "INSERT INTO pessoas (nome) VALUES('" + nome + "')";// Forma vulneravel
+            
+            String sql = "INSERT INTO pessoas (nome) VALUES(?)";
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, nome); // Forma segura, pois nos garante que qualquer coisa que for colocado
+            // será uma string, e não um comando sql.
+            
+            stmt.execute();
+            
+            System.out.println(sql);
+            
+            entrada.close();
+        }
+    }
+
+Note que, na parte onde está escrito "Forma vulneravel" mostra um caso em que o comando nos permite que a pessoa consiga colocar até comandos sql, o que torna suscetível ao ataque externo de alguma hacker. Abaixo, com o uso do prepareStatement, garantimos a segurança, pois o que for colocado dentro dessa base de dados, será uma string e, não, um comando em sql.
 
 ## Aula 06 - Consultar Registros #01:
+Vamos, agora, aprender a consultar o banco de dados usando o Java.
 
-## Aula 07 - Desafio Consultar Registros:
+No projeto, exercicios, do pacote, jdbc, vamos criar uma classe "Pessoa" e nela inserimos o seguinte
 
-## Aula 08 - Desafio Consultar Registros - Resposta:
+    package jdbc;
+
+    public class Pessoa {
+
+        private int codigo;
+        private String nome;
+
+        public Pessoa(int codigo, String nome) {
+            this.codigo = codigo;
+            this.nome = nome;
+        }
+
+        public int getCodigo() {
+            return codigo;
+        }
+
+        public void setCodigo(int codigo) {
+            this.codigo = codigo;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+    }
+
+No mesmo projeto e pacote, vamos criar uma classe "ConsultarPessoa1" e nela inserimos o seguinte
+
+    package jdbc;
+
+    import java.sql.Connection;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class ConsultarPessoa1 {
+
+        public static void main(String[] args) throws SQLException {
+            
+            Connection conexao = FabricaConexao.getConexao();
+            
+            String sql = "SELECT * FROM pessoas";
+            
+            Statement stmt = conexao.createStatement();
+            ResultSet resultado = stmt.executeQuery(sql);
+            
+            List<Pessoa> pessoas = new ArrayList<>();
+            
+            while(resultado.next()) {
+                int codigo = resultado.getInt("codigo");
+                String nome = resultado.getString("nome");
+                pessoas.add(new Pessoa(codigo, nome));
+            }
+            
+            for(Pessoa p: pessoas) {
+                System.out.println(p.getCodigo() + " ==> " + p.getNome());
+            }
+            
+            stmt.close();
+            conexao.close();
+        }
+    }
+
+Ao executarmos a classe "ConsultarPessoa1", conseguimos ver que puxamos os dados da tabela "pessoas", como é exibido no console.
+
+## Aula 07 e 08 - Desafio Consultar Registros - Resposta:
 
 ## Aula 09 - Desafio Atualizar Registro:
 
