@@ -196,3 +196,215 @@ Feito isso, a parte chata de configuração já passou.
 
 Agora, só falta adicionarmos as classes dentro do persistence.xml, para testarmos se a configuração que realizamos até agora deu certo.
 
+## Aula 08 - Entidade Usuário:
+Vamos criar um pacote "modelo.basico" dentro da pasta "java" e, dentro desse pacote, criamos a classe "Usuario" e nela iremos testar se a configuração que fizemos, até agora, está certa. Logo, inserimos o seguinte nessa classe
+
+    package modelo.basico;
+
+    public class Usuario {
+
+        private Long id;
+        
+        private String nome;
+        
+        private String email;
+        
+        public Usuario() {
+            
+        }
+
+        public Usuario(String nome, String email) {
+            this.nome = nome;
+            this.email = email;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+        
+    }
+
+Até agora, não tivemos nenhuma novidade. Bom, finalmente, vamos entrar no uso dos jpas. Logo, realizamos a seguinte inserção
+
+    package modelo.basico;
+
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+
+    @Entity
+    public class Usuario {
+
+        @Id
+        private Long id;
+        
+        private String nome;
+        
+        private String email;
+        
+        public Usuario() {
+            
+        }
+
+        public Usuario(String nome, String email) {
+            this.nome = nome;
+            this.email = email;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+        
+    }
+
+Ou seja, o @Entity pelo persistence, ele está dizendo que essa classe inteira será uma tabela e nela será exigido que tenha uma chave de auto-indexação, que é indicado pelo @Id do persistence tbm.
+
+Agora, falta mapearmos essa classe no arquivo persistence.xml, como seguinte
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Note que, feito isso, o erro que estava aparecendo na classe, Usuario, desaparaceu.
+
+Basicamente, o que está acontecendo aqui, seria que o @Entity irá criar uma tabela, usuario, e as colunas serão as variáveis indicadas pelo private. As colunas, se vc não especificar pelo @Column, os atributos que foram definidas nessa classe, será assumido uma configuração padrão para aquela coluna.
+
+Se tiver algum atributo dessa classe que não queremos que seja mapeado nas colunas da tabela? Para isso, usamos o @Transient.
+
+Bom, note que, Data Mapper, assim como foi explicado de forma bem breve, ela usa apontamentos para relacionar com a base de dados. No caso, o apontamento, é feito pelo "@".
+
+## Aula 09 - Novo Usuário:
+Vamos, agora, inserir, de fato, algum dado dentro da tabela, usuarios, para verificarmos se tudo o que fizemos, até agora, está funcionando direito.
+
+Logo, criamos um novo pacote, teste.basico, e dentro dele criamos a classe, NovoUsuario, e nela inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class NovoUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario novoUsuario = new Usuario("Alan Turing", "aturing@likesandwich.com"); 
+            novoUsuario.setId(1L);
+            em.persist(novoUsuario);
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Assim, podemos rodar, pelo primeira vez, e verificarmos se deu certo.
+
+Bom, no console, vai exibir um monte de mensagens em vermelho, porém, ao olharmos nos Workbench, vamos ver que terá uma tabela nova com o nome, Usuario, e nela conseguimos as três colunas que foi definido pelos atributos. Porém, os valores que colocamos no parâmetro em que instanciamos a classe, Usuario, não estará persistindo...
+
+Motivo disso, deve-se a falta de transação.
+
+Porém, visto que a tabela, Usuario, foi criado no banco de dados, curso_java, significa que a configuração deu certo.
+
+Bom, incluindo o processo de transação na classe, NovoUsuario,
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class NovoUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario novoUsuario = new Usuario("Alan Turing", "aturing@likesandwich.com"); 
+            novoUsuario.setId(1L);
+            
+            em.getTransaction().begin();
+            em.persist(novoUsuario);
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Analisando pelo Workbench, vimos que foi inserido os dados que foi instanciado na classe, Usuario.
+
+## Aula 10 - Obter Usuário:
+
+## Aula 11 - Obter Usuários:
+
+## Aula 12 - Alterar Usuário #01:
+
+## Aula 13 - Alterar Usuário #02:
+
+## Aula 14 - Alterar Usuário #03:
