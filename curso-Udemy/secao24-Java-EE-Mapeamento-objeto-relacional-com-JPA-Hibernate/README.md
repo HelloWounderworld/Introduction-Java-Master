@@ -107,6 +107,16 @@ Basicamente, ela serve para mapear as classes que irá ter uma relação direta 
 
 No caso, o ORM, possui diversas funcionalidades que nos ajuda a mapear as classes, donde os dados que será computado dentro dessa classe será mapeado, automaticamente, em uma tabela de um banco de dados.
 
+Bom, nessa seção, iremos abordar sobre Hibernate e JPA, porém, ao longo do assunto, é importante que fique claro que o que está sendo manuseado é um Hibernate ou uma JPA. Então, entender a diferença dos dois é importante. Para isso, pedimos para seguir a leitura dos seguintes artigos que explique direito a diferença entre essas duas
+
+    https://www.devmedia.com.br/jpa-e-hibernate-acessando-dados-em-aplicacoes-java/32711#:~:text=Diferen%C3%A7a%20Hibernate%20e%20JPA,interface%20comum%20para%20frameworks%20ORM.
+
+    https://pt.stackoverflow.com/questions/374454/hibernate-e-jpa-s%C3%A3o-a-mesma-coisa
+
+    https://medium.com/@duduxss3/entenda-de-uma-vez-por-todas-jpa-e-hibernate-e2a1237161a9
+
+    https://angeliski.com.br/jpa-e-hibernate-existe-diferenca?x-host=angeliski.com.br
+
 Seguir o link de leitura:
 
     https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/
@@ -491,6 +501,8 @@ Cada vez que inserimos um novo usuário na tabela, Usuario, conseguimos, também
         }
     }
 
+Obs: Sempre que rodamos a query que realiza algo no banco de dados, no console, é exibido a query. Caso vc queira que não seja mais exibido, bastaria alterar o "hibernate.show_sql" para false, do arquivo persistence.xml.
+
 ## Aula 10 - Obter Usuário:
 Vamos aprender a obter o usuário que foi cadastrado no banco de dados a partir da chave que foi cadastrada nela.
 
@@ -738,9 +750,422 @@ Quem conhece e já usou o banco de dados não relacional, provavelmente, percebe
 
 Ou seja, conseguimos realizar a busca concatenando as chamadas.
 
+## Aula 12 - Alterar Usuário #01 - Basico:
+Vamos, agora, aprender a realizar uns updates via Hibernate.
 
-## Aula 12 - Alterar Usuário #01:
+No projeto, exercicios-jpa, do pacote, teste.basico, criamos a classe "AlterarUsuario1" e nela inserimos o seguinte
 
-## Aula 13 - Alterar Usuário #02:
+    package teste.basico;
 
-## Aula 14 - Alterar Usuário #03:
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    public class AlterarUsuario1 {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Agora, vamos montar a requisição para atualizar o dado de um usuário.
+
+No caso, o que podemos realizar é o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario1 {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 2L);
+            System.out.println(usuario.getEmail());
+            usuario.setNome("Erwin Schrodinger");
+            usuario.setEmail("eschrodinger@iscatdeadorlive.com");
+            
+            em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Bom, rodando o código acima, ao analisarmos o usuaŕio com o id, 2, pelo Workbench na tabela, Usuario, vemos que foi alterado o valor.
+
+## Aula 13 - Alterar Usuário #02 - Cenário Transacional:
+Vamos, agora, fazer um segundo exercicio de alterar usuário.
+
+No projeto, exercicios-jpa, do pacote, teste.basico, criamos a classe "AlterarUsuario2" e nela inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario2 {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 6L);
+            System.out.println(usuario.getEmail());
+            usuario.setNome("Nikolas Tesla");
+            usuario.setEmail("ntesla@idiscoveryandelonmuskjustcopyme.com");
+            
+            em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Bom, é o mesmo que está na classe, AlterarUsuario1, e, agora, vamos começar a realizar as alterações em cima desse código. No caso, vamos alterar o dado do usuário, 5, e, desta vez, com o merge comentado
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario2 {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+            System.out.println(usuario.getEmail());
+            usuario.setNome("Marie Curie - Nome alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+    //		em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Ao rodarmos o código acima e, em seguida, consultarmos no Workbench, vamos ver que foi alterado o usuário com o índice 5. Alterando o "hibernate.show_sql" para true, do arquivo persistence.xml, para verificarmos que tipo de query aconteceu, vamos ver que o update está sendo feito, mesmo com o merge comentado.
+
+Agora, por quê que isso aconteceu?
+
+Basicamente, quando vc fez uma consulta, dentro do contexto transacional, o resultado dessa consulta é dita uma entidade que está no "estado gerenciado". Mas que raios isso significa?
+
+É quando o JPA tem um gerenciamento em cima daquele objeto e, quaisquer mudança que vc realize sobre ela, dentro do contexto transacional, a mudança feita será sincronizado com o banco de dados, mesmo que vc não chame o método merge. Ou seja, qualquer mudança que vc fizer no objeto, uma hora ou outra, o JPA vai pegar esse objeto e vai sincronizar ele com o banco de dados de tal forma que os dados serão atualizados lá no banco de dados.
+
+Blz. Mas, então, se eu tirar o "set" fora da transação?
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario2 {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+            System.out.println(usuario.getEmail());
+            usuario.setNome("Marie Curie - Alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+            em.getTransaction().begin();
+            
+    //		em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Se rodarmos o código, de novo, será exibido que foi sim alterado o usuário indicado no banco de dados. Ou seja, indicando que ainda sim está dentro do contexto transacional.
+
+Bom, motivo de ter feito a tal abordagem acima, deve-se, pelo fato, de que existem momentos em que é melhor utilizamos o merge, que faz o update. Em qual momento? Nos momentos não transacionais. Isso será abordado na próxima aula.
+
+As boas práticas indicam que, na maioria das vezes, é essencial que não trabalhemos em cenários transacional
+
+## Aula 14 - Alterar Usuário #03 - Cenário Não Transacional Ideal:
+Vamos, agora, abordar uma situação não transacional, para, finalmente, entendermos os momentos certos de utilizarmos o método merge, que é uma outra forma de fazer o update no banco de dados.
+
+Primeiro, precisamos entender o que é um cenário não transacional/não gerenciado.
+
+Para isso, no projeto, execicios-jpa, do pacote, teste.basico, vamos criar uma nova classe "AlterarUsuario3" e nela inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario3 {
+
+        public static void main(String[] args) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+            System.out.println(usuario.getEmail());
+            usuario.setNome("Marie Curie - Alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+            em.getTransaction().begin();
+            
+    //		em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Basicamente, copiei o que está na classe, AlterarUsuario2, e, em cima disso, realizemos as alterações devidas para falsearmos o cenário não gerenciado.
+
+Bom, o que precisaria ser feito para tirarmos do cenário gerenciado?
+
+Bastaria realizarmos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario3 {
+
+        public static void main(String[] args) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+    //		System.out.println(usuario.getEmail());
+            em.detach(usuario);
+            usuario.setNome("Marie Curie - Alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+    //		em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Incluímos o método "detach", isso nos permite tirar do contexto gerenciado. Como prova disso, ao executarmos o código acima, e analisarmos no console, não irá aparecer o processo de update. O que significa que a sincronização com o banco de dados não está sendo feito pelo JPA a acada alteração realizada em cima do objeto. Bom, e isso independe de onde colocamos o "detach", coo seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario3 {
+
+        public static void main(String[] args) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+    //		System.out.println(usuario.getEmail());
+            usuario.setNome("Marie Curie - Alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+            em.detach(usuario);
+            
+    //		em.merge(usuario); // update
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Deixarei para o leitor explorar mais sobre.
+
+Assim, finalmente, o método "merge" ganha a real importância para conseguirmos realizar o update. No caso, descomentando o método "merge" iremos ver que, agora, estará sendo feito o devido update
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class AlterarUsuario3 {
+
+        public static void main(String[] args) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            Usuario usuario = em.find(Usuario.class, 5L);
+    //		System.out.println(usuario.getEmail());
+            usuario.setNome("Marie Curie - Alterado");
+            usuario.setEmail("mcurie@iamonlywomantogettwonobelprize.com");
+            
+            em.detach(usuario);
+            
+            em.merge(usuario); // update	
+            
+            em.getTransaction().commit();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Rodando o código acima, vemos que, desta vez, o dado do nome foi alterado no banco de dados.
+
+Bom, agora, vamos comentar o motivo de trabalharmos no cenário não gerencidado/ não transacional se encaixa dentro da política da boa prática. Bom, basicamente, o cenário não gerenciado, nos permite ter mais o controle do momento em que realizamos o update com os dados do banco de dados. Ou seja, o fato de o JPA não estar realizando uma sincronização com o banco de dados a cada mudança no objeto, isso nos fornece mais controle e segurança dos momentos em que queremos, de fato, realizar a atualização de algum dado.
+
+As informações do front-End, por exemplo, são informações em estados não gerenciado e temos mais controle dos momentos em que realizamos a devida atualização dos dados.
+
+## Aula 15 - Remover Usuário:
+Vamos, agora, aprender a realizar o remove/delete dos dados usando Hibernate/JPA.
+
+No projeto, exercicios-jpa, do pacote, teste.basico, vamos criar a classe "RemoverUsuario" e nela inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    public class RemoverUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Bom, agora, em seguida, realizemos o seguinte complemento
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class RemoverUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario usuario = em.find(Usuario.class, 7L);
+            System.out.println(usuario.getEmail());
+            
+            if(usuario != null) {
+                em.getTransaction().begin();
+                em.remove(usuario);
+                em.getTransaction().commit();
+            }
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Bom, rodando o código acima, vamos conseguir ver que foi excluído da tabela, Usuario, o dado com o id, 7.
+
+## Aula 16 - Entidade Produto:
+
+## Aula 17 - DAO:
+
+## Aula 18 - Novo Produto:
+
+## Aula 19 - Obter Produto:
+
+## Aula 20 - Relacionamentos:
+
+## Aula 21 - Um Pra Um #01:
+
+## Aula 22 - Um Pra Um #02:
+
+## Aula 23 - Um Pra Um #03:
+
+## Aula 24 - Um Pra Muitos #01:
+
+## Aula 25 - Um Pra Muitos #02:
+
+## Aula 26 - Um Pra Muitos #03:
+
+## Aula 27 - Muitos Pra Muitos #01:
+
+## Aula 28 - Muitos Pra Muitos #02:
+
+## Aula 29 - Aviso sobre o arquivo XML criado na aula a seguir:
+
+## Aula 30 - Named Query:
+
+## Aula 31 - Named Native Query:
+
+## Aula 32 - Embeddable:
+
+## Aula 33 - Desafio Herança:
+
+## Aula 34 - Herança:
