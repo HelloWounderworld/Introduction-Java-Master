@@ -360,7 +360,9 @@ Logo, criamos um novo pacote, teste.basico, e dentro dele criamos a classe, Novo
         }
     }
 
-Assim, podemos rodar, pelo primeira vez, e verificarmos se deu certo.
+Assim, podemos rodar, pelo primeira vez, e verificarmos se deu certo. Aqui, foi usado uma biblioteca chamado EntityManager e o EntityManagerFactory, donde são dois conjuntos que nos possibilitou a realizar um feito similiar à classe FabricaConexao que foi criado no projeto, exercicios, do pacote, jdbc.
+
+Vale a pena dar uma estudada mais à fundo dessas bibliotecas para melhor fundamentar o conceito de Hibernate em ti.
 
 Bom, no console, vai exibir um monte de mensagens em vermelho, porém, ao olharmos nos Workbench, vamos ver que terá uma tabela nova com o nome, Usuario, e nela conseguimos as três colunas que foi definido pelos atributos. Porém, os valores que colocamos no parâmetro em que instanciamos a classe, Usuario, não estará persistindo...
 
@@ -399,9 +401,343 @@ Bom, incluindo o processo de transação na classe, NovoUsuario,
 
 Analisando pelo Workbench, vimos que foi inserido os dados que foi instanciado na classe, Usuario.
 
+Agora, podemos considerar o atributo, id, da classe/tabele, Usuario, como um auto-incremento usando o apontamento @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    package modelo.basico;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+
+    @Entity
+    public class Usuario {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        private String email;
+        
+        public Usuario() {
+            
+        }
+
+        public Usuario(String nome, String email) {
+            this.nome = nome;
+            this.email = email;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+        
+    }
+
+O "IDENTITY" nos ajuda a tornar cada usuário único. Ou, podemos usar tbm "AUTO" para tornar a geração das indexações de forma automática.
+
+Cada vez que inserimos um novo usuário na tabela, Usuario, conseguimos, também, identificar qual id ela foi cadastrada realizando um simples print como seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class NovoUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario novoUsuario = new Usuario("Leonardo Takashi Teramatsu", "leonardo.teramatsu@gmail.com");
+    //		Usuario novoUsuario = new Usuario("Albert Einstein", "aeinstein@taradao.com");
+    //		Usuario novoUsuario = new Usuario("Stephen Hawking", "shawking@iamsupercomputer.com");
+    //		novoUsuario.setId(1L);
+            
+            em.getTransaction().begin();
+            em.persist(novoUsuario);
+            em.getTransaction().commit();
+            
+            System.out.println("O Id gerado foi: " + novoUsuario.getId());
+            
+            em.close();
+            emf.close();
+        }
+    }
+
 ## Aula 10 - Obter Usuário:
+Vamos aprender a obter o usuário que foi cadastrado no banco de dados a partir da chave que foi cadastrada nela.
+
+No projeto, exercicios-jpa, do pacote, teste.basico, vamos criar uma classe "ObterUsuario" e nela, por começo, inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    public class ObterUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+
+            em.close();
+		    emf.close();
+        }
+    }
+
+Bom, aqui, não precisamos do "Transaction", pois será realizado apenas uma consulta, que é o select no banco. Logo, inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    import modelo.basico.Usuario;
+
+    public class ObterUsuario {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            Usuario usuario = em.find(Usuario.class, 1L);
+		    System.out.println(usuario.getNome());
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Donde, em "find(Coloque a classe, coloque o id do usuário que foi cadastrado na tabela)" para realizamos a busca.
+
+Só com a forma acima, já conseguimos obter o nome do usuário que está indexado pela chave "1".
+
+Note que, quanto mais o grau de abstração aumentamos, menos a necessidade de termos que digitar os comandos sql's para conseguirmos realizar as manipulações necessárias no banco de dados? Basicamente, é o que o Hibernate/JPA nos fornecem de recursos para conseguirmos focar mais na linguagem Java.
+
+Mas, isso não significa que não precisamos entender bem os comandos SQL, pois os recursos que estamos aprendendo aqui faz do comando sql como se estivesse por baixo dos panos, então, quanto mais abstração colocarmos em cima disso, corre o risco da pessoa esquecer do conceitos fundamentais do SQL e acabar não conseguindo realizar algumas manipulações bem robustas na construção do código que beneficia na otimização da performance e manutenção.
+
+E entender bem os conceitos por baixo do pano é a parte mais importante de uma pessoa que trabalha com o BackEnd e Infra-estrutura do sistema, pois são áreas em que exige mais a construção e organização, respectivamente, de códigos e arquiteturas robustas que sejam bem performáticas para garantir que o sistema consiga processar com muita rapidez ao mesmo tempo que a mesma esteja suportando uma carga de usuários enormes, na casa dos milhões. E conseguir realizar isso, só possuindo um conhecimento bem consolidado/internalizado sobre os conceitos de código limpo, arquitetura e infra-estrutura, que é a parte em que o Hibernate e JPA abordam.
+
+Logo, não deixe de estudar direito sobre PL/SQL e os conceitos sobre Design Patterns DAO, Arquitetura limpa e código limpo.
+
+Para quem quiser ser um backEnd de sistemas Java's, entender Hibernate e JPA é mais que uma obrigação!
+
+Não limite somente à esse curso, pois ela nos dará somente uma noção geral do conceito. Vale a pena pegar um livro ou uma boa documentação sobre e ir, por conta própria, debruçando nos estudos até que o conceito fique bem internalizado dentro de ti!
 
 ## Aula 11 - Obter Usuários:
+Vamos, agora, aprender a obter um conjunto de usuários.
+
+Para isso, no projeto, exercicios-jpa, do pacote, teste.basico, criamos uma nova classe "ObterUsuarios" e nela inserimos o seguinte
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Agora, por começo, vamos realizar a seguinte query
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            String jpql = "SELECT u FROM Usuario u";
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+A query acima, basicamente, em SQL, estamos realizando "SELECT u.* FROM Usuario u", se rodarmos isso no Workbench sobre a base, curso_java, vamos obter todos os usuários dessa tabela. Quem irá converter o comando acima para SQL será o JPA.
+
+Em seguida, vamos definir o tipo de query com a seguinte biblioteca
+
+    package teste.basico;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    import modelo.basico.Usuario;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            String jpql = "SELECT u FROM Usuario u";
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Feito isso, finalmente, vamos obter os usuários e coloca-los em uma lista como seguinte
+
+    package teste.basico;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    import modelo.basico.Usuario;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            String jpql = "SELECT u FROM Usuario u";
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            query.setMaxResults(5);
+            
+            List<Usuario> usuarios = query.getResultList();
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Agora, feito isso, nos possibilita agora manipular os usuários que foram obtidos do banco. Faremos algo bem simples que é somente printar
+
+    package teste.basico;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    import modelo.basico.Usuario;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            String jpql = "SELECT u FROM Usuario u";
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            query.setMaxResults(5);
+            
+            List<Usuario> usuarios = query.getResultList();
+            
+            for(Usuario usuario: usuarios) {
+                System.out.println("ID: " + usuario.getId() + " Email: " + usuario.getEmail() + " Nome: " + usuario.getNome());
+            }
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Rodando o código acima, será obtido um número máximo de 5 usuários da tabela Usuario, cujo o limite foi estabelecido pelo "setMaxResults".
+
+Quem conhece e já usou o banco de dados não relacional, provavelmente, perceberá que o código acima, podemos realizar uma busca muito parecida com o que é feito ao usar as linguagens para realizar as chamadas via apontamento. Logo, podemos resumir a consulta acima da seguinte forma
+
+    package teste.basico;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    import modelo.basico.Usuario;
+
+    public class ObterUsuarios {
+
+        public static void main(String[] args) {
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            EntityManager em = emf.createEntityManager();
+            
+            String jpql = "SELECT u FROM Usuario u";
+    //		TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+    //		query.setMaxResults(5);
+            
+    //		List<Usuario> usuarios = query.getResultList();
+            
+            List<Usuario> usuarios = em
+                    .createQuery(jpql, Usuario.class)
+                    .setMaxResults(5)
+                    .getResultList();
+            
+            for(Usuario usuario: usuarios) {
+                System.out.println("ID: " + usuario.getId() + " Email: " + usuario.getEmail() + " Nome: " + usuario.getNome());
+            }
+            
+            em.close();
+            emf.close();
+        }
+    }
+
+Ou seja, conseguimos realizar a busca concatenando as chamadas.
+
 
 ## Aula 12 - Alterar Usuário #01:
 
