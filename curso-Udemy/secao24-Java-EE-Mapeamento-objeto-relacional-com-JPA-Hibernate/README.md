@@ -1133,8 +1133,455 @@ Bom, agora, em seguida, realizemos o seguinte complemento
 Bom, rodando o código acima, vamos conseguir ver que foi excluído da tabela, Usuario, o dado com o id, 7.
 
 ## Aula 16 - Entidade Produto:
+Vamos, agora, criar uma outa nova entidade/tabela, Produto.
 
-## Aula 17 - DAO:
+Para isso, no projeto, exercicios-jpa, do pacote, modelo.basico, vamos criar uma classe "Produto" e nela inserimos o seguinte
+
+    package modelo.basico;
+
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+
+    @Entity
+    public class Produto {
+
+        @Id
+        private Long id;
+        
+        private String nome;
+        
+        private Double preco;
+
+        public Produto() {
+            super();
+        }
+        
+        
+
+        public Produto(String nome, Double preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+        
+        
+    }
+
+E no arquivo, persistence.xml, vamos considerar essa classe
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="false"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+A parte curiosa do JPA, é que, até agora, só construímos a entidade, Produto, para ser considerado na base de dados, porém não chegamos ao ponto de instanciarmos essa classe para rodarmos em algum programa. Porém, se compilarmos alguma classe que construímos para termos a entidade, Usuario, o JPA irá considerar tbm essa entidade, Produto, e ao conferirmos no Workbench, veremos que foi criado uma nova tabela nela.
+
+Rodamos a classe "NovoUsuario", e vimos que além de ter sido manipulado a tabela/entidade, Usuario, foi criado a tabela/entidade, Produto.
+
+Se criarmos um novo atributo nessa classe, Produto, e rodarmos, da mesma forma, uma classe qualquer que não instancie essa entidade/tabela/classe, Produto, vamos ver que mesmo assim, a alteração será considerado
+
+    package modelo.basico;
+
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+
+    @Entity // Notação obrigatória para criarmos a entidades na base de dados
+    public class Produto {
+
+        @Id
+        private Long id;
+        
+        private String nome;
+        
+        private String descricao;
+        
+        private Double preco;
+
+        public Produto() {
+            // Se não tivermos esse construtor padrão, o JPA não irá conseguir gerar o Objeto para
+            // a base de dados.
+            // É pré-requisito termos o construtor padrão para trabalharmos com o JPA.
+        }
+        
+        
+
+        public Produto(String nome, Double preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+        
+        
+    }
+
+Colocamos um novo atributo acima, descricao, e rodamos a classe, NovoUsuario, e vimos que foi feito um alter table na tabela/entidade/classe, Produto, e podemos conferir isso pelo Workbench.
+
+Bom, vamos, agora, inserir mais alguns conceitos novos para aprendermos sobre JPA. Na classe, Produto, vamos colocar o seguinte apontamento, @Table, como seguinte
+
+    package modelo.basico;
+
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity // Notação obrigatória para criarmos a entidades na base de dados
+    @Table(name = "produtos")
+    public class Produto {
+
+        @Id
+        private Long id;
+        
+        private String nome;
+        
+        private String descricao;
+        
+        private Double preco;
+
+        public Produto() {
+            // Se não tivermos esse construtor padrão, o JPA não irá conseguir gerar o Objeto para
+            // a base de dados.
+            // É pré-requisito termos o construtor padrão para trabalharmos com o JPA.
+        }
+        
+        
+
+        public Produto(String nome, Double preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+        
+        public String getDescricao() {
+            return descricao;
+        }
+
+        public void setDescricao(String descricao) {
+            this.descricao = descricao;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+        
+        
+    }
+
+No caso, o @Table, que fizemos acima, definimos um nome personalizado para a tabela que será criado considerando a classe, Produto.
+
+Agora, lembra que aos atributos que configuram as colunas da tabela, foi dito que se vc não colocar nenhuma restrição, em sua criação, é considerado um valor padrão sobre elas? Então, vamos, agora, personalizar as configurações de cada coluna como seguinte
+
+    package modelo.basico;
+
+    import javax.persistence.Column;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity // Notação obrigatória para criarmos a entidades na base de dados
+    @Table(name = "produtos")
+    public class Produto {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        @Column(name = "prod_nome", length = 200, nullable = false)
+        private String nome;
+        
+        @Column(name = "prod_preco", nullable = false, precision = 11, scale = 2)
+        private Double preco;
+
+        public Produto() {
+            // Se não tivermos esse construtor padrão, o JPA não irá conseguir gerar o Objeto para
+            // a base de dados.
+            // É pré-requisito termos o construtor padrão para trabalharmos com o JPA.
+        }
+
+        public Produto(String nome, Double preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+        
+        
+    }
+
+No caso, no atributo "nome", definimos a sintaxe @Column e, nela, definimos a estrutura que queremos. Basicamente, traduzido à linguagem SQL, o que foi definido para o atributo, nome, seria um VARCHAR(200), NOT NULL, com o nome da coluna "prod_nome". Analogamente, vale a mesma coisa para o outro atributo, preco.
+
+Podemos, também, definir o esquema para essa entidade, também. Ou seja, em outras palavras, estou dizendo à quem essa entidade irá apenas servi-la. Pois, essa classe/entidade/tabela, Produto, eu poderia muito bem trocar as configurações de conexão do banco de dados e, a partir do momento em que eu rodar qualquer outra classe, nesse outro banco de dados, conseguir criar essa mesma entidade também. Existem inúmeros cenários em que isso é indesejado, pois poderia deixar sujeiras no banco de dados. Para evitar que isso aconteça, acrescentamos, dentro do @Table, o "schema" para conseguirmos definir para qual base de dados, essa entidade, apenas, servirá
+
+    package modelo.basico;
+
+    import javax.persistence.Column;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity // Notação obrigatória para criarmos a entidades na base de dados
+    @Table(name = "produtos", schema = "curso_java")
+    public class Produto {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        @Column(name = "prod_nome", length = 200, nullable = false)
+        private String nome;
+        
+        @Column(name = "prod_preco", nullable = false, precision = 11, scale = 2)
+        private Double preco;
+
+        public Produto() {
+            // Se não tivermos esse construtor padrão, o JPA não irá conseguir gerar o Objeto para
+            // a base de dados.
+            // É pré-requisito termos o construtor padrão para trabalharmos com o JPA.
+        }
+        
+        
+
+        public Produto(String nome, Double preco) {
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+        
+        
+    }
+
+esquematizamos para a base "curso_java".
+
+O que foi feito acima, é o mesmo que realizarmos o seguinte em SQL
+
+    SELECT * FROM curso_java.Produto;
+
+Porém, nas boas práticas, não é o recomendado a ser feito o uso de "schema", motivo disso, seria que esse feito é possível, de forma mais flexível ainda, usando o EntityManager. O uso do "schema", está mais conveniente, quando queremos fixar a entidade, somente para aquela base de dados para realizar a manipulação. Ou seja, garantir a unicidade de algum conjunto de dados. Na maioria das vezes, esse apontamento, resolvemos via EntityManager e nas unidades de persistencias, persistence unity, de forma mais flexível.
+
+Bom, novamente, vamos rodar uma classe, ObterUsuario, para que criemos a tabela, produtos, por osmose.
+
+Analisando no Workbench, vimos que temos uma nova tabela, produtos, com as colunas customizadas de acordo como definimos via @Column.
+
+## Aula 17 - DAO (Data Access Object):
+Vamos criar um DAO no projeto, exercicios-jpa. Até agora, nas classes que criamos para manipularmos as entidades que criamos, os métodos que aplicamos para o EntityManager e EntityManagerFactory, foram todas diretamente dos métodos de infra-estrutura. O que, nas boas práticas de organização dos códigos é ruim, pois misturamos os códigos de infra-estrutura com os códigos de regra de negócio. Logo, vamos aplicar os conceitos de padrão DAO para melhorarmos na organização do ponto de vista de arquitetura.
+
+Para isso, vamos criar um novo pacote chamado "infra" e nela iremos criar as classes que será feito os encapsulamento.
+
+Então, dentro desse pacote, criamos uma classe "DAO" e nela iremos inserir o seguinte
+
+    package infra;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    public class DAO<E> {
+
+        private static EntityManagerFactory emf;
+        private EntityManager em;
+        private Class<E> classe;
+        
+        static {
+            try {
+                emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            } catch(Exception e) {
+                // logar -> log4j
+            }
+        }
+        
+        public DAO() {
+            this(null);
+        }
+        
+        public DAO(Class<E> classe) {
+            this.classe = classe;
+            em = emf.createEntityManager();
+        }
+        
+        public DAO<E> abrirT() {
+            em.getTransaction().begin();
+            return this;
+        }
+        
+        public DAO<E> fecharT() {
+            em.getTransaction().commit();
+            return this;
+        }
+        
+        public DAO<E> incluir(E entidade) {
+            em.persist(entidade);
+            return this;
+        }
+        
+        public DAO<E> incluirAtomico(E entidade) {
+            return this.abrirT().incluir(entidade).fecharT();
+        }
+        
+        public List<E> obterTodos() {
+            return this.obterTodos(10, 0);
+        }
+        
+        public List<E> obterTodos(int qtde, int deslocamento) {
+            if(classe == null) {
+                throw new UnsupportedOperationException("Classe nula.");
+            }
+            
+            String jpql = "select e from " + classe.getName() + " e";
+            TypedQuery<E> query = em.createQuery(jpql, classe);
+            query.setMaxResults(qtde);
+            query.setFirstResult(deslocamento);
+            return query.getResultList();
+        }
+        
+        public void fechar() {
+            em.close();
+        }
+    }
+
+Note que, dentro dessa classe, pegamos os métodos de infra-estrutura que utilizamos de forma direta nas outras abordagens anteriores e encapsulamos-as de forma generalizada, para conseguirmos realizar o uso dessas em códigos voltados para regra de negócio. Ou seja, separamos os códigos de infra-estrutura com códigos de regra de negócios com essa classe.
+
+Agora em diante, sempre que criarmos alguma classe que utilize as entidades, não iremos mais chamar o EntityManager e nem o EntityManagerFactory. Chamaremos o DAO, pois os métodos que criamos nela, será voltado para códigos de regra de negócios.
+
+Bom, recomendamos que vc procure entender mais sobre esse padrão DAO, pois, para segurança de sistemas e arquiteturas robustas, o entendimento disso te ajudará a melhorar a qualidades dos dois conceitos mencionados.
 
 ## Aula 18 - Novo Produto:
 
