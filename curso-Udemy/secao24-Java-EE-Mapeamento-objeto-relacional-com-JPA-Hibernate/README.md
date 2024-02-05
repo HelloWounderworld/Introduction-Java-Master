@@ -1606,6 +1606,19 @@ Bom, recomendamos que vc procure entender mais sobre esse padrão DAO, pois, par
 ## Aula 28 - Muitos Pra Muitos #02:
 
 ## Aula 29 - Aviso sobre o arquivo XML criado na aula a seguir:
+E aí, pessoal! Tudo bem?
+
+Na próxima aula irei criar um arquivo do tipo “JPA ORM Mapping File", caso para vocês não tenham a opção para gerar esse tipo de arquivo, vocês podem então gerar um arquivo xml normal buscando apenas por “xml” depois de abrir o “Other”, então você irá criar o arquivo do tipo “XML File”, a única diferença é que o arquivo que irei criar já vem com a tag “entity-mappings” e o xml padrão não vem. Então após vocês criarem o XML File, substitua todo o conteúdo do arquivo pelo conteúdo que está aqui abaixo:
+
+    <?xml version="1.0" encoding="UTF-8"?> <entity-mappings version="2.1" xmlns="<http://xmlns.jcp.org/xml/ns/persistence/orm>" xmlns:xsi="<http://www.w3.org/2001/XMLSchema-instance>" xsi:schemaLocation="<http://xmlns.jcp.org/xml/ns/persistence/orm> <http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd>">
+
+
+
+    </entity-mappings>
+
+Após isso é só seguir a aula normalmente! :)
+
+Bons estudos!
 
 ## Aula 30 - Named Query:
 
