@@ -1584,8 +1584,93 @@ Agora em diante, sempre que criarmos alguma classe que utilize as entidades, nã
 Bom, recomendamos que vc procure entender mais sobre esse padrão DAO, pois, para segurança de sistemas e arquiteturas robustas, o entendimento disso te ajudará a melhorar a qualidades dos dois conceitos mencionados.
 
 ## Aula 18 - Novo Produto:
+Vamos, agora, criar um novo produto.
+
+No caso, desta vez, usando o padrão DAO da classe, DAO, que criamos na última aula, deixando claro que estaremos usando somente código voltado para regra de negócios.
+
+Logo, do projeto, exercicios-jpa, do pacote, teste.basico, vamos criar a clase "NovoProduto" e inserimos o seguinte
+
+    package teste.basico;
+
+    import infra.DAO;
+    import modelo.basico.Produto;
+
+    public class NovoProduto {
+
+        public static void main(String[] args) {
+            
+            Produto produto = new Produto("Caneta", 7.45);
+            
+            DAO<Produto> dao = new DAO<>(Produto.class);
+            dao.abrirT().incluir(produto).fecharT();
+        }
+    }
+
+Note que, não vamos mais precisar importar o "EntityManager" e nem o "EntityManagerFactory", que são bibliotecas importantes e que, nelas, contém os métodos que esteja ligado diretamente com a infra?
+
+Basta rodar o código acima que iremos conseguir incluir o produto.
+
+Analisando no Workbench, conseguimos constatar nela que temos a tabela, produtos, e dentro dela, temos a "Caneta" com o preço "7.45" cadastrado.
+
+Bom, vamos, agora, testar outros métodos que encapsulamos dos métodos de infra, EntityManager e EntityManagerFactory, para verificarmos que está funcionando devidamente como queremos. Inserimos o seguinte código na classe, NovoProduto, como segue
+
+    package teste.basico;
+
+    import infra.DAO;
+    import modelo.basico.Produto;
+
+    public class NovoProduto {
+
+        public static void main(String[] args) {
+            
+            Produto produto = new Produto("Caneta", 7.45);
+            
+            DAO<Produto> dao = new DAO<>(Produto.class);
+            dao.abrirT().incluir(produto).fecharT();
+            
+            Produto produto2 = new Produto("Notebook", 22000.00);
+            
+            DAO<Produto> dao2 = new DAO<>(Produto.class);
+            dao2.incluirAtomico(produto2).fechar();
+        }
+    }
+
+Vamos ver se esse método realiza todo o processo de inclusão considerando as transação como havíamos codado na classe, DAO.
+
+Vimos que foi incluído o dado, Notebook, que colocamos dentro da classe/entidade/tabela, Produto.
+
+Vamos incluir só mais um dado na tabela, produtos
+
+        package teste.basico;
+
+    import infra.DAO;
+    import modelo.basico.Produto;
+
+    public class NovoProduto {
+
+        public static void main(String[] args) {
+            
+    //		Produto produto = new Produto("Caneta", 7.45);
+    //		
+    //		DAO<Produto> dao = new DAO<>(Produto.class);
+    //		dao.abrirT().incluir(produto).fecharT();
+            
+    //		Produto produto2 = new Produto("Notebook", 22000.00);
+    //		
+    //		DAO<Produto> dao2 = new DAO<>(Produto.class);
+    //		dao2.incluirAtomico(produto2).fechar();
+            
+            Produto produto3 = new Produto("Monitor 27 polegadas", 1498.59);
+            
+            DAO<Produto> dao3 = new DAO<>(Produto.class);
+            dao3.incluirAtomico(produto3).fechar();
+        }
+    }
+
+Rodando o código acima, vamos conseguir realizar a inclusão atômica.
 
 ## Aula 19 - Obter Produto:
+
 
 ## Aula 20 - Relacionamentos:
 
