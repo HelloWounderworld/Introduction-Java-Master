@@ -1670,19 +1670,1076 @@ Vamos incluir só mais um dado na tabela, produtos
 Rodando o código acima, vamos conseguir realizar a inclusão atômica.
 
 ## Aula 19 - Obter Produto:
+Vamos, agora, aprender a consultar os produtos usando a classe encapsulada, DAO.
 
+Desta vez, vamos fazer um pouco diferente. No caso, vamos criar uma classe, ProdutoDAO, dentro do pacote, infra, do projeto, exercicios-jpa, e estabelecemos uma herança dessa classe com a classe, DAO, mas, referenciando a entidade, Produto, como seguinte
+
+    package infra;
+
+    import modelo.basico.Produto;
+
+    public class ProdutoDAO extends DAO<Produto>{
+
+        public ProdutoDAO() {
+            super(Produto.class);
+        }
+    }
+
+Em seguida, no pacote, teste.basico, do mesmo projeto, criamos uma classe, ObterProdutos, e nela realizamos o seguinte
+
+    package teste.basico;
+
+    import java.util.List;
+
+    import infra.ProdutoDAO;
+    import modelo.basico.Produto;
+
+    public class ObterProdutos {
+
+        public static void main(String[] args) {
+            
+            ProdutoDAO dao = new ProdutoDAO();
+            List<Produto> produtos = dao.obterTodos();
+            
+            for(Produto produto: produtos) {
+                System.out.println("ID: " + produto.getId() + ", Nome: " + produto.getNome());
+            }
+        }
+    }
+
+Rodando o código acima, note que, conseguirmos exibir todos os produtos que foi cadastrado na base, curso_java, da tabela, produtos, donde conseguimos acessar os métodos da classe, DAO, que o ProdutoDAO herdou.
+
+Além disso, conseguimos, também, manipular tais dados para o uso como seguinte
+
+    package teste.basico;
+
+    import java.util.List;
+
+    import infra.ProdutoDAO;
+    import modelo.basico.Produto;
+
+    public class ObterProdutos {
+
+        public static void main(String[] args) {
+            
+            ProdutoDAO dao = new ProdutoDAO();
+            List<Produto> produtos = dao.obterTodos();
+            
+            for(Produto produto: produtos) {
+                System.out.println("ID: " + produto.getId() + ", Nome: " + produto.getNome());
+            }
+            
+            double precoTotal = produtos
+                    .stream()
+                    .map(p -> p.getPreco())
+                    .reduce(0.0, (t, p) -> t + p)
+                    .doubleValue();
+            System.out.println("O valor total é R$ " + precoTotal);
+
+            dao.fechar();
+        }
+    }
+
+Ou seja, obtemos a soma total dos produtos.
 
 ## Aula 20 - Relacionamentos:
+Existem dois tipos de relacionamentos:
 
-## Aula 21 - Um Pra Um #01:
+- OO - Orientação ao Objeto:
+
+    Temos as relações um para um, um para muitos e muitos para muitos: @OneToOne, @OneToMany/@ManyToOne, @ManyToMany 
+
+    Seguir link de leitura:
+
+        https://maryclaired.medium.com/modeling-one-to-many-and-many-to-many-relationships-in-ruby-105e1dfa2af1
+        https://medium.com/@bindubc/association-aggregation-and-composition-in-oops-8d260854a446
+        https://stackoverflow.com/questions/2780982/many-to-many-relationship-in-oop
+
+- E/R - Entidade/Relacionamento:
+
+    Basicamente, está atrelado ao relacionamento entre tabelas por meio do Primary Key e Foreign Key. No caso, isso é um conceito voltado ao banco de dados, donde vc consegue estudar via à algum livro ou curso sobre banco de dados. No caso, a nível mais avançado, os tipos de relacionamentos, em banco de dados, acaba sendo um fator mais importante quando configura uma arquitura mais robusta.
+
+    Seguir link de leitura:
+
+        https://blog.supportgroup.com/getting-started-with-relational-databases-one-to-one-and-many-to-many-relationships
+        https://www.quora.com/Can-you-explain-the-differences-between-one-to-many-one-to-one-and-many-to-many-relationships-in-databases
+
+## Aula 21 - Um Pra Um - One to One #01:
+Vamos, primeiro, aprender a relação um para um.
+
+No projeto, exercicios-jpa, do pacote, modelo.umpraum, vamos criar a classe, Assento, e nela inserimos o seguinte
+
+    package teste.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "assentos")
+    public class Assento {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+    }
+
+E, no mesmo pacote, criamos uma classe, Cliente, e nela, colocamos o seguinte
+
+    package teste.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "clientes")
+    public class Cliente {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+    }
+
+Claro, no arquivo, persistence.xml, precisamos considerar essas classes para conseguirmos criar a entidade na base de dados, curso_java.
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Agora, sim, vamos criar os relacionamentos entre essas duas bases para ficar mais claro o conceito na prática. No caso, vamos criar o relacionamento, um para um. Basta realizar o seguinte, visto que criaremos o relacionamento de Assento para Cliente, na classe, Cliente, inserimos
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "clientes")
+    public class Cliente {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne
+        private Assento assento;
+    }
+
+Agora, na classe, Assento, realizamos o seguinte
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "assentos")
+    public class Assento {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+
+        public Assento() {
+            
+        }
+
+        public Assento(String nome) {
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+    }
+
+Faremos a mesma coisa para a classe, Cliente, como segue
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "clientes")
+    public class Cliente {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne
+        private Assento assento;
+        
+        public Cliente() {
+            
+        }
+
+        public Cliente(String nome, Assento assento) {
+            super();
+            this.nome = nome;
+            this.assento = assento;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Assento getAssento() {
+            return assento;
+        }
+
+        public void setAssento(Assento assento) {
+            this.assento = assento;
+        }
+    }
+
+Agora, criamos um pacote com o nome "teste.umpraum" e nela criamos a classe, NovoClienteAssento1, e inserimos o seguinte
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class NovoClienteAssento1 {
+
+        public static void main(String[] args) {
+            
+            Assento assento = new Assento("16C");
+            Cliente cliente = new Cliente("Ana", assento);
+            
+            DAO<Object> dao = new DAO<>();
+            
+            dao.abrirT()
+                .incluir(assento)
+                .incluir(cliente)
+                .fecharT()
+                .fechar();
+        }
+    }
+
+Assim, ao rodarmos o código acima, pelo Workbench, consultamos a base, curso_java, e vemos que nela foi criado duas tabelas, assentos e clientes, donde foi computado nelas os dados que colocamos acima.
+
+Note que, o processo de inclusão acima, não podemos realizar de forma separada, no sentido de incluir, primeiro, o cliente e em seguida, assento, isso em duas transações diferentes
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class NovoClienteAssento1 {
+
+        public static void main(String[] args) {
+            
+            Assento assento = new Assento("8C");
+            Cliente cliente = new Cliente("Carlos", assento);
+            
+            DAO<Object> dao = new DAO<>();
+            
+            dao.abrirT()
+                .incluir(assento)
+                .incluir(cliente)
+                .fecharT()
+                .fechar();
+            
+            // Dará um problema
+            dao.abrirT()
+                .incluir(cliente)
+                .fecharT()
+                .fechar();
+            dao.abrirT()
+                .incluir(assento)
+                .fecharT()
+                .fechar();
+        }
+    }
+
+Isso é devido ao fato de o cliente estar no estado transiente e não salvo, o que não podemos salvar o assento. Seria como uma função definida e vc querer pegar um elemento na imagem da função sem o argumento estabelecido para ele. Agora, o cenário acima, o inverso, caso colocamos o assento primeiro e em seguida o cliente, vamos conseguir definir o assento, mas, não, o cliente.
+
+Basicamente, visto a maneira como foi estabelecida a relação, um para um, donde foi apontado do Assento para o Cliente, então, precisamos, primeiro, definir o assento e incluir na base, para depois considerar o cliente e a transação precisaria ser algo mútua.
+
+No formato em que estabelecemos a relação entre Assento e Cliente, imaginando os assentos de cinema, o ideal seria que cada um dos assentos fosse algo único para cada cliente. Ou seja, não podemos apontar um primary key para dois foreign key. Entretanto, no formato da relação, mesmo que um para um, se inserirmos algum cliente novo para um assento que já possua algum dono, será possível, como seguinte, rodando a query direto no Workbench
+
+    INSERT INTO clientes (nome, assento_id) VALUES ("Joker", 1);
+
+Ou seja, o assento "16C" já está direcionado ao cliente "Ana", mas se rodarmos o código acima, vamos ver que conseguimos incluir o cliente "Joker", para o mesmo assento da "Ana".
+
+Bom, para contornarmos esse tipo de problema, na classe, Cliente, podemos realizar o seguinte, usando o @JoinColumn
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.JoinColumn;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "clientes")
+    public class Cliente {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne
+        @JoinColumn(name = "assento_id", unique = true)
+        private Assento assento;
+        
+        public Cliente() {
+            
+        }
+
+        public Cliente(String nome, Assento assento) {
+            super();
+            this.nome = nome;
+            this.assento = assento;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Assento getAssento() {
+            return assento;
+        }
+
+        public void setAssento(Assento assento) {
+            this.assento = assento;
+        }
+    }
+
+Vamos primeiro dropar as tabelas, assentos e clientes, para realizamos o processo tudo do zero. Feito isso, vamos tentar inserir novamente os dados na tabela
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class NovoClienteAssento1 {
+
+        public static void main(String[] args) {
+            
+            Assento assento = new Assento("23F");
+            Cliente cliente = new Cliente("Vegeta", assento);
+            
+            DAO<Object> dao = new DAO<>();
+            
+            dao.abrirT()
+                .incluir(assento)
+                .incluir(cliente)
+                .fecharT()
+                .fechar();
+            
+            // Dará um problema
+    //		dao.abrirT()
+    //			.incluir(cliente)
+    //			.fecharT()
+    //			.fechar();
+    //		dao.abrirT()
+    //			.incluir(assento)
+    //			.fecharT()
+    //			.fechar();
+        }
+    }
+
+Agora, rodando, novamente, o insert
+
+    INSERT INTO clientes (nome, assento_id) VALUES ("Joker", 1);
+
+Vamos ver que, desta vez, não conseguiremos incluir esse dado na tabela.
 
 ## Aula 22 - Um Pra Um #02:
+Vamos, agora, aprender a sincronizar as inclusões. Ou seja, visto que temos duas tabelas relacionadas, quando ocorrer alguma ação em uma, a tal ação reflita no outro tbm.
+
+Dentro do pacote, teste.umpraum, criamos a classe, NovoClienteAssento2, e nela inserimos o seguinte
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class NovoClienteAssento2 {
+
+        public static void main(String[] args) {
+            
+            Assento assento = new Assento("4D");
+            Cliente cliente = new Cliente("Rodrigo", assento);
+            
+            DAO<Cliente> dao = new DAO<>(Cliente.class);
+            dao.incluirAtomico(cliente);
+        }
+    }
+
+Se rodarmos o código acima, teremos um problema, pois, visto que o Cliente está relacionado com a classe Assento, então teremos um problema de transação.
+
+No caso, o que queremos aqui seria que, no momento em que estivemos incluindo um cliente, que incluímos um assento também. Para contornarmos esse tipo de problema, queremos que seja realizado o seguinte na classe, Cliente
+
+    package modelo.umpraum;
+
+    import javax.persistence.CascadeType;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.JoinColumn;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "clientes")
+    public class Cliente {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne(cascade = CascadeType.PERSIST)
+        @JoinColumn(name = "assento_id", unique = true)
+        private Assento assento;
+        
+        public Cliente() {
+            
+        }
+
+        public Cliente(String nome, Assento assento) {
+            super();
+            this.nome = nome;
+            this.assento = assento;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Assento getAssento() {
+            return assento;
+        }
+
+        public void setAssento(Assento assento) {
+            this.assento = assento;
+        }
+    }
+
+Ou seja, em @OneToOne, iremos colocar o cascade, donde declaramos alguma operação em cascata. Ou seja, alguma ação ocorrida por via do cliente, refletirá na classe Assento tbm.
+
+Assim, rodando, novamente, o código
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class NovoClienteAssento2 {
+
+        public static void main(String[] args) {
+            
+            Assento assento = new Assento("4D");
+            Cliente cliente = new Cliente("Rodrigo", assento);
+            
+            DAO<Cliente> dao = new DAO<>(Cliente.class);
+            dao.incluirAtomico(cliente);
+        }
+    }
+
+Vamos ver que, agora, a mudança persistiu.
+
+Isso é uma das formas de conseguirmos incluir o processo de automatização em nível alto, pois, vimos que não tivemos a necessidade de gerar algum código SQL e só usando os apontamentos, Data Mapper, nos permitiu realizar tais feitos em poucos passos.
 
 ## Aula 23 - Um Pra Um #03:
+Vamos, agora, realizar uma pequena alteração do exercício que fizemos na última aula.
+
+Vimos, até agora, que o relacionamento uma para um entre as classes, Assento e Cliente, foi algo unidirecional. Ou seja, de Assento apontando para o Cliente. Porém, agora, iremos fazer algumas mudanças para que o tal relacionamento, definitivamente, torne algo bidirecional.
+
+Bom, para estabelecermos esse relacionamento bidirecional é bem simples. Para que a classe, Cliente, estabeleça um relacionamento uma para um com a classe, Assento, foi o suficiente, colocarmos @OneToOne na classe Cliente e nela definirmos um atributo chamando a classe Assento. Para estabelecermos a relação bidirecional, por fim, será necessário realizarmos algo parecido para a classe, Assento. Logo, realizamos o seguinte
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "assentos")
+    public class Assento {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne
+        private Cliente cliente;
+
+        public Assento() {
+            
+        }
+
+        public Assento(String nome) {
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Cliente getCliente() {
+            return cliente;
+        }
+
+        public void setCliente(Cliente cliente) {
+            this.cliente = cliente;
+        }
+    }
+
+Bom, somente com a forma como está acima, iremos estabelecer uma relação bidirecional, porém, não da forma que entra dentro das boas práticas, pois dão margem de haver alguma inconsistência de dados. No caso, além do apontamento que realizamos acima, vamos precisar dizer à classe que esse apontamento é advinda de uma classe já mapeado. Usamos o "mappedBy" como seguinte
+
+    package modelo.umpraum;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToOne;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "assentos")
+    public class Assento {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+            
+        private String nome;
+        
+        @OneToOne(mappedBy = "assento")
+        private Cliente cliente;
+
+        public Assento() {
+            
+        }
+
+        public Assento(String nome) {
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Cliente getCliente() {
+            return cliente;
+        }
+
+        public void setCliente(Cliente cliente) {
+            this.cliente = cliente;
+        }
+    }
+
+Basicamente, o que está sendo dito pelo "mappedBy" seria que a relação um para um já foi estabelecida na classe Cliente, em relação à classe Assento. A relação um para um está mapeado pelo atributo assento dentro da classe Cliente.
+
+Para conferirmos a validade disso, vamos criar uma nova classe, ObterClienteAssento, no pacote, teste.umpraum, do projeto, exercicios-jpa, e nela inserimos o seguinte
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Cliente;
+
+    public class ObterClienteAssento {
+
+        public static void main(String[] args) {
+            
+            DAO<Cliente> dao = new DAO<>(Cliente.class);
+            
+        }
+    }
+
+Agora, na classe, DAO, vamos criar um novo método que realiza a obtenção dos clientes pelo id, obterPorID
+
+    package infra;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    public class DAO<E> {
+
+        private static EntityManagerFactory emf;
+        private EntityManager em;
+        private Class<E> classe;
+        
+        static {
+            try {
+                emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            } catch(Exception e) {
+                // logar -> log4j
+            }
+        }
+        
+        public DAO() {
+            this(null);
+        }
+        
+        public DAO(Class<E> classe) {
+            this.classe = classe;
+            em = emf.createEntityManager();
+        }
+        
+        public DAO<E> abrirT() {
+            em.getTransaction().begin();
+            return this;
+        }
+        
+        public DAO<E> fecharT() {
+            em.getTransaction().commit();
+            return this;
+        }
+        
+        public DAO<E> incluir(E entidade) {
+            em.persist(entidade);
+            return this;
+        }
+        
+        public DAO<E> incluirAtomico(E entidade) {
+            return this.abrirT().incluir(entidade).fecharT();
+        }
+        
+        public E obterPorID(Object id) {
+            return em.find(classe, id);
+        }
+        
+        public List<E> obterTodos() {
+            return this.obterTodos(10, 0);
+        }
+        
+        public List<E> obterTodos(int qtde, int deslocamento) {
+            if(classe == null) {
+                throw new UnsupportedOperationException("Classe nula.");
+            }
+            
+            String jpql = "select e from " + classe.getName() + " e";
+            TypedQuery<E> query = em.createQuery(jpql, classe);
+            query.setMaxResults(qtde);
+            query.setFirstResult(deslocamento);
+            return query.getResultList();
+        }
+        
+        public void fechar() {
+            em.close();
+        }
+    }
+
+Agora, na classe, ObterClienteAssento, complementamos com o seguinte código
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Cliente;
+
+    public class ObterClienteAssento {
+
+        public static void main(String[] args) {
+            
+            DAO<Cliente> dao = new DAO<>(Cliente.class);
+            
+            Cliente cliente = dao.obterPorID(1L);
+            System.out.println(cliente.getAssento().getNome());
+            
+            dao.fechar();
+        }
+    }
+
+Agora, basta rodarmos o código acima, para conseguirmos obter o que precisamos.
+
+Bom, podemos ver que foi trago o assento do cliente e vimos que nem na tabela, assentos, e nem em, clientes, foi criado uma nova coluna. Ambas permanecem como estava antes.
+
+Vamos printar mais dados que foi puxado, para vermos se é possível realizarmos a consulta
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Cliente;
+
+    public class ObterClienteAssento {
+
+        public static void main(String[] args) {
+            
+            DAO<Cliente> dao = new DAO<>(Cliente.class);
+            
+            Cliente cliente = dao.obterPorID(1L);
+            System.out.println(cliente.getAssento().getNome());
+            System.out.println(cliente.getAssento().getCliente().getNome());
+            dao.fechar();
+        }
+    }
+
+Vamos realizar a mesma coisa, agora, para o assento. Refatoremos um pouco do nosso código e complementamo-las como seguinte
+
+    package teste.umpraum;
+
+    import infra.DAO;
+    import modelo.umpraum.Assento;
+    import modelo.umpraum.Cliente;
+
+    public class ObterClienteAssento {
+
+        public static void main(String[] args) {
+            
+            DAO<Cliente> daoCliente = new DAO<>(Cliente.class);
+            
+            Cliente cliente = daoCliente.obterPorID(1L);
+            System.out.println(cliente.getAssento().getNome());
+            System.out.println(cliente.getAssento().getCliente().getNome());
+            daoCliente.fechar();
+            
+            DAO<Assento> daoAssento = new DAO<>(Assento.class);
+            Assento assento = daoAssento.obterPorID(3L);
+            System.out.println(assento.getCliente().getNome());
+            daoAssento.fechar();
+        
+        }
+    }
+
+Nisso, vamos ver se conseguimos puxar os dados pelo assento e o nome o cliente que está com o número do assento.
 
 ## Aula 24 - Um Pra Muitos #01:
+Vamos, agora, abordar a relação um para muitos nas tabelas.
 
-## Aula 25 - Um Pra Muitos #02:
+Vamos criar as classes, Pedido e ItemPedido, dentro do pacote, modelo.umpramuitos.
+
+Dentro da classe, Pedido, coloquemos o seguinte
+
+    package modelo.umpramuitos;
+
+    import java.util.Date;
+
+    import javax.persistence.Column;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+
+    @Entity
+    public class Pedido {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        @Column(nullable = false)
+        private Date data;
+        
+        public Pedido() {
+            this(new Date());
+        }
+
+        public Pedido(Date data) {
+            super();
+            this.data = data;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Date getData() {
+            return data;
+        }
+
+        public void setData(Date data) {
+            this.data = data;
+        }
+    }
+
+Agora, na classe, ItemPedido, coloquemos o seguinte
+
+    package modelo.umpramuitos;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.ManyToOne;
+
+    import modelo.basico.Produto;
+
+    @Entity
+    public class ItemPedido {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        // Muitos itens de pedido está para um pedido - Many está para a classe ItemPedido
+        // e One está para a classe Pedido
+        @ManyToOne
+        private Pedido pedido;
+        
+        @ManyToOne
+        private Produto produto;
+        
+        private int quantidade;
+        
+        private Double preco;
+        
+        public ItemPedido() {
+            
+        }
+
+        public ItemPedido(Pedido pedido, Produto produto, int quantidade) {
+            super();
+            this.setPedido(pedido);
+            this.setProduto(produto);
+            this.setQuantidade(quantidade);
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Pedido getPedido() {
+            return pedido;
+        }
+
+        public void setPedido(Pedido pedido) {
+            this.pedido = pedido;
+        }
+
+        public Produto getProduto() {
+            return produto;
+        }
+
+        public void setProduto(Produto produto) {
+            this.produto = produto;
+            
+            if(produto != null && this.preco == null) {
+                this.setPreco(produto.getPreco());
+            }
+        }
+
+        public int getQuantidade() {
+            return quantidade;
+        }
+
+        public void setQuantidade(int quantidade) {
+            this.quantidade = quantidade;
+        }
+
+        public Double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(Double preco) {
+            this.preco = preco;
+        }
+    }
+
+No arquivo, persistence.xml, vamos considerar essas duas classes
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            <class>modelo.umpramuitos.Pedido</class>
+            <class>modelo.umpramuitos.ItemPedido</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Agora, vamos criar uma classe, NovoPedido, dentro do pacote, teste.umpramuitos, do projeto, exercicios-jpa, e nela iremos inserir o seguinte
+
+    package teste.umpramuitos;
+
+    import infra.DAO;
+    import modelo.basico.Produto;
+    import modelo.umpramuitos.ItemPedido;
+    import modelo.umpramuitos.Pedido;
+
+    public class NovoPedido {
+
+        public static void main(String[] args) {
+            
+            DAO<Object> dao = new DAO<>();
+            
+            Pedido pedido = new Pedido();
+            Produto produto = new Produto("Geladeira", 3899.59);
+            ItemPedido item = new ItemPedido(pedido, produto, 10);
+            
+            dao.abrirT()
+                .incluir(produto)
+                .incluir(pedido)
+                .incluir(item)
+                .fecharT()
+                .fechar();
+        }
+    }
+
+Com isso, podemos, agora, testar para vermos o resultado, então basta rodar o código acima.
+
+No Workbench, vamos verificar se a mudança surtiu algum efeito. No caso, note que, foi criado as tabelas, ItemPedido e Pedido, e na tabela, produtos, foi incluído a "Geladeira" que pedimos para colocar acima.
+
+## Aula 25 - Um Pra Muitos #02 - Bidirecional:
 
 ## Aula 26 - Um Pra Muitos #03:
 
