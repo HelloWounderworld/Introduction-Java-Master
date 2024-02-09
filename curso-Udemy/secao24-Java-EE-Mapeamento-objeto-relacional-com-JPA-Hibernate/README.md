@@ -1,4 +1,4 @@
-# Seção 22: Java EE - Mapeamento objeto-relacional com JPA / Hibernate:
+# Seção 24: Java EE - Mapeamento objeto-relacional com JPA / Hibernate:
 
 ## Aula 01 - Visão geral do capítulo e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO
@@ -62,7 +62,7 @@ Vamos criar um projeto Maven pelo sts que usa o eclipse.
 
 ## Aula 06 - Nivelamento JPA / Hibernate - PARTE 3:
 
-# Java Persistence API (JPA) - Leonardo Moura Leitao:
+# Seção 24: Java Persistence API (JPA) - Leonardo Moura Leitao:
 
 ## Aula 01 - Padrões de Persistência:
 Existem dois grandes padrões de projetos, são elas:
