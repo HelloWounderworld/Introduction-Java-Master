@@ -2740,8 +2740,201 @@ Com isso, podemos, agora, testar para vermos o resultado, então basta rodar o c
 No Workbench, vamos verificar se a mudança surtiu algum efeito. No caso, note que, foi criado as tabelas, ItemPedido e Pedido, e na tabela, produtos, foi incluído a "Geladeira" que pedimos para colocar acima.
 
 ## Aula 25 - Um Pra Muitos #02 - Bidirecional:
+Vamos, agora, aplicar o princípio bidirecional, como foi feito nas outras aulas anteriores, para a nossa situação.
 
-## Aula 26 - Um Pra Muitos #03:
+Por começo, na classe, Pedido, do pacote, modelo.umpramuitos, do projeto, exercicios-jpa, vamos realizar a seguinte modificação
+
+    package modelo.umpramuitos;
+
+    import java.util.Date;
+    import java.util.List;
+
+    import javax.persistence.Column;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToMany;
+
+    @Entity
+    public class Pedido {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        @Column(nullable = false)
+        private Date data;
+        
+        @OneToMany(mappedBy = "pedido")
+        private List<ItemPedido> itens;
+        
+        public Pedido() {
+            this(new Date());
+        }
+
+        public Pedido(Date data) {
+            super();
+            this.data = data;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Date getData() {
+            return data;
+        }
+
+        public void setData(Date data) {
+            this.data = data;
+        }
+
+        public List<ItemPedido> getItens() {
+            return itens;
+        }
+
+        public void setItens(List<ItemPedido> itens) {
+            this.itens = itens;
+        }
+        
+    }
+
+Agora, dentro do pacote, teste.umpramuitos, do projeto, exercicios-jpa, vamos criar uma classe "ObterPedido" e nela inserimos o seguinte
+
+    package teste.umpramuitos;
+
+    import infra.DAO;
+    import modelo.umpramuitos.ItemPedido;
+    import modelo.umpramuitos.Pedido;
+
+    public class ObterPedido {
+
+        public static void main(String[] args) {
+            
+            DAO<Pedido> dao = new DAO<>(Pedido.class);
+            
+            Pedido pedido = dao.obterPorID(1L);
+            
+            for(ItemPedido item: pedido.getItens()) {
+                System.out.println(item.getQuantidade());
+            }
+            
+            dao.fechar();
+        }
+    }
+
+Dentro dessa classe, vamos conseguir ver que será obtido a quantidade do item que foi cadastrado da entidade, ItemPedido, a partir da entidade, Pedido.
+
+## Aula 26 - Um Pra Muitos #03 - lazy e eager:
+Vamos aprender sobre o conceito de carregamento tardio e carregamento rápido, lazy e eager, respectivamente.
+
+Na classe, ObterPedido, vamos realizar o seguinte
+
+    package teste.umpramuitos;
+
+    import infra.DAO;
+    import modelo.umpramuitos.ItemPedido;
+    import modelo.umpramuitos.Pedido;
+
+    public class ObterPedido {
+
+        public static void main(String[] args) {
+            
+            DAO<Pedido> dao = new DAO<>(Pedido.class);
+            
+            Pedido pedido = dao.obterPorID(1L);
+            dao.fechar();
+            
+            for(ItemPedido item: pedido.getItens()) {
+                System.out.println(item.getQuantidade());
+                System.out.println((item.getProduto().getNome()));
+            }
+            
+    //		dao.fechar();
+        }
+    }
+
+Ao rodarmos o código acima, vamos ver que irá retornar um erro, pois o processamento foi feito de forma eager (apressado).
+
+Uma forma de contornarmos o problema acima, seria tornar a relação "OneToMany" da entidade, Pedido, para EAGER
+
+    package modelo.umpramuitos;
+
+    import java.util.Date;
+    import java.util.List;
+
+    import javax.persistence.Column;
+    import javax.persistence.Entity;
+    import javax.persistence.FetchType;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.OneToMany;
+
+    @Entity
+    public class Pedido {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        @Column(nullable = false)
+        private Date data;
+        
+        @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
+        private List<ItemPedido> itens;
+        
+        public Pedido() {
+            this(new Date());
+        }
+
+        public Pedido(Date data) {
+            super();
+            this.data = data;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public Date getData() {
+            return data;
+        }
+
+        public void setData(Date data) {
+            this.data = data;
+        }
+
+        public List<ItemPedido> getItens() {
+            return itens;
+        }
+
+        public void setItens(List<ItemPedido> itens) {
+            this.itens = itens;
+        }
+        
+    }
+
+Assim, rodando, novamente, o código da classe, ObterPedido, fechando a conexão com servidor, antes do for, vamos conseguir, desta vez, compilar o for.
+
+Tornar uma entidade LAZY ou EAGER, depende muito da volumetria das informações que vc quer processar e o momento em que vc irá querer processar de forma otimizada. Não é tornando os processos apressados que tornaria otimizado o sistema e seguro, necessariamente. Mas, sim, verificando a medida de processamento certo para cada cenário.
+
+Esse assunto é bem delicado e requer um estudo bem aprofundado, pois está relacionado ao desempenho do JPA em sistemas. É um dos grandes desafios tornar o desempenho no nível ideal para tornarmos o sistema otimizado. Logo, recomendamos muito uma atenção especial para o assunto de Lazy e Eager no tópico de JPA.
+
+Seguir o link de leitura:
+
+    https://www.devmedia.com.br/lazy-e-eager-loading-com-hibernate/29554
+
+    https://stackoverflow.com/questions/2990799/difference-between-fetchtype-lazy-and-eager-in-java-persistence-api
 
 ## Aula 27 - Muitos Pra Muitos #01:
 

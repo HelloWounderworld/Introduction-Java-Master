@@ -7,11 +7,16 @@ Irei usar as seguintes referências:
 
 - Java 2020 COMPLETO: Do Zero ao Profissional + Projetos! - https://github.com/cod3rcursos/curso-java
 
-- Fundamental of Java Programming - Mitsunori Ogihara, Springer.
+- Fundamental of Java Programming - Mitsunori Ogihara, Springer. - Estudo da linguagem de programação Java
 
-- Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel.
+- Java: Como programar, 10ª Edição - Paulo Deitel, Harvey Deitel. - Estudo da Linguagem de Programação Java
 
 - Lógica de programação e estruturas de dados com aplicações em Java - Sandra Puga, Gerson Rissetti.
+
+- Beginning Hibernate 6, Java Persistence from Beginner to Pro, Fifth Edition - Joseph B. Ottinger, Jeff Linwood, Dave Minter - Para Hibernate e JPA
+
+- Guide to Web Development with Java, Understanding Website Creation - Tim Downey - Para a Criação de Website com JAVA.
+
 
 A maneira como irei utilizar os livros acima, como esses livros não se baseam em algum projeto, mas, sim, puramente no conceito, então irei pegar os tópicos que aprendi no curso da Udemy e nela, quando realizar a revisão de Java, ir para cada tópico dos livros que abordam o assunto que estou revisando e melhorar a qualidade do entendimento dela, realizando testes por código. Claro, estarei mencionando os livros na hora que estiver realizando a tal revisão.
 
