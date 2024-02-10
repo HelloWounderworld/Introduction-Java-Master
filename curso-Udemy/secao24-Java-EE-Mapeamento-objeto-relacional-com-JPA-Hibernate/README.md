@@ -3378,6 +3378,187 @@ Após isso é só seguir a aula normalmente! :)
 Bons estudos!
 
 ## Aula 30 - Named Query:
+Vamos, agora, aprender a utilizar o mapeamento "Named Query".
+
+Para isso, vamos precisar criar um novo arquivo, .xml, para conseguirmos organizar na utilização da ferramenta "Named Query". Ou seja, isso não significa que o "Named Query" não possa ser utilizada diretamente, dentro das entidades. O que estamos realizando aqui, é organizar os lugares onde iremos definir o uso dos recursos "Named Query", pois utilizar diretamente nas entidades polui muito o código dificultando a sua leitura.
+
+No caso, vamos criar um arquivo, .xml, com o nome "consulta.xml" da seguinte forma
+
+    clicar com o botão direito na pasta "META-INF" -> New -> Other -> Selecionar "JPA ORM Mapping File" -> Next -> consultas.xml -> Finish
+
+O arquivo, consultas.xml, é um tipo de arquivo "orm.xml", que é feito por padrão pelo caminho acima.
+
+Agora, vamos pedir para o arquivo, persistence.xml, considerar esse arquivo utilizando "mapping-file" da seguinte forma
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            
+            <mapping-file>META-INF/consultas.xml</mapping-file>
+            
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            <class>modelo.umpramuitos.Pedido</class>
+            <class>modelo.umpramuitos.ItemPedido</class>
+            <class>modelo.muitospramuitos.Sobrinho</class>
+            <class>modelo.muitospramuitos.Tio</class>
+            <class>modelo.muitospramuitos.Ator</class>
+            <class>modelo.muitospramuitos.Filme</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Bom, vamos ver se o apontamento acima deu certo. Para isso, rodamos a classe, ObterUsuario, do pacote, teste.basico, para verificarmos se conseguimos realizar a consulta na base. Se conseguimos, volta para o arquivo, persistence.xml, e substituímos o nome "consultas" para "consultas2" e rodamos, novamente, a mesma classe. Se retornar algum problema no console, é indicativo de que o apontamento está certo. Basta voltar ao mesmo nome "consultas" no arquivo, persistence.xml.
+
+Agora, dentro do arquivo, consultas.xml, vamos realizar a seguinte inserção
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <entity-mappings version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+
+        <named-query name="obterFilmesComNotaMaiorQue">
+            <query>
+                select f from Filme f
+                join fetch f.atores
+                where f.nota > :nota
+            </query>
+        </named-query>
+
+    </entity-mappings>
+
+Bom, execute, novamente, a classe, ObterUsuario. Se não retornar nenhum tipo de erro, é sinal de que deu certo.
+
+Agora, na classe, DAO, que está dentro do pacote, infra, vamos realizar o seguinte complemento, consultar
+
+    package infra;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    public class DAO<E> {
+
+        private static EntityManagerFactory emf;
+        private EntityManager em;
+        private Class<E> classe;
+        
+        static {
+            try {
+                emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            } catch(Exception e) {
+                // logar -> log4j
+            }
+        }
+        
+        public DAO() {
+            this(null);
+        }
+        
+        public DAO(Class<E> classe) {
+            this.classe = classe;
+            em = emf.createEntityManager();
+        }
+        
+        public DAO<E> abrirT() {
+            em.getTransaction().begin();
+            return this;
+        }
+        
+        public DAO<E> fecharT() {
+            em.getTransaction().commit();
+            return this;
+        }
+        
+        public DAO<E> incluir(E entidade) {
+            em.persist(entidade);
+            return this;
+        }
+        
+        public DAO<E> incluirAtomico(E entidade) {
+            return this.abrirT().incluir(entidade).fecharT();
+        }
+        
+        public E obterPorID(Object id) {
+            return em.find(classe, id);
+        }
+        
+        public List<E> obterTodos() {
+            return this.obterTodos(10, 0);
+        }
+        
+        public List<E> obterTodos(int qtde, int deslocamento) {
+            if(classe == null) {
+                throw new UnsupportedOperationException("Classe nula.");
+            }
+            
+            String jpql = "select e from " + classe.getName() + " e";
+            TypedQuery<E> query = em.createQuery(jpql, classe);
+            query.setMaxResults(qtde);
+            query.setFirstResult(deslocamento);
+            return query.getResultList();
+        }
+        
+        public List<E> consultar(String nomeConsulta, Object... params) {
+            TypedQuery<E> query = em.createNamedQuery(nomeConsulta, classe);
+            
+            for(int i = 0; i < params.length; i+= 2) {
+                query.setParameter(params[i].toString(), params[i + 1]);
+            }
+            
+            return query.getResultList();
+        }
+        
+        public void fechar() {
+            em.close();
+        }
+    }
+
+Feito a inclusão do novo método, consultar, vamos, agora, pegar a classe, ObterFilmes, e nela realizamos a seguinte
+
+    package teste.consulta;
+
+    import java.util.List;
+
+    import infra.DAO;
+    import modelo.muitospramuitos.Filme;
+
+    public class ObterFilmes {
+
+        public static void main(String[] args) {
+            
+            DAO<Filme> dao = new DAO<>(Filme.class);
+            //Considerando o arquivo, consultas.xml
+            //									name						:nota	valor
+            List<Filme> filmes = dao.consultar("obterFilmesComNotaMaiorQue", "nota", 8.5);
+            
+            for(Filme filme: filmes) {
+                System.out.println(filme.getNome());
+            }
+        }
+    }
+
+Agora, vamos rodar o código acima, que será mostrado a lista dos filmes que ganharam uma nota acima de "8.5".
+
+Bom, o Named Query é algo bem importante para JPA para realizar consultas personalizadas. Vale a pena dar uma atenção especial para Named Query para refinar a sua compreensão sobre.
 
 ## Aula 31 - Named Native Query:
 
