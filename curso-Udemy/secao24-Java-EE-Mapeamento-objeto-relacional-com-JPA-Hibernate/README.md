@@ -2937,8 +2937,207 @@ Seguir o link de leitura:
     https://stackoverflow.com/questions/2990799/difference-between-fetchtype-lazy-and-eager-in-java-persistence-api
 
 ## Aula 27 - Muitos Pra Muitos #01:
+Agora, vamos aprender sobre o relacionamento muito para muitos.
+
+Vamos criar um pacote, modelo.muitospramuitos, no projeto, exercicios-jpa, e nela criamos a classe "Sobrinho" e inserimos o seguinte
+
+    package modelo.muitospramuitos;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.ManyToMany;
+
+    @Entity
+    public class Sobrinho {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        @ManyToMany(mappedBy = "sobrinhos")
+        private List<Tio> tios = new ArrayList<>();
+        
+        public Sobrinho() {
+            
+        }
+
+        public Sobrinho(String nome) {
+            super();
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public List<Tio> getTios() {
+            return tios;
+        }
+
+        public void setTios(List<Tio> tios) {
+            this.tios = tios;
+        }
+    }
+
+Agora, no mesmo pacote, criamos uma classe "Tio" e nela inserimos o seguinte
+
+    package modelo.muitospramuitos;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.ManyToMany;
+
+    @Entity
+    public class Tio {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        @ManyToMany
+        private List<Sobrinho> sobrinhos = new ArrayList<>();
+        
+        public Tio() {
+            
+        }
+
+        public Tio(String nome) {
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public List<Sobrinho> getSobrinhos() {
+            return sobrinhos;
+        }
+
+        public void setSobrinhos(List<Sobrinho> sobrinhos) {
+            this.sobrinhos = sobrinhos;
+        }
+    }
+
+Em seguida, no arquivo, persistence.xml, configuramos o seguinte
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            <class>modelo.umpramuitos.Pedido</class>
+            <class>modelo.umpramuitos.ItemPedido</class>
+            <class>modelo.muitospramuitos.Sobrinho</class>
+            <class>modelo.muitospramuitos.Tio</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Agora, criamos um novo pacote, teste.muitospramuitos, dentro do projeto, exercicios-jpa, e, dentro do pacote, criamos a classe "NovoTioSobrinho" e inserimos o seguinte dentro dela
+
+    package teste.muitospramuitos;
+
+    import infra.DAO;
+    import modelo.muitospramuitos.Sobrinho;
+    import modelo.muitospramuitos.Tio;
+
+    public class NovoTioSobrinho {
+        
+        public static void main(String[] args) {
+            
+            Tio tia1 = new Tio("Maria");
+            Tio tio2 = new Tio("João");
+            
+            Sobrinho sobrinho1 = new Sobrinho("Junior");
+            Sobrinho sobrinha2 = new Sobrinho("Ana");
+            
+            tia1.getSobrinhos().add(sobrinho1);
+            sobrinho1.getTios().add(tia1);
+            
+            tia1.getSobrinhos().add(sobrinha2);
+            sobrinha2.getTios().add(tia1);
+            
+            tio2.getSobrinhos().add(sobrinho1);
+            sobrinho1.getTios().add(tio2);
+            
+            tio2.getSobrinhos().add(sobrinha2);
+            sobrinha2.getTios().add(tio2);
+            
+            //Persistindo os dados acima na base
+            DAO<Object> dao = new DAO<>();
+            dao.abrirT()
+                .incluir(tia1)
+                .incluir(tio2)
+                .incluir(sobrinho1)
+                .incluir(sobrinha2)
+                .fecharT()
+                .fechar();
+        }
+    }
+
+No caso, estamos inserindo na base, curso_java, as relações parentescas entre os tios e os sobrinhos. Podemos executar o código acima, donde será realizado inúmeras inserções criando uma nova tabela na base, curso_java.
+
+Conferimos pelo Workbench as inserções efetudas. Note que, nessa brincadeira, criamos três tabelas, Sobrinho, Tio e Tio_Sobrinho. Na terceira tabela, note que, estão contidos as relações de graus de parentescos entre tios e sobrinhos, enquanto que nas tabelas, Sobrinho e Tio, estão computadas os tios e sobrinhos. No caso, a relação, muitos para muitos, cria uma terceira tabela onde, nela, estará computado todas as combinações que conseguimos ter com as duas tabelas que estamos relacionando dessa forma.
+
+Note que, se tirarmos o "mappedBy" da entidade, Sobrinho, e colocarmos o mesmo na entidade, Tio, dropando as três tabelas e rodando, novamente, a classe "NovoTioSobrinho", vamos conseguir verificar que será criado, novamente, as duas tabelas, Sobrinho e Tio, porém a terceira tabela que mostra a relação entre essas duas tabelas será criado da forma, Sobrinho_Tio, com as mesmas lógicas.
 
 ## Aula 28 - Muitos Pra Muitos #02:
+
 
 ## Aula 29 - Aviso sobre o arquivo XML criado na aula a seguir:
 E aí, pessoal! Tudo bem?
