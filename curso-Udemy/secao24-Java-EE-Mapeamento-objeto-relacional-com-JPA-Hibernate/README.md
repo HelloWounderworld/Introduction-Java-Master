@@ -3136,8 +3136,231 @@ Conferimos pelo Workbench as inserções efetudas. Note que, nessa brincadeira, 
 
 Note que, se tirarmos o "mappedBy" da entidade, Sobrinho, e colocarmos o mesmo na entidade, Tio, dropando as três tabelas e rodando, novamente, a classe "NovoTioSobrinho", vamos conseguir verificar que será criado, novamente, as duas tabelas, Sobrinho e Tio, porém a terceira tabela que mostra a relação entre essas duas tabelas será criado da forma, Sobrinho_Tio, com as mesmas lógicas.
 
-## Aula 28 - Muitos Pra Muitos #02:
+## Aula 28 - Muitos Pra Muitos - Cascade #02:
+Vamos realizar mais exercícios de Muitos para Muitos.
 
+No caso, no projeto, exercicios-jpa, do pacote, modelo.muitospramuitos, criamos as classes "Ator" e "Filme" e nelas inserimos o seguinte.
+
+Na classe, Ator, inserimos
+
+    package modelo.muitospramuitos;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.JoinColumn;
+    import javax.persistence.JoinTable;
+    import javax.persistence.ManyToMany;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "atores")
+    public class Ator {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        @ManyToMany(mappedBy = "atores", cascade = CascadeType.PERSIST)
+        private List<Filme> filmes = new ArrayList<>();
+        
+        public Ator() {
+            
+        }
+
+        public Ator(String nome) {
+            super();
+            this.nome = nome;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public List<Filme> getFilmes() {
+            return filmes;
+        }
+
+        public void setFilmes(List<Filme> filmes) {
+            this.filmes = filmes;
+        }
+        
+    }
+
+e na classe, Filme, inserimos o seguinte
+
+    package modelo.muitospramuitos;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.JoinColumn;
+    import javax.persistence.JoinTable;
+    import javax.persistence.ManyToMany;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "filmes")
+    public class Filme {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        private Double nota;
+        
+        @ManyToMany(cascade = CascadeType.PERSIST)
+        @JoinTable(
+                name = "atores_filmes",
+                joinColumns = @JoinColumn(name = "filme_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "ator_id", referencedColumnName = "id")
+        )
+        private List<Ator> atores;
+        
+        public Filme() {
+            
+        }
+
+        public Filme(String nome, Double nota) {
+            super();
+            this.nome = nome;
+            this.nota = nota;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Double getNota() {
+            return nota;
+        }
+
+        public void setNota(Double nota) {
+            this.nota = nota;
+        }
+
+        public List<Ator> getAtores() {
+            if(atores == null) {
+                atores = new ArrayList<>();
+            }
+            return atores;
+        }
+
+        public void setAtores(List<Ator> atores) {
+            this.atores = atores;
+        }
+        
+        public void adicionarAtor(Ator ator) {
+            if(ator != null && !getAtores().contains(ator)) {
+                getAtores().add(ator);
+                
+                if(!ator.getFilmes().contains(this)) {
+                    ator.getFilmes().add(this);
+                }
+            }
+        }
+    }
+
+Agora, no arquivo, persistence.xml, vamos ter que considerar essas duas classes
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            <class>modelo.umpramuitos.Pedido</class>
+            <class>modelo.umpramuitos.ItemPedido</class>
+            <class>modelo.muitospramuitos.Sobrinho</class>
+            <class>modelo.muitospramuitos.Tio</class>
+            <class>modelo.muitospramuitos.Ator</class>
+            <class>modelo.muitospramuitos.Filme</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Agora, no pacote, teste.muitospramuitos, criamos uma nova classe "NovoFilmeAtor" e nela inserimos o seguinte
+
+    package teste.muitospramuitos;
+
+    import infra.DAO;
+    import modelo.muitospramuitos.Ator;
+    import modelo.muitospramuitos.Filme;
+
+    public class NovoFilmeAtor {
+
+        public static void main(String[] args) {
+            
+            Filme filmeA = new Filme("Star Wars Ep 4", 8.7);
+            Filme filmeB = new Filme("O Fugitivo", 8.9);
+            
+            Ator atorA = new Ator("Harrison Ford");
+            Ator atrizB = new Ator("Carrie Fisher");
+            
+            filmeA.adicionarAtor(atorA);
+            filmeA.adicionarAtor(atrizB);
+            
+            filmeB.adicionarAtor(atorA);
+            
+            //Persistindo, agora, o que foi declarado acima
+            DAO<Filme> dao = new DAO<>();
+            dao.incluirAtomico(filmeA);
+        }
+    }
+
+Executando o código acima, o "cascade" que colocamos nas duas entidades, Ator e Filme, vai nos permitir inserir nas tabelas correspondentes, que foram criados, todos os autores e filmes que foram consideramos acima, por meio do método "incluirAtomico", sem a necessidade de realizarmos todo o processo que foi feito na última aula. Ou seja, o "cascade" nos permite que ocorra um efeito cascata para as execuções que forem processadas.
 
 ## Aula 29 - Aviso sobre o arquivo XML criado na aula a seguir:
 E aí, pessoal! Tudo bem?
