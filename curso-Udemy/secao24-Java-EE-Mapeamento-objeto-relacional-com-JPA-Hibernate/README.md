@@ -3561,9 +3561,633 @@ Agora, vamos rodar o código acima, que será mostrado a lista dos filmes que ga
 Bom, o Named Query é algo bem importante para JPA para realizar consultas personalizadas. Vale a pena dar uma atenção especial para Named Query para refinar a sua compreensão sobre.
 
 ## Aula 31 - Named Native Query:
+Vamos, agora, aprender a realizar uma consulta nativa.
+
+O resultado dessa consulta nativa será colocado dentro de uma classe, que não é uma entidade.
+
+Para o começo, vamos criar uma classe, NotaFilme, dentro do pacote, modelo.consulta, do projeto, exercicios-jpa, e nela inserimos o seguinte
+
+    package modelo.consulta;
+
+    public class NotaFilme {
+
+        private double media;
+
+        public NotaFilme(double media) {
+            super();
+            this.media = media;
+        }
+
+        public double getMedia() {
+            return media;
+        }
+
+        public void setMedia(double media) {
+            this.media = media;
+        }
+    }
+
+Agora, no arquivo, consultas.xml, vamos colocar o seguinte
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <entity-mappings version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+
+        <named-query name="obterFilmesComNotaMaiorQue">
+            <query>
+                select distinct f from Filme f
+                join fetch f.atores
+                where f.nota > :nota
+            </query>
+        </named-query>
+        
+        <named-native-query name="obterMediaGeralDosFilmes" result-set-mapping="NotaFilmeMap">
+            <query>
+                select avg(nota) as media from filmes
+            </query>
+        </named-native-query>
+        
+        <sql-result-set-mapping name="NotaFilmeMap">
+            <constructor-result target-class="modelo.consulta.NotaFilme">
+                <column name="media" class="java.lang.Double" />
+            </constructor-result>
+        </sql-result-set-mapping>
+
+    </entity-mappings>
+
+Agora, dentro do pacote, teste.consulta, do mesmo projeto, vamos criar uma classe "ObterMediaFilmes" e nela inserimos o seguinte
+
+    package teste.consulta;
+
+    import infra.DAO;
+    import modelo.consulta.NotaFilme;
+
+    public class ObterMediaFilmes {
+
+        public static void main(String[] args) {
+            
+            DAO<NotaFilme> dao = new DAO<>(NotaFilme.class);
+            
+            NotaFilme nota = dao.consultarUm("obterMediaGeralDosFilmes");
+            System.out.println(nota.getMedia());
+            
+            dao.fechar();
+        }
+    }
+
+Agora, na classe, DAO, do pacote, infra, do mesmo projeto, vamos criar um novo método, consultarUm, e definimos esse método como seguinte
+
+    package infra;
+
+    import java.util.List;
+
+    import javax.persistence.EntityManager;
+    import javax.persistence.EntityManagerFactory;
+    import javax.persistence.Persistence;
+    import javax.persistence.TypedQuery;
+
+    public class DAO<E> {
+
+        private static EntityManagerFactory emf;
+        private EntityManager em;
+        private Class<E> classe;
+        
+        static {
+            try {
+                emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            } catch(Exception e) {
+                // logar -> log4j
+            }
+        }
+        
+        public DAO() {
+            this(null);
+        }
+        
+        public DAO(Class<E> classe) {
+            this.classe = classe;
+            em = emf.createEntityManager();
+        }
+        
+        public DAO<E> abrirT() {
+            em.getTransaction().begin();
+            return this;
+        }
+        
+        public DAO<E> fecharT() {
+            em.getTransaction().commit();
+            return this;
+        }
+        
+        public DAO<E> incluir(E entidade) {
+            em.persist(entidade);
+            return this;
+        }
+        
+        public DAO<E> incluirAtomico(E entidade) {
+            return this.abrirT().incluir(entidade).fecharT();
+        }
+        
+        public E obterPorID(Object id) {
+            return em.find(classe, id);
+        }
+        
+        public List<E> obterTodos() {
+            return this.obterTodos(10, 0);
+        }
+        
+        public List<E> obterTodos(int qtde, int deslocamento) {
+            if(classe == null) {
+                throw new UnsupportedOperationException("Classe nula.");
+            }
+            
+            String jpql = "select e from " + classe.getName() + " e";
+            TypedQuery<E> query = em.createQuery(jpql, classe);
+            query.setMaxResults(qtde);
+            query.setFirstResult(deslocamento);
+            return query.getResultList();
+        }
+        
+        public List<E> consultar(String nomeConsulta, Object... params) {
+            TypedQuery<E> query = em.createNamedQuery(nomeConsulta, classe);
+            
+            for(int i = 0; i < params.length; i+= 2) {
+                query.setParameter(params[i].toString(), params[i + 1]);
+            }
+            
+            return query.getResultList();
+        }
+        
+        public E consultarUm(String nomeConsulta, Object... params) {
+            List<E> lista = consultar(nomeConsulta, params);
+            return lista.isEmpty() ? null : lista.get(0);
+        }
+        
+        public void fechar() {
+            em.close();
+        }
+    }
+
+Feito a inclusão do método acima, agora, vamos rodar a classe, ObterMediaFilmes, que aí vamos conseguir adquirir a média da nota pela base, curso_java, da tabela, filmes.
 
 ## Aula 32 - Embeddable:
+Vamos usar a notação "Embeddable" para conseguirmos melhorar a maneira como se reflete no banco de dados a relação de herança.
+
+No projeto, exercicios-jpa, vamos criar um novo pacote, modelo.composição, e dentro dela criamos as classes, Endereco, Fornecedor e Funcionario.
+
+Para a entidade, Funcionario, definimos o seguinte
+
+    package modelo.composicao;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "funcionarios")
+    public class Funcionario {
+
+        @Id
+        @GeneratedValue(strategy =  GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        private Endereco endereco;
+        
+        public Funcionario() {
+            
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Endereco getEndereco() {
+            return endereco;
+        }
+
+        public void setEndereco(Endereco endereco) {
+            this.endereco = endereco;
+        }
+    }
+
+E para a entidade, Fornecedor, definimos o seguinte
+
+    package modelo.composicao;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "fornecedores")
+    public class Fornecedor {
+
+        @Id
+        @GeneratedValue(strategy =  GenerationType.IDENTITY)
+        private Long id;
+        
+        private String nome;
+        
+        private Endereco endereco;
+        
+        public Fornecedor() {
+            
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public Endereco getEndereco() {
+            return endereco;
+        }
+
+        public void setEndereco(Endereco endereco) {
+            this.endereco = endereco;
+        }
+        
+    }
+
+Agora, para a classe, Endereco, iremos utilizar o @Embeddable. Isso nos permitirá evitar de criar uma tabela, Endereco, e os dados que queremos definir para essa classe serão computados, todas elas, para as outras duas entidades, Fornecedor e Funcionario. Por isso definimos o atributo Endereco nessas duas entidades. Daí, teremos o seguinte
+
+    package modelo.composicao;
+
+    import javax.persistence.Embeddable;
+
+    @Embeddable
+    public class Endereco {
+
+        private String logradouro;
+        private String complemento;
+        
+        public String getLogradouro() {
+            return logradouro;
+        }
+        
+        public void setLogradouro(String logradouro) {
+            this.logradouro = logradouro;
+        }
+        
+        public String getComplemento() {
+            return complemento;
+        }
+        
+        public void setComplemento(String complemento) {
+            this.complemento = complemento;
+        }
+        
+    }
+
+Agora, vamos rodar a classe, ObterMediaFilmes, que isso irá realizar a criação das tabelas que definimos.
+
+Não esqueça de considerar essas três classes criadas no arquivo, persistence.xml.
+
+Analisando isso no Workbench, vamos ver que foram criados duas tabelas, fornecedores e funcionarios. Notamos que, pelo efeito do Embeddable, os dois atributos, logradouro e complemento, foram considerados como coluna para essas duas tabelas.
 
 ## Aula 33 - Desafio Herança:
+Vamos te dar um desafio de um tema do JPA que não foi abordado ainda.
+
+O intuito desse desafio é mostrar que na vida real, iremos nos deparar com situações em que vamos lidar com muita situações desconhecidas e isso exigirá de nós o exercimento de uma competência de saber procurar e buscar para entender. Ou seja, a habilidade de pesquisar e do autodidatismo para procurar a resolver os problemas, sejam elas já com alguma solução ou aquelas ainda não solucionados, essa última são as mais emocionantes.
+
+Por isso que iremos passar um desafio de um conteúdo que não foi abordado na aula ainda, pois o intuito é exercer esse mindset de aprender a pesquisar e aprender por conta própria para conseguir resolver o problema.
+
+Desafio: procurar na internet como se implementa a herança pelo JPA.
 
 ## Aula 34 - Herança:
+Bom, deixarei um exemplo bem simples de uma das, dentre várias, maneiras de implementar uma herança via JPA, @Inheritance.
+
+Vamos criar um novo pacote, modelo.heranca, e, dentro desse pacote, criamos as classes, Aluno e AlunoBolsista.
+
+Na entidade, Aluno, colocamos o seguinte
+
+    package modelo.heranca;
+
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+    import javax.persistence.Inheritance;
+    import javax.persistence.InheritanceType;
+
+    @Entity
+    @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+    public class Aluno {
+
+        @Id
+        private Long matricula;
+        
+        private String nome;
+        
+        public Aluno() {
+            
+        }
+
+        public Aluno(Long matricula, String nome) {
+            super();
+            this.matricula = matricula;
+            this.nome = nome;
+        }
+
+        public Long getMatricula() {
+            return matricula;
+        }
+
+        public void setMatricula(Long matricula) {
+            this.matricula = matricula;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+        
+    }
+
+E na entidade, AlunoBolsista, colocamos o seguinte
+
+    package modelo.heranca;
+
+    import javax.persistence.Entity;
+
+    @Entity
+    public class AlunoBolsista extends Aluno {
+
+        private double valorBolsa;
+        
+        public AlunoBolsista() {
+            
+        }
+
+        public AlunoBolsista(Long matricula, String nome, double valorBolsa) {
+            super(matricula, nome);
+            this.valorBolsa = valorBolsa;
+        }
+
+        public double getValorBolsa() {
+            return valorBolsa;
+        }
+
+        public void setValorBolsa(double valorBolsa) {
+            this.valorBolsa = valorBolsa;
+        }
+        
+    }
+
+Falta, considerarmos essas duas entidades acima dentro do arquivo, persistence.xml, da seguinte forma
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <persistence version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        <persistence-unit name="exercicios-jpa">
+            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+            
+            <mapping-file>META-INF/consultas.xml</mapping-file>
+            
+            <class>modelo.basico.Usuario</class>
+            <class>modelo.basico.Produto</class>
+            <class>modelo.umpraum.Cliente</class>
+            <class>modelo.umpraum.Assento</class>
+            <class>modelo.umpramuitos.Pedido</class>
+            <class>modelo.umpramuitos.ItemPedido</class>
+            <class>modelo.muitospramuitos.Sobrinho</class>
+            <class>modelo.muitospramuitos.Tio</class>
+            <class>modelo.muitospramuitos.Ator</class>
+            <class>modelo.muitospramuitos.Filme</class>
+            <class>modelo.composicao.Endereco</class>
+            <class>modelo.composicao.Fornecedor</class>
+            <class>modelo.composicao.Funcionario</class>
+            <class>modelo.heranca.Aluno</class>
+            <class>modelo.heranca.AlunoBolsista</class>
+            
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso_java"/>
+                <property name="javax.persistence.jdbc.user" value="root"/>
+                <property name="javax.persistence.jdbc.password" value="123456"/>
+                
+                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+                <property name="hibernate.show_sql" value="true"/>
+                <property name="hibernate.format_sql" value="true"/>
+                <property name="hibernate.hbm2ddl.auto" value="update"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+
+Assim, vamos rodar, novamente, a classe, ObterMediaFilmes, para verificarmos que tipo de efeito, @Inheritance, irá causar na base de dados, curso_java.
+
+Conferindo, agora, no Workbench, notamos que foram criados duas tabelas, Aluno e AlunoBolsista. E, notamos que, enquanto na tabela, Aluno, temos duas colunas, matricula e nome, na tabela, AlunoBolsista, temos essas duas mesmas colunas e a coluna, valorBolsa, nela que está sendo computado. Isso, por conta do uso, @Inheritance.
+
+Se comentarmos o uso do @Inheritance, dropando as duas tabelas, Aluno e AlunoBolsista, e rodando, novamente, a classe, ObterMediaFilmes, será criado, desta vez, uma única tabela, Aluno, e dentro dela estará computado três colunas, matricula, nome e valorBolsa.
+
+O ruim da forma acima, é que quanto mais uma classe pai tiver filhos, em uma única tabela, haverá campos em que terá muitos null's o que polui a qualidade de dados da tabela. Enquanto que, o uso do @Inheritance, nos permite ter mais controle das heranças de forma que para cada filho, haverá uma tabela apropriada para ela, sem que o pai perca alguma ifnormação. Ou seja, ficará mais organizado a maneira como será populada os dados.
+
+Agora, vamos experimentar uma outra forma de uso do @Inheritance, combinado com o @Discriminator.
+
+Na entidade, Aluno, colocamos o seguinte
+
+    package modelo.heranca;
+
+    import javax.persistence.DiscriminatorColumn;
+    import javax.persistence.DiscriminatorType;
+    import javax.persistence.DiscriminatorValue;
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+    import javax.persistence.Inheritance;
+    import javax.persistence.InheritanceType;
+
+    @Entity
+    //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+    @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+    @DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
+    @DiscriminatorValue("AL")
+    public class Aluno {
+
+        @Id
+        private Long matricula;
+        
+        private String nome;
+        
+        public Aluno() {
+            
+        }
+
+        public Aluno(Long matricula, String nome) {
+            super();
+            this.matricula = matricula;
+            this.nome = nome;
+        }
+
+        public Long getMatricula() {
+            return matricula;
+        }
+
+        public void setMatricula(Long matricula) {
+            this.matricula = matricula;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+        
+    }
+
+Agora, na entidade, AlunoBolsista, vamos colocar o seguinte
+
+    package modelo.heranca;
+
+    import javax.persistence.DiscriminatorValue;
+    import javax.persistence.Entity;
+
+    @Entity
+    @DiscriminatorValue("AB")
+    public class AlunoBolsista extends Aluno {
+
+        private double valorBolsa;
+        
+        public AlunoBolsista() {
+            
+        }
+
+        public AlunoBolsista(Long matricula, String nome, double valorBolsa) {
+            super(matricula, nome);
+            this.valorBolsa = valorBolsa;
+        }
+
+        public double getValorBolsa() {
+            return valorBolsa;
+        }
+
+        public void setValorBolsa(double valorBolsa) {
+            this.valorBolsa = valorBolsa;
+        }
+        
+    }
+
+Por fim, vamos criar um novo pacote, teste.heranca, e nela criamos a classe, NovoAluno, e nela inserimos o seguinte
+
+    package teste.heranca;
+
+    import infra.DAO;
+    import modelo.heranca.Aluno;
+    import modelo.heranca.AlunoBolsista;
+
+    public class NovoAluno {
+
+        public static void main(String[] args) {
+            
+            DAO<Aluno> alunoDAO = new DAO<>();
+            
+            Aluno aluno1 = new Aluno(123L, "João");
+            AlunoBolsista aluno2 = new AlunoBolsista(345L, "Maria", 1000);
+            
+            alunoDAO.incluirAtomico(aluno1);
+            alunoDAO.incluirAtomico(aluno2);
+            
+            alunoDAO.fechar();
+        }
+    }
+
+Agora, dropando as duas tabelas, Aluno e AlunoBolsista, vamos rodar o código acima.
+
+Analisando no Workbench, notamos que foi criado uma nova tabela, Aluno, e nela foram criados as colunas, nome, matricula, tipo e valorBolsa.
+
+Note que, nela foram incluídos dois dados, onde na coluna tipo, foi colocado o que definimos no Discriminator, que é um descriminador que deixa claro a distinção entre qual aluno é bolsista e outras que não são.
+
+Mas, vimos que, a criação do Single Table, se encaixa no cenário em que está propícia para tornar a tabela bem poluída.
+
+Vamos, então, realizar uma pequena melhoria mudando o termo, SINGLE_TABLE, para o outro termo, JOINED, e verificamos o que ocorrerá com isso. Na entidade, Aluno, realizamos então 
+
+    package modelo.heranca;
+
+    import javax.persistence.DiscriminatorColumn;
+    import javax.persistence.DiscriminatorType;
+    import javax.persistence.DiscriminatorValue;
+    import javax.persistence.Entity;
+    import javax.persistence.Id;
+    import javax.persistence.Inheritance;
+    import javax.persistence.InheritanceType;
+
+    @Entity
+    //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+    //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+    @Inheritance(strategy = InheritanceType.JOINED)
+    @DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
+    @DiscriminatorValue("AL")
+    public class Aluno {
+
+        @Id
+        private Long matricula;
+        
+        private String nome;
+        
+        public Aluno() {
+            
+        }
+
+        public Aluno(Long matricula, String nome) {
+            super();
+            this.matricula = matricula;
+            this.nome = nome;
+        }
+
+        public Long getMatricula() {
+            return matricula;
+        }
+
+        public void setMatricula(Long matricula) {
+            this.matricula = matricula;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+        
+    }
+
+Nisso, vamos dropar a tabela, Aluno, e rodamos, novamente, a classe, NovoAluno.
+
+Analisando o que surtiu de efeito pelo Worbench, notamos que foi criado duas tabelas, Aluno e AlunoBolsista, donde na tabela, Aluno, temos três colunas, tipo, nome e matricula. Enquanto que na tabela, AlunoBolsista, temos duas colunas, valorBolsa e matricula. Separando, assim, as tabelas. Mas que a relação entre elas estão evidentes por conta das matriculas que estão sendo computadas tanto na tabela, Aluno, quando na outra tabela, AlunoBolsista.
+
+Note que, o Discriminator, ainda está agindo direito, distinguindo direitinho de aluno bolsista com demais alunos.
+
+Além disso, conseguimos relacionar duas tabelas, sem a necessidade de utilizarmos o @OneToOne, usando apenas os recursos de herança que o JPA oferece.
