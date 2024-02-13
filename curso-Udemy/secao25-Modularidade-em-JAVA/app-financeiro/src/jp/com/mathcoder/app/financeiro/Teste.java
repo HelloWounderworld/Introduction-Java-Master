@@ -9,30 +9,36 @@ public class Teste {
 
 	public static void main(String[] args) {
 		
-		Calculadora calc = new Calculadora();
-		
-		System.out.println(calc.soma(2, 3, 4));
+//		Calculadora calc = new Calculadora();
+//		
+//		System.out.println(calc.soma(2, 3, 4));
 			
 //		System.out.println(calc.getLoggerClass());
 		
-		OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
-		System.out.println(opAritmeticas.soma(4, 5, 6));
+//		OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+//		System.out.println(opAritmeticas.soma(4, 5, 6));
+//		
+//		System.out.println(Calculadora.class.getName());
+//		System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
+//		System.out.println("Before " + calc.getId());
+//		
+//		try {
+//			Field fieldId = Calculadora.class.getDeclaredFields()[0];
+//			fieldId.setAccessible(true);
+////			System.out.println("Before " + fieldId.get(calc));
+//			fieldId.set(calc, "def");
+////			System.out.println("After " + fieldId.get(calc));
+//			fieldId.setAccessible(false);
+//			
+//			System.out.println("After " + calc.getId());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
-		System.out.println(Calculadora.class.getName());
-		System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
-		System.out.println("Before " + calc.getId());
+		Calc c1 = new Calc1();
+		Calc c2 = new Calc2();
 		
-		try {
-			Field fieldId = Calculadora.class.getDeclaredFields()[0];
-			fieldId.setAccessible(true);
-//			System.out.println("Before " + fieldId.get(calc));
-			fieldId.set(calc, "def");
-//			System.out.println("After " + fieldId.get(calc));
-			fieldId.setAccessible(false);
-			
-			System.out.println("After " + calc.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		System.out.println(c1.soma(1, 2, 3));
+		System.out.println(c2.soma(1, 2, 3));
 	}
 }

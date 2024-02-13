@@ -582,5 +582,100 @@ Além disso, podemos selecionar para qual módulo o pacote estará aberto
 Bom, podemos ver que, com o apontamento refinado acima, rodando novamente a classe, Teste, não tivemos nenhum problema.
  
 ## Aula 08 - Interface vs Implementação:
+Bom, vamos tentar entender a diferença entre Interface e Implementação.
+
+No caso, antes de abordarmos o assunto, em questão, vamos, primeiro, fazer algums preparativos que nos permitirá realizar a abordagem do assunto em questão.
+
+No projeto, app-financeiro, do pacote, jp.com.mathcoder.app.financeiro, criamos uma interface "Calc" e nela inserimos o seguinte
+
+    package jp.com.mathcoder.app.financeiro;
+
+    public interface Calc {
+
+        public double soma(double... nums);
+    }
+
+Bom, o que queremos discutir no assunto dessa aula, está em exatamente o tipo de flexibilidade que a implementaçãos nos fornece quando vc está utilizando a interface.
+
+No mesmo pacote, vamos criar uma classe, Calc1, e nela realizemos a implementação da interface, Calc, como seguinte
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.util.Iterator;
+
+    public class Calc1 implements Calc {
+
+        @Override
+        public double soma(double... nums) {
+            double total = 0;
+            for (int i = 0; i < nums.length; i++) {
+                total += nums[i];
+            }
+            return total;
+        }
+    }
+
+E criamos uma outra classe, no mesmo pacote, chamado "Calc2" e nela realizamos a seguinte implementação
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.util.Arrays;
+
+    public class Calc2 implements Calc {
+
+        @Override
+        public double soma(double... nums) {
+            return Arrays.stream(nums).reduce(0.0, (t, a) -> t + a);
+        }
+    }
+
+Agora, na classe, Teste, do mesmo pacote, vamos realizar a seguinte complementação
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.lang.reflect.Field;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+    //		Calculadora calc = new Calculadora();
+    //		
+    //		System.out.println(calc.soma(2, 3, 4));
+                
+    //		System.out.println(calc.getLoggerClass());
+            
+    //		OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+    //		System.out.println(opAritmeticas.soma(4, 5, 6));
+    //		
+    //		System.out.println(Calculadora.class.getName());
+    //		System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
+    //		System.out.println("Before " + calc.getId());
+    //		
+    //		try {
+    //			Field fieldId = Calculadora.class.getDeclaredFields()[0];
+    //			fieldId.setAccessible(true);
+    ////			System.out.println("Before " + fieldId.get(calc));
+    //			fieldId.set(calc, "def");
+    ////			System.out.println("After " + fieldId.get(calc));
+    //			fieldId.setAccessible(false);
+    //			
+    //			System.out.println("After " + calc.getId());
+    //		} catch (Exception e) {
+    //			e.printStackTrace();
+    //		}
+            
+            Calc c1 = new Calc1();
+            Calc c2 = new Calc2();
+            
+            System.out.println(c1.soma(1, 2, 3));
+            System.out.println(c2.soma(1, 2, 3));
+        }
+    }
+
+Bom, notamos que, na implementação que realizamos acima, não tivemos nenhum outro problema.
 
 ## Aula 09 - Provides With & Uses:
