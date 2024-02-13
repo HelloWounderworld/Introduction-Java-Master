@@ -334,8 +334,253 @@ Caso, vc queira apontar para mais projetos em específico, utilizando o export t
             to app.projeto1, app.projeto2, app.projeto3;
 
 ## Aula 07 - Módulos e Reflection:
+Vamos aprender uma sintaxe que existe em modules-info, chamado "open".
 
+Bom, no arquivo, module-info, do projeto, app-loggin, podemos realizar o seguinte
 
+    open module app.loggin {
+        exports jp.com.mathcoder.app.loggin;
+    }
+
+Bom, depois que fizemos isso, conseguimos ver conseguimos executar a classe, Teste, e, além disso, foi exibido nenhum outro erro.
+
+Mas, então, o que essa sintaxe "open" realiza?
+
+Basicamente, ela nos permite realizar um processo de introspecção. Ou seja, usar o Java reflection, que é o que nos permite alterar alguns dados privados de uma classe.
+
+No caso, por exemplo, vamos realizar a seguinte implementação na classe, Teste, como segue
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+            
+    //		System.out.println(calc.getLoggerClass());
+            
+            OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+            System.out.println(opAritmeticas.soma(4, 5, 6));
+            
+            System.out.println(Calculadora.class.getName());
+        }
+    }
+
+Ou seja, simplesmente, só printei o nome da path da classe, Calculadora, acima.
+
+Bom, agora, suponhamos que nessa classe, Calculadora, tenhamos algum atributo privado, como seguinte
+
+    package jp.com.mathcoder.app.calculo;
+
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+    //import jp.com.mathcoder.app.loggin.Logger;
+    import jp.com.mathcoder.app.loggin.Logger;
+
+    public class Calculadora {
+        
+        private String id = "abc";
+
+        private OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+
+        public double soma(double... nums) {
+            Logger.info("Somando...");
+            return opAritmeticas.soma(nums);
+        }
+        
+    //	public Class<Logger> getLoggerClass() {
+    //		return Logger.class;
+    //	}
+    }
+
+Bom, como havíamos dito, a sintaxe "open" que foi usada no arquivo, module-info, do projeto, app-loggin, nos permite realizar altedações de dados em atributos privados. Bom, levando em conta o cenário acima, como faremos isso?
+
+Primeiro, vamos tentar procurar esse atributo que foi declarado na classe, Teste, da seguinte forma
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+            
+    //		System.out.println(calc.getLoggerClass());
+            
+            OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+            System.out.println(opAritmeticas.soma(4, 5, 6));
+            
+            System.out.println(Calculadora.class.getName());
+            System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
+        }
+    }
+
+Bom, conseguimos ver que, visto que o atributo id foi definido primeiro, identificamos ela pelo print acima.
+
+No caso, podemos realizar o seguinte, utilizando o Field da classe reflect
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.lang.reflect.Field;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+            
+    //		System.out.println(calc.getLoggerClass());
+            
+            OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+            System.out.println(opAritmeticas.soma(4, 5, 6));
+            
+            System.out.println(Calculadora.class.getName());
+            System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
+            
+            try {
+                Field fieldId = Calculadora.class.getDeclaredFields()[0];
+                fieldId.setAccessible(true);
+                System.out.println("Before " + fieldId.get(calc));
+                fieldId.set(calc, "def");
+                System.out.println("After " + fieldId.get(calc));
+                fieldId.setAccessible(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+Bom, se rodarmos o código acima, será exibido um erro com o seguinte tipo de mensagem "module app.calculo does not "opens jp.com.mathcoder.app.calculo". No caso, o que está sendo reclamado aqui, é que o projeto, app-calculo, não está aberto para realizar tais modificações.
+
+Então, assim como fizemos para o arquivo, module-info, do projeto, app-loggin, realizamos para o projeto, app-calculo, em seu arquivo, module-info, o uso da sintaxe "open" como seguinte
+
+    open module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+    }
+
+Agora, rodando, novamente, a classe, Teste, como foi complementado, desta vez, não teremos nenhum erro.
+
+Bom, para facilitar o acesso do valor desse atributo privado, na própria classe, Calculadora, podemos definir o getter sobre esse atributo, como seguinte
+
+    package jp.com.mathcoder.app.calculo;
+
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+    //import jp.com.mathcoder.app.loggin.Logger;
+    import jp.com.mathcoder.app.loggin.Logger;
+
+    public class Calculadora {
+        
+        private String id = "abc";
+
+        private OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+
+        public double soma(double... nums) {
+            Logger.info("Somando...");
+            return opAritmeticas.soma(nums);
+        }
+
+        public String getId() {
+            return id;
+        }
+        
+    //	public Class<Logger> getLoggerClass() {
+    //		return Logger.class;
+    //	}
+        
+    }
+
+Feito isso, vamos alterar para a seguinte forma de consulta da classe, Teste
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.lang.reflect.Field;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+                
+    //		System.out.println(calc.getLoggerClass());
+            
+            OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+            System.out.println(opAritmeticas.soma(4, 5, 6));
+            
+            System.out.println(Calculadora.class.getName());
+            System.out.println(Calculadora.class.getDeclaredFields()[0].getName());
+            System.out.println("Before " + calc.getId());
+            
+            try {
+                Field fieldId = Calculadora.class.getDeclaredFields()[0];
+                fieldId.setAccessible(true);
+    //			System.out.println("Before " + fieldId.get(calc));
+                fieldId.set(calc, "def");
+    //			System.out.println("After " + fieldId.get(calc));
+                fieldId.setAccessible(false);
+                
+                System.out.println("After " + calc.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+Vimos que conseguimos alterar o valor de um atributo privado que estava definido dentro da classe, Calculadora.
+
+Mas, claro, se tirarmos o "open" do arquivo, module-info, do projeto, app-calculo, o processo acima não será possível de ser realizado.
+
+Uma outra forma de utilizarmos a sintaxe "opens" seria de uma maneira mais pontual. Em vez de deixarmos em aberto todos os pacotes que exportamos no arquivo, module-info, podemos deixar em aberto apenas certos pacotes da seguinte forma
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+        
+        opens jp.com.mathcoder.app.calculo;
+    }
+
+Se rodarmos, novamente, a classe, Teste, podemos ver que não teremos o problema. Ou seja, conseguimos fazer uma introspecção interna de forma pontual.
+
+Além disso, podemos selecionar para qual módulo o pacote estará aberto
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+        
+        opens jp.com.mathcoder.app.calculo to app.loggin, app.financeiro;
+    }
+
+Bom, podemos ver que, com o apontamento refinado acima, rodando novamente a classe, Teste, não tivemos nenhum problema.
+ 
 ## Aula 08 - Interface vs Implementação:
 
 ## Aula 09 - Provides With & Uses:
