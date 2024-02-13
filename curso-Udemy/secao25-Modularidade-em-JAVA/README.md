@@ -678,4 +678,7 @@ Agora, na classe, Teste, do mesmo pacote, vamos realizar a seguinte complementa�
 
 Bom, notamos que, na implementação que realizamos acima, não tivemos nenhum outro problema.
 
+Basicamente, a maneira como fizemos a implementação e criação de interface, iremos querer realizar de forma análoga em modularidades Java, na próxima aula.
+
 ## Aula 09 - Provides With & Uses:
+
