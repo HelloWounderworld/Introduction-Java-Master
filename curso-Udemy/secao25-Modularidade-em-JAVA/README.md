@@ -98,7 +98,78 @@ Dessa forma, criamos uma dependência entre os projetos, app-financeiro e app-ca
 Bom, na próxima aula, vamos conseguir definir os módulos.
 
 ## Aula 04 - Requires/Exports:
+Vamos, agora, criar uma classe bem simples dentro do projeto, app-calculo, para podermos reusa-las no outro projeto, app-financeiro.
 
+Bom, vamos criar o seguinte pacote "jp.com.mathcoder.app.calculo", de um jeito bem realista como é de costume ser feito tais pacotes em sistemas de emrpesas. Dentro desse pacote, criamos a seguinte classe "Calculadora" e nela inserimos o seguinte
+
+    package jp.com.mathcoder.app.calculo;
+
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Calculadora {
+
+        private OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+
+        public double soma(double... nums) {
+            return opAritmeticas.soma(nums);
+        }
+        
+    }
+
+Dentro do pacote, jp.com.mathcoder.app.calculo, criamos um sub-pacote, jp.com.mathcoder.app.calculo.interno, e nela criamos a classe "OperacoesAritmeticas", essa será a classe que queremos deixar como algo interno do projeto, ou seja, não visível, e nessa classe inserimos o seguinte
+
+    package jp.com.mathcoder.app.calculo.interno;
+
+    import java.util.Arrays;
+
+    public class OperacoesAritmeticas {
+
+        public double soma(double... nums) {
+            return Arrays.stream(nums).reduce(0.0, (t, a) -> t + a);
+        }
+    }
+
+Depois disso, vamos no projeto, app-financeiro, e nela criamos o pacote "jp.com.mathcoder.app.financeiro" e, dentro desse pacote, criamos a classe, Teste, e nela inserimos o seguinte
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+        }
+    }
+
+Note que, nesse momento, vemos que a classe, Calculadora, que instanciamos está com um erro, pois no projeto, app-financeiro, ela não está visível do ponto de vista do projeto, app-calculo.
+
+No caso, vamos precisar que essa classe, Calculadora, fique visível para o projeto, app-financeiro. Logo, no arquivo, module-info.java, do projeto, app-calculo, coloquemos o seguinte
+
+    module app.calculo {
+        exports jp.com.mathcoder.app.calculo;
+    }
+
+Isso torna as classes de até nesse nível de pacote, visíveis. O sub-pacote, interno, não ficará visível para isso.
+
+Entretante, o feito acima não é o suficiente para conseguirmos utilizar a classe, Calculadora, no outro projeto. Vamos precisar realizar um require no arquivo, module-info, do projeto, app-financeiro, da seguinte forma
+
+    module app.financeiro {
+        
+        requires java.base;
+        requires app.calculo;
+    }
+
+Feito os ajustes acima, finalmente, podemos rodar a classe, Teste, verificando que deu certo.
+
+Bom, essa aula foi os feitos iniciais de manipulação do arquivo, module-info.java, para conseguirmos estabelecer os apontamentos de um projeto para o outro.
+
+Lembra do que foi abordado na aula introdutória e conceitual sobre a má prática que é uma arquitetura cíclica e que tal arquivo, module-info.java, nos impede de estabelecer esse tipo de relação? Bom, como prometido, no arquivo, module-info.java, do projeto, app-calculo, se colocarmos "requires app.financeiro", vamos ver que ela irá mostrar um erro, indicando que não podemos estabelecer essa arquitetura ciclica.
+
+Bom, lembre-se que a dependência cíclica é uma das piores relações que poderia estabelecer no ramo de modularidade e o arquivo, module-info, nos permitiu, dentre outros e vários recursos que a mesma possui, evitar que estabeleça essa dependencia cíclica.
 
 ## Aula 05 - Requires Transitive:
 
