@@ -172,6 +172,124 @@ Lembra do que foi abordado na aula introdutória e conceitual sobre a má práti
 Bom, lembre-se que a dependência cíclica é uma das piores relações que poderia estabelecer no ramo de modularidade e o arquivo, module-info, nos permitiu, dentre outros e vários recursos que a mesma possui, evitar que estabeleça essa dependencia cíclica.
 
 ## Aula 05 - Requires Transitive:
+Vamos abordar um outro assunto de Requires, que é o Require Transitive.
+
+Bom, para entendermos bem esse conceito, vamos criar um outro novo projeto, app-loggin, pelo mesmo passo a passo que utilizamos para criamos os dois projetos, app-calculo e app-financeiro.
+
+Bom, dentro desse projeto, app-loggin, vamos criar um novo pacote "jp.com.mathcoder.app.loggin" e, dentro desse pacote, criamos uma nova classe, Logger, e nela inserimos o seguinte
+
+    package jp.com.mathcoder.app.loggin;
+
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+
+    public class Logger {
+
+        public static void info(String msg) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            System.out.println("[INFO]" + sdf.format(new Date()) + " - " + msg);
+        }
+    }
+
+Agora, vamos usar essa função, Logger, dentro do projeto, app-calculo. Mas, como foi feito para os dois projetos, app-financeiro e app-calculo, vamos ter que, primeiro, estabelecer as dependências entre os projetos, app-calculo e app-loggin, para conseguirmos utilizar dos recursos do module-info.java. Para isso, como foi feito antes, vamos estabelecer o seguinte passo a passo, sobre o app-calculo
+
+    Build Path -> Configure Build Path -> Seleciona a aba Projects -> Modulepath -> Add -> Seleciona "app-loggin" -> Ok -> Apply and Close
+
+Dessa forma, criamos uma dependência entre os projetos, app-calculo e app-loggin.
+
+Agora, no projeto, app-loggin, vamos exportar o pacote, jp.com.mathcoder.app.loggin, da seguinte forma
+
+    module app.loggin {
+        exports jp.com.mathcoder.app.loggin;
+    }
+
+Em seguida, no arquivo, module-info, do projeto, app-calculo, vamos dar requires desse projeto, app-loggin, da seguinte forma
+
+    module app.calculo {
+        requires app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+    }
+
+Agora, sim, vamos conseguir utilizar as classes do projeto, app-loggin, dentro da classe, app-calculo. Logo, na classe, OperacoesAritmeticas, vamos realizar o seguinte
+
+    package jp.com.mathcoder.app.calculo.interno;
+
+    import java.util.Arrays;
+    import jp.com.mathcoder.app.loggin.Logger;
+
+    public class OperacoesAritmeticas {
+
+        public double soma(double... nums) {
+            Logger.info("Somando...");
+            return Arrays.stream(nums).reduce(0.0, (t, a) -> t + a);
+        }
+    }
+
+E, finalmente, vamos rodar a classe, Teste, que está no projeto, app-financeiro e vemos que a função definida no projeto, app-loggin, em efeito cascata, surtiu efeito, visto que foi usado na classe, Calculadora.
+
+Entretanto, o que realmente quero mostrar nessa aula não é isso, pois somente configuramos o ambiente para, finalmente, conseguirmos explicar o que queremos que é o assunto foco dessa aula.
+
+Visto que conseguimos importar a classe, Logger, dentro do projeto, app-calculo, dentro da classe, Calculadora, conseguimos relizar o seguinte
+
+    package jp.com.mathcoder.app.calculo;
+
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+    import jp.com.mathcoder.app.loggin.Logger;
+
+    public class Calculadora {
+
+        private OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+
+        public double soma(double... nums) {
+            return opAritmeticas.soma(nums);
+        }
+        
+        public Class<Logger> getLoggerClass() {
+            return Logger.class;
+        }
+    }
+
+No caso, o que isso nos permite realizar? Bom, na classe, Teste, do projeto, app-financeiro, vamos conseguir realizar o seguinte
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+            
+            System.out.println(calc.getLoggerClass());
+        }
+    }
+
+Ao rodarmos o código acima, em que pegamos o método, getLoggerClass(), que foi definido na classe, Calculadora, acima, não irá funcionar, pois o projeto, app-loggin, não está visível pelo projeto, app-financeiro. O que é curioso, visto que, no método, soma, da classe, Calculadora, conseguimos verificar o resultado da função, info, definida dentro da classe, Logger. No caso, para corrigirmos o cenário acima, precisamos fazer com que o projeto, app-financeiro, reconheça o projeto, app-loggin. Mas, a maneira como realizamos o requires não será da mesma forma como fizemos antes.
+
+No caso, visto que a classe, Logger, é uma classe que queremos que seja exportado por uma transição, no arquivo, module-info, do projeto, app-calculo, vamos precisar realizar um requires transitive, como segue
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+    }
+
+Em seguida, no arquivo, modelo-info, do projeto, app-financeiro, vamos precisar realizar o seguinte
+
+    module app.financeiro {
+        
+        requires java.base; // Por padrão
+        requires app.calculo;
+        requires app.loggin;
+    }
+
+E, além disso, pelo build path, estabelecer uma relação de dependência com o projeto, app-loggin.
+
+Feito isso, note que, o erro que estava sendo exibido na classe, Teste, sumiu e conseguimos, agora, rodar a classe, Teste, sem nenhum problema.
+
+Bom, vamos tirar as dependências dos módulos, a abordagem que fizemos nessa aula, fica por aqui. Tiramos a relação de dependência entre os projetos, app-financeiro e app-loggin, e apagamos o println do getLoggerClass da classe, Teste, e apagamos o método, getLoggerClass, da classe, Calculadora.
 
 ## Aula 06 - Exports To:
 
