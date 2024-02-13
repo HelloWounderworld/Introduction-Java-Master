@@ -681,4 +681,156 @@ Bom, notamos que, na implementação que realizamos acima, não tivemos nenhum o
 Basicamente, a maneira como fizemos a implementação e criação de interface, iremos querer realizar de forma análoga em modularidades Java, na próxima aula.
 
 ## Aula 09 - Provides With & Uses:
+Bom, antes de abordarmos o conceito em questão, vamos preparar o ambiente que nos tornará ápitos para conseguirmos seguir com a abordagem.
 
+Criamos, primeiro, um novo projeto, app-api-publica, da mesma forma que criamos os outros três projetos, app-financeiro, app-calculo e app-loggin, mas com o nome do modulo "app.api".
+
+Dentro desse projeto, vamos criar um novo pacote "jp.com.mathcoder.app" e dentro desse pacote, criamos uma nova interface "Calculadora" e nela inserimos o seguinte
+
+    package jp.com.mathcoder.app;
+
+    public interface Calculadora {
+
+        public double soma(double...nums);
+    }
+
+Agora, no projeto, app-calculo, do pacote, jp.com.mathcoder.app.calculo, mudamos o nome da classe, Calculadora, para "CalculadoraImpl", usando o refactor e rename. Bom, feito essa forma de renomeio, vamos ver que as outras classes de outros projetos que instanciam essa classe já são ajustados automaticamente.
+
+Agora, dentro do arquivo, module-info, do projeto, app-api-public, vamos exportar o seguinte
+
+    module app.api {
+        exports jp.com.mathcoder.app;
+    }
+
+E vamos ter que fazer com que o projeto, app-api-public, dependa do projeto, app-calculo, então realizamos essa dependência pelo Build Path sobre o projeto, app-calculo, e, além disso, damos o require no arquivo, module-info, do projeto, app-calculo, da seguinte forma
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+        
+        opens jp.com.mathcoder.app.calculo to app.loggin, app.financeiro;
+        
+        requires app.api;
+    }
+
+Agora, na classe, CalculadoraImpl, do projeto, app-calculo, vamos implementar a classe, Calculadora, do projeto, app-api-public, da seguinte forma
+
+    package jp.com.mathcoder.app.calculo;
+
+    import jp.com.mathcoder.app.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+    //import jp.com.mathcoder.app.loggin.Logger;
+    import jp.com.mathcoder.app.loggin.Logger;
+
+    public class CalculadoraImpl implements Calculadora {
+        
+        private String id = "abc";
+
+        private OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+
+        public double soma(double... nums) {
+            Logger.info("Somando...");
+            return opAritmeticas.soma(nums);
+        }
+
+        public String getId() {
+            return id;
+        }
+        
+    //	public Class<Logger> getLoggerClass() {
+    //		return Logger.class;
+    //	}
+        
+    }
+
+Além disso, no arquivo, module-info, do projeto, app-calculo, vamos declarar que o projeto, app-api-public, está sendo implementada utilizando a sintaxe "provides/with" da seguinte forma
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+        
+        opens jp.com.mathcoder.app.calculo to app.loggin, app.financeiro;
+        
+        requires app.api;
+        provides jp.com.mathcoder.app.Calculadora
+            with jp.com.mathcoder.app.calculo.CalculadoraImpl;
+    }
+
+Dessa forma, no modulo, app.financeiro, podemos tirar o requires para app.calculo, e colocarmos para app.api, e colocar o projeto, app-api-public, como dependente do projeto, app-financeiro. Não podemos tirar o projeto, app-calculo, da dependência do projeto, app-financeiro, pois está ocorrêndo uma identificação indireta das dependências aqui.
+
+Agora, na classe, Teste, vamos realizar o seguinte ajustes
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import java.lang.reflect.Field;
+    import java.util.ServiceLoader;
+
+    import jp.com.mathcoder.app.Calculadora;
+    //import jp.com.mathcoder.app.calculo.CalculadoraImpl;
+    //import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+    //		CalculadoraImpl calc = new CalculadoraImpl();
+            
+            Calculadora calc = ServiceLoader
+                    .load(Calculadora.class)
+                    .findFirst()
+                    .get();
+            
+            System.out.println(calc.soma(2, 3, 4));
+                
+    //		System.out.println(calc.getLoggerClass());
+            
+    //		OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+    //		System.out.println(opAritmeticas.soma(4, 5, 6));
+            
+    //		System.out.println(CalculadoraImpl.class.getName());
+    //		System.out.println(CalculadoraImpl.class.getDeclaredFields()[0].getName());
+    //		System.out.println("Before " + calc.getId());
+    //		
+    //		try {
+    //			Field fieldId = CalculadoraImpl.class.getDeclaredFields()[0];
+    //			fieldId.setAccessible(true);
+    ////			System.out.println("Before " + fieldId.get(calc));
+    //			fieldId.set(calc, "def");
+    ////			System.out.println("After " + fieldId.get(calc));
+    //			fieldId.setAccessible(false);
+    //			
+    //			System.out.println("After " + calc.getId());
+    //		} catch (Exception e) {
+    //			e.printStackTrace();
+    //		}
+            
+            Calc c1 = new Calc1();
+            Calc c2 = new Calc2();
+            
+            System.out.println(c1.soma(1, 2, 3));
+            System.out.println(c2.soma(1, 2, 3));
+        }
+    }
+
+Bom, ao rodarmos o código acima, será exibido um erro que reclama de "uses". Pois, falta, dentro do arquivo, module-info, declararmos que estamos usando o projeto, app-api-public, chamando pelo módulo
+
+    module app.financeiro {
+        
+        requires java.base; // Por padrão
+    //	requires app.calculo;
+    //	requires app.loggin;
+        requires app.api;
+        uses jp.com.mathcoder.app.Calculadora;
+    }
+
+Agora, sim, rodando, novamente, a classe, Teste, ela voltará a funcionar normalmente.
+
+Podemos ver uma vantagem muito grande aqui na implementação do processo de interfaces, pois, note que, ao criarmos um projeto que cumpre o papel de uma interface (Calculadora), nas implementações (CalculadoraImpl) que implementam essa interface, poderíamos ter mais de uma. Dai, por via da sintaxe "uses" podemos apontar para diferentes tipos de implementações onde haverá o método que foi implementado no projeto que cumpre o papel de interface (Calculadora) que tenham o mesmo nome. Dessa forma, nos ajudando a ter mais flexibilidade de escolhermos qual método, que tem o mesmo nome, de qual implementação, que implemetou a interface, usá-lo.
+
+Isso, nos ajudará a garantir em ter mais flexibilidade de realizar as mudanças de implementações dos projetos, pois, uma vez definido várias implementações, bastaria apontar em qual delas vc vai querer usar para um determinado projeto e outras, para outros projetos.

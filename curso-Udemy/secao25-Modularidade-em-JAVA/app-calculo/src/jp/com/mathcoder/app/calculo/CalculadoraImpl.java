@@ -1,10 +1,11 @@
 package jp.com.mathcoder.app.calculo;
 
+import jp.com.mathcoder.app.Calculadora;
 import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
 //import jp.com.mathcoder.app.loggin.Logger;
 import jp.com.mathcoder.app.loggin.Logger;
 
-public class Calculadora {
+public class CalculadoraImpl implements Calculadora {
 	
 	private String id = "abc";
 
