@@ -292,8 +292,49 @@ Feito isso, note que, o erro que estava sendo exibido na classe, Teste, sumiu e 
 Bom, vamos tirar as dependências dos módulos, a abordagem que fizemos nessa aula, fica por aqui. Tiramos a relação de dependência entre os projetos, app-financeiro e app-loggin, e apagamos o println do getLoggerClass da classe, Teste, e apagamos o método, getLoggerClass, da classe, Calculadora.
 
 ## Aula 06 - Exports To:
+O export to, ele é uma forma de conseguirmos exportar os pacotes para um determinado projeto ou classe, apenas. Ou seja, é um apontamento mais refinado.
+
+No caso, como exemplo, no arquivo, module-info, do projeto, app-calculo, vamos colocar o seguinte
+
+    module app.calculo {
+        requires transitive app.loggin;
+        exports jp.com.mathcoder.app.calculo;
+        
+        exports jp.com.mathcoder.app.calculo.interno
+            to app.financeiro;
+    }
+
+Bom, uma vez feito isso, para testarmos, na classe, Teste, inserimos o seguinte
+
+    package jp.com.mathcoder.app.financeiro;
+
+    import jp.com.mathcoder.app.calculo.Calculadora;
+    import jp.com.mathcoder.app.calculo.interno.OperacoesAritmeticas;
+
+    public class Teste {
+
+        public static void main(String[] args) {
+            
+            Calculadora calc = new Calculadora();
+            
+            System.out.println(calc.soma(2, 3, 4));
+            
+    //		System.out.println(calc.getLoggerClass());
+            
+            OperacoesAritmeticas opAritmeticas = new OperacoesAritmeticas();
+            System.out.println(opAritmeticas.soma(4, 5, 6));
+        }
+    }
+
+Bom, lembrando que já foi feito o requires para o projeto, app-calculo, dentro do projeto, app-financeiro, então podemos rodar o código acima sem nenhum problema.
+
+Caso, vc queira apontar para mais projetos em específico, utilizando o export to, basta usarmos a vígula
+
+    exports nome.do.pacote
+            to app.projeto1, app.projeto2, app.projeto3;
 
 ## Aula 07 - Módulos e Reflection:
+
 
 ## Aula 08 - Interface vs Implementação:
 
