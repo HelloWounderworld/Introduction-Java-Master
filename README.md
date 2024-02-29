@@ -25,13 +25,15 @@ Lembrando que esse repositório, somente, está voltado para a revisão conceitu
 
 Assim, como projetos usando a linguagem Java ou os seus respectivos frameworks, irei criar repositórios independentes, porém irei mencionar na forma de lista com um breve resumo nos repositórios de estudos teóricos/conceitos.
 
+### Extensões a serem utilizadas:
+
 ## Objetivo:
 O objetivo desse estudo está de eu conseguir me integrar nas tecnologias que a Minsait an Indra Compay utiliza e, além disso, aumentar as minhas skills sobre conhecimentos nas linguagens de programações, junto com as duas outras linguagens, JavaScript e Python, que eu já estudo por um tempo.
 
 A intenção, seria que, mesmo depois do término desse curso, que eu use os estudos feito por aqui como base e ir continuar na minha melhoria sobre o conhecimento dessa linguagem.
 
 ## O que fazer nas revisões?
-Como a rotina de estudos estabelecida pelo Minsait é bem puxado, claro que não será possível conseguir praticar tudo! Eu irei deixar os exercícios para revisão! Ou seja, irei estudar bem os conceitos para quando for revisar, realizar os exercícios que não foram feitos.
+Como a rotina de estudos estabelecida pelo Minsait é bem puxado, claro que não será possível conseguir praticar tudo! Eu irei deixar os exercícios para revisão! Ou seja, irei estudar bem os conceitos para quando for revisar, realizar os exercícios que não foram feitos
 
 ## Terminais Windows, Linux e MacOS:
 Seguir link:
