@@ -112,6 +112,48 @@ Agora, ao clicarmos no ícone do Workbench, depois que instalado o Workbench, el
 
 ![Home Aplicação Workbench](home-workbench.png)
 
+Onde estiver escrito "Local instance 3306" onde está configurado "roo" e a porta "3306" do localhost. Ao clicarmos, no momento, nesse ícone que dizemos, vamos ver que não conseguimos acessar o banco de dados. Bom, claro, vamos ter que configurar a senha para conseguirmos acessar essa base.
+
+Para isso, iremos clicar no seguinte
+
+![Home Aplicação Workbench](home-workbench-confg.png)
+
+Isso irá abrir a seguinte janela
+
+![Modal para configurar senha e usuário](modal-confg.png)
+
+Assim, clicamos no seguinte
+
+![Modal para configurar senha e usuário](modal-confg-pass.png)
+
+Em "clear" e, em seguida, em "Store in Keychain" e isso irá abrir o seguinte
+
+![Colocando a senha](modal-put-pass.png)
+
+Na aba "Pawwsord" colocamos a senha que vc definiu no processo de configuração do MySQL Server, o que vc usou para conseguir acessar o server pelo shell, sudo mysql -u root -p. E em seguida, clicamos em Ok.
+
+Voltando no modal
+
+![Modal para configurar senha e usuário](modal-confg.png)
+
+Clicamos em "Test Connection" como segue
+
+![Modal para configurar senha e usuário](modal-confg-test-connect.png)
+
+Se aparecer a seguinte modal, significa que a conexão foi estabelecida com sucesso
+
+![Conectado com sucesso](connection-successful.png)
+
+Então, clicando no botão "Local instance 3306"
+
+![Home Aplicação Workbench](home-workbench-access-database.png)
+
+Irá aparecer a aplicação seguinte
+
+![Aplicação da base de dados](application-database.png)
+
+Bom, agora, estamos prontos para conseguirmos realizar as devidas manipulações dentro dessa base, que será abordado ao longo dessa seção.
+
 Note que, as manipulações que eu realizar no MySQL Worbench, reflete nos dados que consigo consultar pelo terminal com mysql ativo.
 
 Logo, o ambiente para conseguirmos estudar sobre banco de dados relacional está pronta.
