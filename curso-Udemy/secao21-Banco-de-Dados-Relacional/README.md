@@ -22,15 +22,95 @@ Seguir os seguintes links para realizar a instalção:
 
 Com base disso, consegui realizar algumas manipulações.
 
+#### Basicamente os passo a passo são o seguinte:
+Atualize o índice de pacotes:
+
+    sudo apt update
+
+Instale o pacote do servidor MySQL:
+
+    sudo apt install mysql-server
+
+Execute o script de segurança do MySQL. Este script irá ajudar a melhorar a segurança do seu servidor MySQL:
+
+    sudo mysql_secure_installation
+
+No comando acima, vc irá definir uma senha. Lembrando, não coloque caracteres especiais. Claro que a senha precisa ser difícil, mas nada de caractere especiais.
+
+Inicie e habilite o serviço do MySQL:
+
+    sudo systemctl start mysql
+    
+Verifique o status do serviço do MySQL:
+
+    sudo systemctl status mysql
+
 Comando para iniciar o mysql pelo terminal:
 
     sudo mysql -u root -p
 
-Será necessário digitar a senha que eu uso para acessar o próprio computador e a senha que foi definido para acessar o mysql pelo terminal.
+Provavelmente, o usuário está conseguindo acessar com senha simples ou, caso ela tenha escolhido STRONG = 2, então estará acessando sem a senha e será necessário definir uma da seguinte forma
 
-Para sair do mysql:
+    SELECT user,authentication_string,plugin,host FROM mysql.user;
+
+Irá mostrar a tabela, onde será exibido algo como seguinte
+
+        +------------------+-------------------------------------------+-----------------------+-----------+
+    | user             | authentication_string                     | plugin                | host      |
+    +------------------+-------------------------------------------+-----------------------+-----------+
+    | root             |                                           | auth_socket           | localhost |
+    | mysql.session    | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
+    | mysql.sys        | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | mysql_native_password | localhost |
+    | debian-sys-maint | *497C3D7B50479A812B89CD12EC3EDA6C0CB686F0 | mysql_native_password | localhost |
+    +------------------+-------------------------------------------+-----------------------+-----------+
+
+Ou, como foi no meu caso, pois coloquei STRONG=2, o seguinte
+
+        +------------------+------------------------------------------------------------------------+-----------------------+-----------+
+    | user             | authentication_string                                                  | plugin                | host      |
+    +------------------+------------------------------------------------------------------------+-----------------------+-----------+
+    | debian-sys-maint | $A$005$SpJcZJG!]EmLyWQm7ravVnzsqMxam/KbO6vMqLAnj0mbfJaVe5S/6Xq. | caching_sha2_password | localhost |
+    | mysql.infoschema | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+    | mysql.session    | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+    | mysql.sys        | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+    | root             |                                                                        | auth_socket           | localhost |
+    +------------------+------------------------------------------------------------------------+-----------------------+-----------+
+
+Daí, será necessário realizar uma autenticação de uma string, da seguinte forma
+
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH plugin BY 'Current-Root-Password';
+
+No "plugin" substituímos o que foi configurado na coluna plugin como, mysql_native_password ou caching_sha2_password.
+
+Assim, no final, colocamos
+
+    FLUSH PRIVILEGES;
+
+Saimos do mysql:
 
     \q
+
+Aí reiniciamos o mysql
+
+    sudo systemctl restart mysql
+
+Basicamente, o passo acima serve para conseguirmos configurar não só a senha para o usuário "root", como também, nos permite configurar as autenticações para conseguirmos acessar pelo WorkBench com o usuário root e a senha que definimos acima.
+
+Vamos tentar acessar novamente
+
+    sudo mysql -u root -p
+
+Se colocarmos alguma senha qualquer e ele mostrar algum erro do tipo
+
+    ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+Então, significa que a senha foi autenticada com sucesso. Então, rodando novamente o comando para acessando o mysql server e colocando a senha, provavelmente, iremos conseguir acessar o mysql server pelo terminal.
+
+Agora, vamos instalar o MySQL Workbench da seguinte forma. No meu caso, em Linux Ubuntu 22.04, eu simplesmente acessei o app, Ubuntu Software, e procurei pelo MySQL nela e instalei o Workbench.
+
+Agora, ao clicarmos no ícone do Workbench, depois que instalado o Workbench, ela nos mostrará a seguinte tela
+
+![Home Aplicação Workbench](home-workbench.png)
 
 Note que, as manipulações que eu realizar no MySQL Worbench, reflete nos dados que consigo consultar pelo terminal com mysql ativo.
 

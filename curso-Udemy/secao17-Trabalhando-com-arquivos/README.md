@@ -1,4 +1,4 @@
-# Seção 17: Trabalhando com arquivos:
+# Seção 17: Trabalhando com arquivos - Criação, leitura, remoção de arquivos:
 
 ## Aula 01 - Visão geral do capítulo Trabalhando com Arquivos e Aula 02 - Material de apoio do capítulo:
 MATERIAL DE APOIO DO CAPÍTULO

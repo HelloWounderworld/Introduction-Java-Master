@@ -259,7 +259,7 @@ Bom, seguir uma fonte de leitura quando vc for revisar
     https://pt.wikipedia.org/wiki/This_(programa%C3%A7%C3%A3o_de_computadores)#:~:text=this%2C%20self%20e%20Me%20s%C3%A3o,atualmente%20em%20execu%C3%A7%C3%A3o%20faz%20parte.
     https://pt.stackoverflow.com/questions/27197/palavra-reservada-this
 
-Bom, a princípio a palavra this ele é uma referência para o próprio objeto, this object. Usualmente, ele serve para diferenciar atributos de variáveis locais e passar o próprio objeto como argumento na chamada de um método ou construtor.
+Bom, a princípio a palavra "this" ele é uma referência para o próprio objeto, this object. Usualmente, ele serve para diferenciar atributos de variáveis locais e passar o próprio objeto como argumento na chamada de um método ou construtor.
 
 Basicamente, podemos associar, para quem conhece VueJS, que o this, ele guarda elementos que foi guardado com algum valor padrão dentro do escopo do objeto, no caso do Vue da tela, em que vc está criando.
 

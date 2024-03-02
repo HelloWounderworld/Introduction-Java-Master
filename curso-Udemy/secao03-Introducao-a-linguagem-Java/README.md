@@ -188,16 +188,60 @@ INSTALANDO O JAVA JDK
 
 Veja como instalar o Java JDK no nosso Youtube.
 
-Windows:
+### Windows:
 
     https://www.youtube.com/watch?v=QekeJBShCy4
 
-Linux:
+### Linux:
+Acesse o link abaixo e realize o download do "x64 Compressed Archive"
 
-    https://www.youtube.com/watch?v=Sv0EwYPLw8w&list=PLNuUvBZGBA8mcAF-YX7RJhA26TBLdG5yk&index=3
     https://www.oracle.com/java/technologies/downloads/#java21
 
-Mac:
+Em seguida, abra o terminal e coloque os seguintes comandos
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    
+Agora, instalando o java, no meu caso a versão 17, da seguinte forma
+
+    sudo apt-get -y install openjdk-17-jdk
+
+Em seguida, rode o comando
+
+    java -version
+
+Para verificar que, de fato, foi instalado o Java na versão 17, como seguinte
+
+    openjdk version "17.0.10" 2024-01-16
+    OpenJDK Runtime Environment (build 17.0.10+7-Ubuntu-122.04.1)
+    OpenJDK 64-Bit Server VM (build 17.0.10+7-Ubuntu-122.04.1, mixed mode, sharing)
+
+#### Opcional:
+Por padrão, o Ubuntu define as variáveis de ambiente para o Java instalado. Se você deseja configurar manualmente, pode adicionar as seguintes linhas ao arquivo .bashrc:
+
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    export PATH=$PATH:$JAVA_HOME/bin
+
+Em seguida, carregue as novas configurações do arquivo .bashrc:
+
+    source ~/.bashrc
+
+Verifique a instalação do Java e do compilador (opcional).
+
+Para verificar se o Java e o compilador estão instalados corretamente, você pode executar os seguintes comandos:
+
+    java -version
+    javac -version
+
+#### Obs:
+
+Seguir links onde consultei a forma de instalação:
+
+    https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-22-04
+
+Qualquer coisa, poderia perguntar para o ChatGPT.
+
+### Mac:
 
     https://github.com/devsuperior/sds2/tree/master/instalacao/mac#java-11-on-macos
 
@@ -228,6 +272,8 @@ Eclipse não estava abrindo no 19.04. Formatei o notebook e instalei o 20.04 LTS
 Solução: No meu caso era só o pacote java JDK que não estava instalado. Após o instalar,o Eclipse abriu normalmente.
 
 Comando para instalar o JDK pelo Terminal: sudo apt install openjdk-8-jdk
+
+Atualmente, estou com o Linux Ubuntu 22.04, então não tive nenhum problema de instalar.
 
 ### Criando um novo projeto na minha máquina Linux Ubuntu 22.04:
 Bom, vamos entender melhor sobre o workspace que o eclipse cria automaticamente e dela vamos criar o nosso primeiro novo projeto. Esse projeto será focado em algum estudo conceitual, então, não será necessário criar um novo repositório no github para conseguirmos prosseguir com os estudos.
@@ -269,6 +315,37 @@ Em "Package Explore" cliamos em "Create a Java Project". Isso irá abrir uma mod
 Em seguida, clicamos no botão "Finish". Se aparecer algum modal perguntando se vc quer criar algum módulo vc clica em "não" ou "Don't create".
 
 Bom, agora, estamos prontos para entrarmos no processo de código.
+
+### Abrindo algum projeto já existente:
+Para abrir um projeto já existente no Eclipse, siga os passos abaixo:
+
+-  Abra o Eclipse:
+
+    Inicie o Eclipse IDE.
+
+- Selecione o Workspace:
+
+    Selecione o workspace no qual você deseja abrir o projeto existente ou use o workspace padrão sugerido pelo Eclipse.
+
+- Importe o Projeto:
+
+    No menu do Eclipse, vá em File -> Import.
+
+- Selecione o Tipo de Projeto:
+ 
+    Na janela "Import", expanda a categoria General e selecione Existing Projects into Workspace. Clique em "Next".
+
+- Escolha o Diretório do Projeto:
+    
+    Na próxima janela, clique em "Browse" e selecione o diretório onde o projeto está localizado. Certifique-se de que o projeto que deseja importar está selecionado na lista de projetos exibida. Clique em "Finish".
+
+- Projeto Importado:
+    
+    O Eclipse importará o projeto para o workspace selecionado e o adicionará à sua exibição de projetos.
+
+- Abra o Projeto:
+    
+    Agora você deve ver o projeto na visualização de projetos do Eclipse. Basta expandir o projeto para ver sua estrutura e abrir os arquivos conforme necessário.
 
 ### Obs:
 Na versão antiga do Eclipse, ela não selecionava por padrão a opção de criar o arquivo “module-info.java”, atualmente o Eclipse está deixando essa opção marcada por padrão, e a presença desse arquivo irá gerar problemas no decorrer do curso, então vocês podem simplesmente excluir esse arquivo que tudo irá correr bem.
