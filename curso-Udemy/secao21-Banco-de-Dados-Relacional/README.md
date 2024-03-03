@@ -152,6 +152,34 @@ Irá aparecer a aplicação seguinte
 
 ![Aplicação da base de dados](application-database.png)
 
+No momento, vemos que não temos uma base de dados sendo exposto, a não ser a base "sys"
+
+![Aplicação da base de dados](show-schemas.png)
+ 
+Vamos precisar criar uma nova seguindo o seguinte passo
+
+![Aplicação da base de dados](new-schema.png)
+
+Clicando no ícone acima, será direcionado para a seguinte janela
+
+![Aplicação da base de dados](new-schema-window.png)
+
+Daí, na aba "Schema Name" vamos colocar o nome "wm" e clicamos no botão "Apply" como seguinte
+
+![Aplicação da base de dados](new-schema-apply.png)
+
+Isso irá mostrar o seguinte modal e continuamos clicando no botão "Apply" como seguinte
+
+![Aplicação da base de dados](new-schema-create.png)
+
+E nesse modal, clicamos em "close"
+
+![Aplicação da base de dados](new-schema-created.png)
+
+Assim, vemos que foi criado a base "wm" como seguinte
+
+![Aplicação da base de dados](show-schemas-created.png)
+
 Bom, agora, estamos prontos para conseguirmos realizar as devidas manipulações dentro dessa base, que será abordado ao longo dessa seção.
 
 Note que, as manipulações que eu realizar no MySQL Worbench, reflete nos dados que consigo consultar pelo terminal com mysql ativo.
