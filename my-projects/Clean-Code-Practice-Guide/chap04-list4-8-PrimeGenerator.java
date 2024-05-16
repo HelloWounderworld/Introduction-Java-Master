@@ -4,6 +4,7 @@
 * Given an array of integers starting at 2.
 * Find the first uncrossed integer, and cross out all its multiples
 * Repeat until there are no more multiples in the array.
+* URL: https://pt.wikipedia.org/wiki/Crivo_de_Erat%C3%B3stenes#:~:text=O%20Crivo%20de%20Erat%C3%B3stenes%20%C3%A9,at%C3%A9%20um%20certo%20valor%20limite.
 */
 
 public class PrimerGenerator
