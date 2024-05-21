@@ -7,4 +7,9 @@
 public class WikiPageResponder implements SecureResponder {
     protected WikiPage page;
     protected PageData pageData;
+    protected String pageTitle;
+    protected Request request;
+    protected PageCrawler crawler ;
+
+    
 }
