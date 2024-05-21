@@ -488,6 +488,10 @@ Seguir o link de leitura para enteder melhor o throws exception
 
     https://rollbar.com/blog/how-to-use-the-throws-keyword-in-java-and-when-to-use-throw/#:~:text=The%20throws%20keyword%20in%20Java%20is%20used%20to%20declare%20exceptions,exceptions%20that%20can%20be%20thrown.
 
+    Paul Deitel - 351 page
+
+    Fundamentals Of Java Programming - 370 page
+
 No arquivo Program.java vamos colocar o seguinte
 
     package application;
