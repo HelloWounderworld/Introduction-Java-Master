@@ -6,7 +6,7 @@
 
 // Seguindo a Ordenacao Vertial o codigo abaixo esta satisfazendo essa boa pratica
 
-// Em resumo o que se inclui na boa pratica esta: Maneiras como organiza as funcoes dependentes, lembrando a composicao de funcoes matematicas, e Ordenacao vertiacal
+// Em resumo o que se inclui na boa pratica esta: Maneiras como organiza as funcoes dependentes, lembrando a composicao de funcoes matematicas, e Ordenacao vertical
 
 public class WikiPageResponder implements SecureResponder {
     protected WikiPage page;
