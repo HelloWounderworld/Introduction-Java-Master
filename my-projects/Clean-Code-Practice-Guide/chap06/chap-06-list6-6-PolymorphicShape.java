@@ -1,4 +1,9 @@
-// Bom, usando o polimorfismo podemos resolver o problema shape procedimental, list6-5.
+// Utilizando, agora, o polimorfismo, vemos que conseguimos inverter o cenario
+
+// Agora, se adicionarmos uma nova forma, nenhuma das funcoes existentes serao afetadas
+// mas se eu adicionar uma nova funcao, todas as classes shapes deverao ser alteradas
+
+// Basicamente, comparando com o list6-5, queremos mostrar a dicotomia totalmente oposta existentes entre Objetos e Estruturas de Dados
 
 public class PolymorphicShape {
 
