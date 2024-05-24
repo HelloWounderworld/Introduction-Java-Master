@@ -896,7 +896,7 @@ Seguir o link para leitura
 Bom existem varios tipos de definicoes de polimorfismo. Gostaria de fornecer duas delas que considero bastante interessantes, a primeira definicao de polimorfismo e a generalizacao de morfismos, considerado pelo Shinichi Mochizuki, e outra que vem do universo da teoria de tipagem, ou seja, no ambito dentro da ciencias da computacao, esta ultima que e a teoria base que deu origem a todas as linguagens de programacao orientadas a objetos.
 
 #### Definicao geral de polimorfismo:
-Para uma categoria $\mathbb{C}$
+Para uma categoria $\mathbb{C}$, um poli-Morfismo e uma colecao de morfismos com um recurso e alvo comum, considerado como um morfismo em uma nova categoria $\mathbb{C}^{poly}$ com o mesmo objeto, mas com conjunto de morfismos $\mathbb{C}^{poly}(a,b) := \mathbb{P}(\mathbb{C}(a,b))$ o conjunto potencia do conjunto de morfismos original.
 
 #### Definicao de Polimorfismo no sentido de teoria de tipagem:
 
