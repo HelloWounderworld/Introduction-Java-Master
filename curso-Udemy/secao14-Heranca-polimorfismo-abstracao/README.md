@@ -888,6 +888,10 @@ Pra quê?
 Seguir o link para leitura
 
     https://en.wikipedia.org/wiki/Polymorphism_(computer_science)#:~:text=In%20programming%20language%20theory%20and,to%20represent%20multiple%20different%20types.
+    https://ncatlab.org/nlab/show/category+theory
+    https://ncatlab.org/nlab/show/higher+category+theory
+    https://ncatlab.org/nlab/show/type+theory
+    https://ncatlab.org/nlab/show/type+universe
     https://ncatlab.org/nlab/show/universe+polymorphism
     https://ncatlab.org/nlab/show/polymorphism
     https://blog.hubspot.es/website/polimorfismo-java#:~:text=El%20polimorfismo%20hace%20referencia%20a,nombre%20para%20ejecutar%20funciones%20diferentes.
@@ -896,9 +900,12 @@ Seguir o link para leitura
 Bom existem varios tipos de definicoes de polimorfismo. Gostaria de fornecer duas delas que considero bastante interessantes, a primeira definicao de polimorfismo e a generalizacao de morfismos, considerado pelo Shinichi Mochizuki, e outra que vem do universo da teoria de tipagem, ou seja, no ambito dentro da ciencias da computacao, esta ultima que e a teoria base que deu origem a todas as linguagens de programacao orientadas a objetos.
 
 #### Definicao geral de polimorfismo:
-Para uma categoria $\mathbb{C}$, um poli-Morfismo e uma colecao de morfismos com um recurso e alvo comum, considerado como um morfismo em uma nova categoria $\mathbb{C}^{poly}$ com o mesmo objeto, mas com conjunto de morfismos $\mathbb{C}^{poly}(a,b) := \mathbb{P}(\mathbb{C}(a,b))$ o conjunto potencia do conjunto de morfismos original.
+Para uma categoria $\mathbb{C}$, um poli-Morfismo e uma colecao de morfismos com um recurso e alvo comum, considerado como um morfismo em uma nova categoria $\mathbb{C}^{poly}$ com o mesmo objeto, mas com conjunto de morfismos $\mathbb{C}^{poly}(a,b) := \mathbb{P}(\mathbb{C}(a,b))$ o conjunto potencia do conjunto de morfismos originais.
 
 #### Definicao de Polimorfismo no sentido de teoria de tipagem:
+Em Ciencias da Computacao, polimorfismo refere a situacoes ou onde o mesmo nome e utilizado para referir para mais de uma funcao ou onde a mesma funcao e usado em mais de um tipo. Geralmente se distingue esses dois tipos de polimorfismo como polimorfismo ad hoc (ad hoc polymorphismo) e polimorfismo parametrico (parametric polymorphism), respectivamente.
+
+#### Digressao
 
 Alguém me explica qual a razão de associarem tanto polimorfismos à Programação Orientada a Objetos (OOP)?
 
@@ -913,6 +920,8 @@ Observe que isso em nada está relacionado com OOP. Polimorfismo __não__ é uma
 O que se observa é que polimorfismo por subtipos é uma _consequência_ da relação de herança que se pode estabelecer entre classes (no caso de OOP baseada em classes) ou entre objetos e seus protótipos (no caso de OOP baseada em objetos).
 
 Polimorfismo não é uma _premissa_ de OOP. É uma _consequência_ de suas premissas fundamentais. 
+
+### Exemplos de programacao:
 
 Existem duas formas de polimorfismo:
 
