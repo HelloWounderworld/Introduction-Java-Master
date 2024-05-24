@@ -892,6 +892,28 @@ Seguir o link para leitura
     https://ncatlab.org/nlab/show/polymorphism
     https://blog.hubspot.es/website/polimorfismo-java#:~:text=El%20polimorfismo%20hace%20referencia%20a,nombre%20para%20ejecutar%20funciones%20diferentes.
 
+### Definicao:
+Bom existem varios tipos de definicoes de polimorfismo. Gostaria de fornecer duas delas que considero bastante interessantes, a primeira definicao de polimorfismo e a generalizacao de morfismos, considerado pelo Shinichi Mochizuki, e outra que vem do universo da teoria de tipagem, ou seja, no ambito dentro da ciencias da computacao, esta ultima que e a teoria base que deu origem a todas as linguagens de programacao orientadas a objetos.
+
+#### Definicao geral de polimorfismo:
+Para uma categoria $\mathbb{C}$
+
+#### Definicao de Polimorfismo no sentido de teoria de tipagem:
+
+Alguém me explica qual a razão de associarem tanto polimorfismos à Programação Orientada a Objetos (OOP)?
+
+Polimorfismos se manisfestam em sistemas de tipos, sejam eles representando programas escritos em uma linguagem de programação ou outra coisa, em outras classes de linguagens formais. 
+
+Nada mais é do que a possibilidade de se utilizar de funções que possuem o mesmo nome, mas que se aplicam a diferentes tipos. _Função polimórfica_ é o nome que se dá a uma função que exibe polimorfismo.
+
+Existem vários tipos de funções polimórficas. Uma delas é quando a função, digamos definida num tipo T, recebe o mesmo nome de sua restrição a um subtipo S. Nesse caso, fala-se que a função é _polimórfica de subtipo_.
+
+Observe que isso em nada está relacionado com OOP. Polimorfismo __não__ é uma característica fundamental de OOP. OOP não necessariamente exibe todos os tipos de polimorfismo!!
+
+O que se observa é que polimorfismo por subtipos é uma _consequência_ da relação de herança que se pode estabelecer entre classes (no caso de OOP baseada em classes) ou entre objetos e seus protótipos (no caso de OOP baseada em objetos).
+
+Polimorfismo não é uma _premissa_ de OOP. É uma _consequência_ de suas premissas fundamentais. 
+
 Existem duas formas de polimorfismo:
 
 - Estático/Sobrecarga
