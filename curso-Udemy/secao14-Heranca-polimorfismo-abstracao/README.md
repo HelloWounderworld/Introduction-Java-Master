@@ -921,6 +921,13 @@ O que se observa é que polimorfismo por subtipos é uma _consequência_ da rela
 
 Polimorfismo não é uma _premissa_ de OOP. É uma _consequência_ de suas premissas fundamentais. 
 
+#### Obs:
+Polimorfismo pode ser entendido como se fosse uma base topologica, em termos matematicos. Assim como, em termos mais cotidiano, ela pode ser entendido como o mecanismo fundamental que governa numa determinada classe, donde outras subclasses resultantes, todas ela, se dispoem desse mecanismo. Um exemplo bem legal seria em pensar o ReFiCOFaGE que se aprende na biologia. O que define como mecanismo fundamental dos reinos que governa nos filos, assim como o mecanismo fundamental que governa nos filos, tambem governa nas classes e assim por diante. Ou seja, o mecanismo fundamental que governa nos mamiferos, dessa classe, se resulta as subclasses os humanos, felinos, caninos, etc...
+
+Ou seja, quando houvir de polimorfismo, pensa como o mecanismo fundamental que existe em todos os seus consequentes.
+
+Outros exemplos que remete a ideia de polimorfismo. As 4 forcas fundamentais da natureza: Gravidade, Eletromagnetismo, Forca nuclear forte e Forca nuclear Fraca.
+
 ### Exemplos de programacao:
 
 Existem duas formas de polimorfismo:

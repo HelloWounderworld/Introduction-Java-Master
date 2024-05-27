@@ -5,6 +5,12 @@
 
 // Basicamente, comparando com o list6-5, queremos mostrar a dicotomia totalmente oposta existentes entre Objetos e Estruturas de Dados
 
+// O codigo procedural (usado em estrutura de dados) facilita a adicao de novas funcoes sem precisar alterar as estruturas de dados existentes.
+// O codigo orientado a objetos (OO), por outro lado, facilita a adicao de novas classes sem precisar alterar as funcoes existentes.
+
+// O codigo procedural dificulta a adicao de novas estruturas de dados, pois todas as funcoes teriam de ser alteradas.
+// O codigo OO dificulta a adicao de novas funcoes, pois todas as classes teriam de ser alteradas.
+
 public class PolymorphicShape {
 
     public class Square implements Shape {
