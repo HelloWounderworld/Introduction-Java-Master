@@ -11,6 +11,9 @@
 
 // 抽象的にするのはいわゆるそのコンセプトの一般性の制度をどれだけ精度よく把握できるかにある。
 
+// Em resumo, os objetos usam abstrações para esconder seus dados, e expõem as funções que operam em tais dados.
+// As estruturas de dados expõem seus dados e não possuem funções significativas. 
+
 // Caso concreto - Exposicao da sua implementacao
 public class Point {
     public double x;
