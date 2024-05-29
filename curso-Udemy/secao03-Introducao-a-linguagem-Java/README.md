@@ -357,7 +357,7 @@ Basta desmarcar a opção “Create module-info.java file” ou, simplesmente, q
 ### Usuários Windows:
 Fala, galera! Tranquilo?
 
-Antes de mais nada, recomendamos que vocês utilizem sempre a versão mais atualizada possível do Windows, ou seja, o Windows 10. Pois diversas tecnologias não dão mais suporte aos Windows 7, 8 ou 8.1, então caso vocês utilizem alguma dessas versões, vocês vão acabar tendo problemas em algum ponto do curso. A recomendação é utilizar o Windows 10.
+Antes de mais nada, recomendamos que vocês utilizem sempre a versão mais atualizada possível do Windows, ou seja, o Windows 10 ou 11. Pois diversas tecnologias não dão mais suporte aos Windows 7, 8 ou 8.1, então caso vocês utilizem alguma dessas versões, vocês vão acabar tendo problemas em algum ponto do curso. A recomendação é utilizar o Windows 10.
 
 Venho também dar uma outra dica super rápida porém super importante para todos que irão dar início às atividades do curso no ambiente Windows. O que acontece é que existem duas configurações padrão que vêm ativadas e acabam dificultando ou gerando erros na hora de programar em qualquer ambiente. Vou explicar rapidinho sobre elas e sobre como lidar com isso.
 
@@ -390,7 +390,7 @@ O nome do projeto java que vamos criar será "curso_programacao"
 
 • Criar projeto: File -> New -> Java Project
 
-É importante ressaltar que a linguagem java separa os projetos em pacotes, principalmente quando se tem muita classe, para facilitar a leituira e interpretação, o formato de pacotes é importante.
+É importante ressaltar que a linguagem java separa os projetos em pacotes, principalmente quando se tem muita classe, para facilitar a leitura e interpretação, o formato de pacotes é importante.
 
 Criar classe: 
 
