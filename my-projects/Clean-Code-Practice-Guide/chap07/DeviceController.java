@@ -22,3 +22,31 @@ public class DeviceController {
         }
     }
 }
+
+// Usando o try catch fica muito melhor, pois, alem da estetica, duas preocupacoes que estavam intricadas foram sanadas:
+// - Algoritmo para o desligamento do dispositivo
+// - O tratamento de erro
+
+// A condicao abaixo te permite pegar os dois casos acima e estuda-las de forma independente
+public class DeviceControllerTryAndCatch {
+    public void sendShutDown() {
+        try {
+            tryToShutDown();
+        } catch (DeviceShutDownError e) {
+            logger.log(e);
+        }
+    }
+
+    private void tryToShutDown() throws DeviceShutDownError {
+        DeviceHandle handle = getHandle(DEV1);
+        DeviceRecord record = retrieveDeviceRecord(handle);
+
+        pauseDevice(handle);
+        clearDeviceWordQueue(handle);
+        closeDevice(handle);
+    }
+
+    private DeviceHandle getHandle(DeviceID id) {
+        throw new DeviceShutDownError("Invalid handle for: " + id.toString());
+    }
+}
